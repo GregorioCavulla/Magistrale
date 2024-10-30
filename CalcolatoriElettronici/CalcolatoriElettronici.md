@@ -2,7 +2,7 @@
 
 ## Indice
 
-- ### [Introduzione](./CalcolatoriElettronici/0_Introduzione.md)
-- ### [ISA RISCV](./CalcolatoriElettronici/1_ISA_RISCV.md)
+- ### [Introduzione](./0_Introduzione.md)
+- ### [ISA RISCV](./1_ISA_RISCV.md)
 
 

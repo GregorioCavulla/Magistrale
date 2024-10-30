@@ -4,8 +4,8 @@
 
 ## Indice
 
-- ### [Virtualizzazione](./SistemiOperativi/Virtualizzazione.md)
-- ### [Protezione](./SistemiOperativi/Protezione.md)
-- ### [Programmazione concorrente](./SistemiOperativi/ProgrammazioneConcorrente.md)
-- ### [Modello a memoria comune](./SistemiOperativi/ModelloAMemoriaComune.md)
-- ### [Nucleo di un sistema a memoria comune](./SistemiOperativi/NucleoDiUnSistemaAMemoriaComune.md)
+- ### [Virtualizzazione](./Virtualizzazione.md)
+- ### [Protezione](./Protezione.md)
+- ### [Programmazione concorrente](./ProgrammazioneConcorrente.md)
+- ### [Modello a memoria comune](./ModelloAMemoriaComune.md)
+- ### [Nucleo di un sistema a memoria comune](./NucleoDiUnSistemaAMemoriaComune.md)
