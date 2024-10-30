@@ -1,6 +1,6 @@
 
 
-# Sistemi Operativi M  <div style="text-align: right"> [back](./Appunti.md) </div>
+# Sistemi Operativi M  <div style="text-align: right"> [back](../Appunti.md) </div>
 
 ## Indice
 

@@ -1,4 +1,4 @@
-# Sistemi Digitali M<div style="text-align: right">[back](./Appunti.md)</div>
+# Sistemi Digitali M<div style="text-align: right">[back](../Appunti.md)</div>
 
 ## Indice
 

@@ -4,12 +4,12 @@
 
 ## Primo Anno 2024/2025
 
-### [Calcolatori Elettronici](./CalcolatoriElettronici.md)
+### [Calcolatori Elettronici](./CalcolatoriElettronici/CalcolatoriElettronici.md)
 
-### [Sistemi Digitali](./SistemiDigitali.md) 
+### [Sistemi Digitali](./SistemiDigitali/SistemiDigitali.md) 
 
-### [Sistemi Real Time](./SistemiRealTime.md)
+### [Sistemi Real Time](./SistemiRealTime/SistemiRealTime.md)
 
-### [Sistemi Operativi](./SistemiOperativi.md)
+### [Sistemi Operativi](./SistemiOperativi/SistemiOperativi.md)
 
 ## Secondo Anno 2025/2026

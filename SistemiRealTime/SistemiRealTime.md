@@ -1,4 +1,4 @@
-# Sistemi Real Time M<div style="text-align: right">[back](./Appunti.md)</div>
+# Sistemi Real Time M<div style="text-align: right">[back](../Appunti.md)</div>
 
 ## Indice
 

@@ -1,4 +1,4 @@
-# Calcolaotri Elettronici M <div style="text-align: right"> [back](./Appunti.md) </div>
+# Calcolaotri Elettronici M <div style="text-align: right"> [back](../Appunti.md) </div>
 
 ## Indice
 
