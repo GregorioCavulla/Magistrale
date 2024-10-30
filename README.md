@@ -1,1 +1,1 @@
-Open ./Appunti.md and enjoy
+Open [Appunti](./Appunti.md) and enjoy
