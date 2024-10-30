@@ -1,5 +1,5 @@
 
-# Introduzione <div style="text-align: right"> [back](../CalcolatoriElettronici.md) </div>
+# Introduzione <div style="text-align: right"> [back](./CalcolatoriElettronici.md) </div>
 
 - **Corso:** Architettura dei Calcolatori Elettronici M (A.A. 2024-2025)
 - **Docente:** Prof. Andrea Bartolini, Università di Bologna

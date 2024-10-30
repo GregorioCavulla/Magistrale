@@ -1,5 +1,5 @@
 
-# Virtualizzazione <div style="text-align: right"> [back](../SistemiOperativi.md) </div>
+# Virtualizzazione <div style="text-align: right"> [back](./SistemiOperativi.md) </div>
 
 # Indice
 
