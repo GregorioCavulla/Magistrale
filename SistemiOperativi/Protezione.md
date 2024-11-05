@@ -138,3 +138,63 @@ Le informazioni contenute nella matrice possono variare nel tempo per effetto di
 Le infomrazioni contenute nella matrice all'istante t rappresentano lo stato del sistema di protezione in quel momento.
 
 La matrice degli accessi offre ai meccanismi di protezione le informazioni che consentono di verificare il rispetto dei vincoli di accesso.
+
+## Meccanimsi
+
+Il meccanismo:
+
+- ha il compito di verificare se ogni richiesta di accesso che proviene da un processo che opera in un determinato dominio è consentita oppure no.
+- Autorizza l'esecuzione delle richieste consentite e impedisce quelle vietate.
+- Esegue la modifica (in modo controllato) dello stato di protezione in seguito ad ogni richiesta autorizzata da parte di un processo.
+
+### Verifica del rispetto dei vincoli di accesso:
+
+Il meccanismo consente di assicurare che un processo che opera nel dominio $D_i$ può accedere solo agli oggetti specificati nella riga $i$ e solo con i diritti di accesso indicati.
+
+Quando un'operazione $M$ deve essere eseguita nel dominio $D_i$ sull'oggetto $O_j$ il meccanismo verifica che l'operazione $M$ sia consentita dal diritto di accesso specificato nella cella $access(i,j)$ della matrice degli accessi.
+
+In caso affermativo l'operazione può essere eseguita. In caso negativo si ha una situazione di errore.
+
+### Modifica dello stato di protezione
+
+Chi può modificare lo stato di protezione?
+
+-**MAC (Mandatory Access Control)**: il sistema decide chi può modificare lo stato di protezione, entità centrale.
+-**DAC (Discretionary Access Control)**: il proprietario dell'oggetto può modificare lo stato di protezione.
+
+### Modello di Graham-Denning
+
+Il modello di Graham-Denning è un modello di protezione che definisce un insieme di regole per la protezione delle risorse di un sistema.
+
+**8 Primitive:**
+
+1. create object
+2. delete object
+3. create subject
+4. delete subject
+5. read access right
+6. grant access right
+7. delete access right
+8. transfer access right
+
+creazione, eliminazione di righe e colonne (1,2,3,4).
+Modifica dei diritti di accesso, cancellazione e propagazione (5,6,7,8).
+
+#### Propagazione dei diritti di accesso
+
+La possibilità di copiare un diritto di accesso per un oggetto da un dominio ad un altro della matrice di accesso è indicato un un asterisco (*), (copy flag):
+
+- Un soggetto $S_i$ può trasferire un diritto di accesso $\alpha$ per un oggetto $X$ ad un altro soggetto $S_j$ solo se $S_i$ possiede il diritto di accesso $\alpha$ per l'oggetto $X$, e $\alpha$ ha il copy flag.
+
+#### Diritto Owner
+
+Assegnazione di un qualunque diritto di acesso su un oggetto $X$ ad un qualunque soggetto $S_j$ da parte di un soggetto $S_i$.
+
+L'operazione è consentita solo se il diritto OWNER appartiene a $A[S_i,X]$.
+
+#### Diritto Control
+
+Eliminazione di un diritto di accesso per un oggetto $X$ nel dominio di $S_j$ da parte di $S_i$.
+
+L'operazione è consentita solo se il diritto CONTROL appartiene a $A[S_i,S_j]$. oppure OWNER appartiene a $A[S_i,X]$.
+
