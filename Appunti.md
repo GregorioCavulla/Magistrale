@@ -1,5 +1,3 @@
-
-
 # Ingegneria Informatica M
 
 ## Primo Anno 2024/2025
