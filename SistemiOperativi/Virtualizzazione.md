@@ -22,7 +22,7 @@
 - [Realizzazione VMM](#realizzazione-vmm)
   - [Problemi: Ring deprivileging](#problemi-ring-deprivileging)
     - [Possibile soluzione: trap \& emulate](#possibile-soluzione-trap--emulate)
-  - [Problemi: Ring deprivileging](#problemi-ring-deprivileging-1)
+  - [Problemi: Ring compression](#problemi-ring-compression)
     - [Possibile soluzione: ring di protezione aggiuntivi](#possibile-soluzione-ring-di-protezione-aggiuntivi)
   - [Supporto HW alla virtualizzazione](#supporto-hw-alla-virtualizzazione)
   - [Realizzazione del VMM in architetture non virtualizzabili](#realizzazione-del-vmm-in-architetture-non-virtualizzabili)
@@ -35,6 +35,15 @@
     - [Suspend / Resume](#suspend--resume)
     - [Realizzazione della live migration](#realizzazione-della-live-migration)
       - [Soluzione: Precopy](#soluzione-precopy)
+- [XEN](#xen)
+  - [Architettura di Xen](#architettura-di-xen)
+  - [Organizzazione](#organizzazione)
+  - [Realizzazione](#realizzazione)
+  - [Caratteristiche](#caratteristiche)
+  - [Gestione della memoria e paginazione](#gestione-della-memoria-e-paginazione)
+  - [Protezione](#protezione)
+  - [Gestione della memoria](#gestione-della-memoria)
+  - [Creazione di un processo](#creazione-di-un-processo)
 
 
 ## Introduzione
@@ -205,12 +214,13 @@ Le istruzioni privilegiate richieste dal sistema operativo nell'ambiente guest n
 ### Possibile soluzione: trap & emulate
 
 Se il guest tenta di eseguire una istruzione privilegiata:
+
 - La CPU notifia un'eccezione al VMM (**trap**) e gli trasferisce il controllo
 - il VMM controlla la correttezza dell'operazione richiesta e ne emula il comportamento (**emulate**).
 
 
 
-## Problemi: Ring deprivileging
+## Problemi: Ring compression
 
 se i ring utilizzati sono solo 2, applicazioni e sistema operativo della VM eseguono allo stesso livello (scarsa protezione tra spazio del sistema operativo e delle applicazioni)
 
@@ -223,6 +233,7 @@ Aggiungere ulteriori livelli di protezione per garantire la separazione tra sist
 L'architettura della CPU si dice naturalmente virtualizzabile se prevede l'invio di trap allo stato supervisore per ogni istruzione privilegiata invocata da un livello di protezione diverso dal supervisore.
 
 Se l'architettura della CPU è naturalmente virtualizzabile:
+
 - la realizzazione del VMM è semplificata:
   - per ogni trap generato dal tentativo di esecuzione di istruzione privilegiata dal guest viene eseguita una routine di emulazione (trap & emulate).
   - Supporto nativ all'esecuzione diretta.
@@ -231,6 +242,7 @@ Se l'architettura della CPU è naturalmente virtualizzabile:
 > **Esempio**: Intel IA32
 
 Alcune istruzioni privilegiate di questa architettura invocate a livello user non provocano una trap, ma:
+
 - vengono ignorate non consentendo quindi l'intervento trasparente del VMM
 - in alcuni casi provocano il crash del sistema
 
@@ -258,7 +270,8 @@ Il VMM scansiona dinamicamente il codice dei SO guest prima dell'esecuzione per 
   
 ### Soluzione: Paravirtualizzazione
 
-Il VMM offre al sistema operativo guest una interfaccia virtuale alla quale i sistemi operativi guest devono riferirsi per aver accesso alle risorse>
+Il VMM offre al sistema operativo guest una interfaccia virtuale alla quale i sistemi operativi guest devono riferirsi per aver accesso alle risorse:
+
 - per ottenere un servizio che richiede l'esecuzione di istruzioni privilegiate non vengono generate interruzioni al CMM, ma viene direttamente invocata la hypercall corrispondente.
 - I kernel dei sistemi operativi guest devono quindi essere modificati per aver accesso all'interfaccia del particolare VMM
 - La struttura del VMM è semplificata perchè non deve più preoccuparsi di tradurre dinamicamente i tentativi di operazioni privilegiate dei Sistemi operativi guest
@@ -273,10 +286,12 @@ Il VMM offre al sistema operativo guest una interfaccia virtuale alla quale i si
 # Architetture Virtualizzabili
 
 L'uscita sul mercato di processori con supporto nativo alla virtualizzazione (Intel VT e AMD-V) ha dato l'impulso allo sviluppo di VMM semplificati basati su virtualizzazione pura:
+
 - **no ring compression/aliasing**: il sistema operativo guest esegue in un ring separato da quello delle applicazioni
 - **Ring deprivileging**: ogni istruzione privilegiata richiesta dal sistema operativo guest genera un trap gestito dal VMM
 
 **Pro:**
+
 - **efficienza**: non c'è bisogno di binary translation
 - **trasparenza**: L'API presentata dall'hypervisor è la stessa offerta dal processore.
 
@@ -311,6 +326,7 @@ Una macchina virtuale può trovarsi nei seguenti stati:
 ## Migrazione di VM
 
 In datacenter di server virtualizzati è sempre più sentita la necessità di una gestione agile delle VM per fare fronte a:
+
 - Veriazioni dinaimce del carico: load balancing, consolidamento
 - Manutenzione "online" dei server
 - Gestione finalizzata al risparmio energetico
@@ -335,6 +351,7 @@ Una VM suspended può riprendere l'esecuzione a partire dallo stato in cui si tr
 ![img pack 1 slide 52](../Assets/2024-10-22-161843_hyprshot.png)
 
 È desiderabile minimizzare:
+
 - **Downtime**
 - **Tempo di migrazione**
 - **Consumo di banda**
@@ -344,6 +361,7 @@ Una VM suspended può riprendere l'esecuzione a partire dallo stato in cui si tr
 #### Soluzione: Precopy
 
 La migrazione viene realizzata in 6 passi:
+
 1. **Pre-migrazione**: individuazione della VM da migrare e dell'host di destinazione
 2. **Reservation**: Viene inizializata un VM container sul server di destinazione
 3. **Pre-copia iterativa delle pagine**: viene eseguita una copia nell'host B di tutte le pagine allocate in memoria sull'host A per la VM da migrare. Successivamente vengono iterativamente copiate da A a B tutte le pagine modificate fino a quando il numero di dirty pages è inferiore a una soglia data
@@ -360,3 +378,96 @@ La migrazione viene realizzata in 6 passi:
 In alternativa a precopy si può fare **post copy**:
 la macchina virtuale viene sospesa e vengono copiate pagine e stato. Tempo di migrazione più basso ma downtime molto più elevato.
 
+# XEN
+
+
+
+
+## Architettura di Xen
+
+![img pack 1 slide 58](image.png)
+
+## Organizzazione
+
+## Realizzazione
+
+## Caratteristiche
+
+![img pack 1 slide 61](image-1.png)
+
+## Gestione della memoria e paginazione
+
+## Protezione
+
+![img pack 1 slide 63](image-2.png)
+
+## Gestione della memoria
+
+![img pack 1 slide 65](image-3.png)
+
+## Creazione di un processo
+
+![img pack 1 slide 66](image-4.png)
+
+
+Ecco un paragrafo di riepilogo per ciascuna delle slide a partire dalla 57 riguardanti Xen.
+
+---
+
+**Slide 57: Xen**  
+Xen è un VMM open-source basato su paravirtualizzazione, sviluppato dall'Università di Cambridge nel 2003. Utilizza una API chiamata hypercall per la gestione delle risorse e necessita di una modifica del kernel del sistema operativo guest. Xen è utilizzato da molte distribuzioni Linux e Citrix ne ha acquisito i diritti nel 2007 per utilizzarlo nelle proprie soluzioni di virtualizzazione e cloud.
+
+---
+
+**Slide 58: Architettura di Xen**  
+L'architettura di Xen include un componente chiamato "domain 0" o "dom0", che è una VM speciale per la gestione e il controllo del sistema. Dom0 è l'unico dominio che può interagire direttamente con l’hypervisor, mentre gli altri domini (domU) operano come VM standard. Questa architettura separa i meccanismi dalle politiche di gestione delle risorse.
+
+---
+
+**Slide 59: Xen - Realizzazione**  
+Xen supporta la virtualizzazione di CPU, memoria e I/O per ogni dominio. L'hypervisor gestisce l’allocazione e la divisione delle risorse tra i vari domini. Xen utilizza paravirtualizzazione per permettere alle VM di accedere direttamente alle istruzioni non privilegiate mentre le operazioni privilegiate sono gestite tramite hypercalls.
+
+---
+
+**Slide 60: Xen – Caratteristiche**  
+Xen si basa sulla paravirtualizzazione: le macchine virtuali guest eseguono direttamente le istruzioni non privilegiate, mentre le istruzioni privilegiate vengono processate attraverso hypercalls. L’architettura x86 colloca i sistemi operativi guest nel ring 1, mentre l'hypervisor Xen risiede nel ring 0, garantendo una protezione multilivello.
+
+---
+
+**Slide 61: Xen – Gestione della memoria**  
+I sistemi operativi guest in Xen gestiscono la memoria virtuale attraverso tradizionali politiche di paginazione. Xen utilizza shadow page tables per mappare la memoria fisica, proteggendo l’accesso in scrittura da parte dei kernel guest, e permette aggiornamenti solo validati dal VMM per garantire la sicurezza.
+
+---
+
+**Slide 62: Protezione in Xen**  
+Xen implementa una divisione della memoria virtuale per separare Xen e il kernel dei guest. Questo approccio consente una protezione efficace senza necessitare di un flush TLB per ogni hypercall, incrementando l’efficienza della gestione della memoria.
+
+---
+
+**Slide 63: Xen – Gestione della memoria e balloon process**  
+Xen introduce un processo chiamato "balloon process" per gestire dinamicamente la memoria, chiedendo ai guest di liberare pagine in caso di necessità. Questo processo consente al VMM di ottimizzare la distribuzione della memoria e supportare l’attivazione di nuove VM in modo efficiente.
+
+---
+
+**Slide 64: Xen – Virtualizzazione della CPU**  
+Xen fornisce un'architettura virtuale della CPU in cui le istruzioni privilegiate vengono sostituite da hypercalls. L'hypervisor gestisce lo scheduling delle VM attraverso l’algoritmo Borrowed Virtual Time, che consente una gestione efficiente delle risorse e una schedulazione temporale adatta anche a sistemi real-time.
+
+---
+
+**Slide 65: Xen – Virtualizzazione dell'I/O**  
+Xen adotta una struttura I/O basata su driver di tipo back-end e front-end. I driver back-end risiedono nel dom0 e gestiscono direttamente i dispositivi hardware, mentre i driver front-end nelle VM guest accedono ai dispositivi tramite comunicazione asincrona con il back-end, assicurando isolamento e portabilità.
+
+---
+
+**Slide 66: Xen – Gestione delle interruzioni e delle eccezioni**  
+Xen virtualizza la gestione delle interruzioni con un vettore che punta direttamente alle routine del kernel guest. La gestione delle page-fault richiede il coinvolgimento dell'hypervisor per l'accesso al registro CR2, necessario per il corretto funzionamento del sistema.
+
+---
+
+**Slide 67: Xen – Gestione del page-fault**  
+In caso di page-fault, l’handler di Xen nel ring 0 legge il contenuto del registro CR2 e lo trasferisce a una variabile nel guest, garantendo il corretto accesso a tale informazione. Successivamente, il controllo ritorna al guest, che può completare la gestione del page-fault in sicurezza.
+
+---
+
+**Slide 68: Xen – Migrazione live**  
+La migrazione live delle VM in Xen è gestita attraverso una migrazione basata su pre-copy. Un demone in dom0 esegue il comando di migrazione, trasferendo le pagine in modo iterativo e comprimendo i dati per minimizzare l'occupazione di banda, mantenendo attiva la VM durante il trasferimento.
