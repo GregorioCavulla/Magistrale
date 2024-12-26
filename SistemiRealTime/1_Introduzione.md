@@ -18,7 +18,11 @@
       - [Classificazione della schedulazione](#classificazione-della-schedulazione)
   - [Tipologie di processi](#tipologie-di-processi)
   - [Parametri temporali](#parametri-temporali)
+    - [Processi periodici:](#processi-periodici)
+    - [Processi sporadici:](#processi-sporadici)
+  - [Funzioni di utilità di un processo](#funzioni-di-utilità-di-un-processo)
   - [Problematiche nei sistemi real-time](#problematiche-nei-sistemi-real-time)
+    - [Tempi di blocco](#tempi-di-blocco)
   - [Soluzioni: Protocolli di accesso](#soluzioni-protocolli-di-accesso)
     - [Obiettivi](#obiettivi)
     - [Strategie](#strategie)
@@ -44,7 +48,7 @@ Un sistema di elaborazione opera in tempo reale soltanto se fornisce i risultati
 
 ### Approccio "Top-Down"
 
-La progettazione di un sistema complesso si basa su una decomposizione gerarchica:
+La progettazione di un sistema complesso si basa su una decomposizione gerarchica su più livelli (approggio "divide et impera"):
 
 1. **Livelli funzionali**: Ogni livello individua entità con ruoli e interazioni ben definiti.
 2. **Riduzione della complessità**: Man mano che si scende nella gerarchia, il numero di componenti cresce, ma la complessità di ciascun componente diminuisce.
@@ -80,18 +84,51 @@ La progettazione di un sistema complesso si basa su una decomposizione gerarchic
 
 ## Parametri temporali
 
-Per ogni processo, vengono definiti:
+![alt text](image.png)
 
-- **Release time (ai)**: Istante di rilascio del task.
-- **Start time (si)** e **Finish time (fi)**.
-- **Deadline (di)**: Vincolo temporale massimo.
-- **Latenza (Li)** e **Slack time (Xi)**.
+Per ogni processo $i$, vengono definiti:
+
+- **Arrival Time ($a_i$)**: Istante di rilascio del task.
+- **Start time ($s_i$)** e **Finish time ($f_i$)**.
+- **Deadline ($d_i$)**: Vincolo temporale massimo.
+- **Latenza ($L_i$)** e **Slack time ($X_i$)**.
+
+- $C_i = f_i - s_i$ **computation time**.
+- $D_i = d_i - a_i$ **relative deadline**.
+- $R_i = f_i - a_i$ **response time**.
+- $L_i = f_i - d_i$ **lateness**.
+- $E_i = max(0, L_i)$ **tardiness (exceeding time)**.
+- $X_i = D_i - C_i$ **laxity (slack time)**: Tempo massimo in cui si può differire un task senza problemi.
+
+### Processi periodici: 
+- $a_(i+1) - a_i = T$ (periodo)
+- $D_i = T$
+- $a_1 = \varphi$ (fase)
+  
+### Processi sporadici:
+- $a_(i+1) - a_o \geq MIT$ (minimum interarrival time)
+- $D_i \leq MIT$
+
+## Funzioni di utilità di un processo
+
+![alt text](image-1.png)
 
 ## Problematiche nei sistemi real-time
 
 1. **Inversione di priorità**: Quando processi a bassa priorità bloccano quelli ad alta priorità.
+    Per evitare si usa l'ereditarietà delle priorità, se un processo a minor priorità blocca un task a maggior priorità eredita la sua priorità.
 2. **Concatenazione di blocchi**: Multipli processi si bloccano a vicenda su risorse condivise.
 3. **Deadlock**: Situazioni in cui due o più processi sono in stallo permanente a causa di risorse condivise.
+    **Tipi di blocchi**:
+    - **Inevitabile**: Accesso mutualmente esclusivo.
+    - **Evitabile**: Concatenazione di blocchi.
+    - **Da evitare**: Inversione di priorità incontrollata.
+
+### Tempi di blocco
+
+- **Concatenazione di blocchi**: $\rarr$ Limitati, ma potenzialmente significativi.
+- **Inversione di priorità**: $\rarr$ Illimitati.
+- **Deadlock**: $\rarr$ Infiniti
 
 ## Soluzioni: Protocolli di accesso
 
