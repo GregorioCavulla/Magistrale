@@ -3,28 +3,22 @@
 
 ## Indice
 
-- [Introduzioneback](#introduzioneback)
+- [Hard Real Time Task Schedulingback](#hard-real-time-task-schedulingback)
   - [Indice](#indice)
-  - [Sistemi di elaborazione in tempo reale](#sistemi-di-elaborazione-in-tempo-reale)
-  - [Sistemi in tempo reale: Aspetti principali](#sistemi-in-tempo-reale-aspetti-principali)
-    - [Caratteristiche fondamentali](#caratteristiche-fondamentali)
-    - [Obiettivi principali nella progettazione del software](#obiettivi-principali-nella-progettazione-del-software)
-  - [Metodologia di progetto](#metodologia-di-progetto)
-    - [Approccio "Top-Down"](#approccio-top-down)
-  - [Aspetti temporali nei sistemi real-time](#aspetti-temporali-nei-sistemi-real-time)
-    - [Vincoli temporali principali](#vincoli-temporali-principali)
-    - [Tipologie di schedulazione](#tipologie-di-schedulazione)
-      - [Classificazione della schedulazione](#classificazione-della-schedulazione)
-  - [Tipologie di processi](#tipologie-di-processi)
-  - [Parametri temporali](#parametri-temporali)
-    - [Processi periodici:](#processi-periodici)
-    - [Processi sporadici:](#processi-sporadici)
-  - [Funzioni di utilità di un processo](#funzioni-di-utilità-di-un-processo)
-  - [Problematiche nei sistemi real-time](#problematiche-nei-sistemi-real-time)
-    - [Tempi di blocco](#tempi-di-blocco)
-  - [Soluzioni: Protocolli di accesso](#soluzioni-protocolli-di-accesso)
-    - [Obiettivi](#obiettivi)
-    - [Strategie](#strategie)
+  - [Assunti](#assunti)
+  - [Teorema sulla schedulabilità](#teorema-sulla-schedulabilità)
+  - [Schedulazione clock-driven](#schedulazione-clock-driven)
+  - [Timer-driven scheduling](#timer-driven-scheduling)
+  - [Ambiente di esecuzione](#ambiente-di-esecuzione)
+    - [Sequenziale](#sequenziale)
+  - [Cyclic Executive](#cyclic-executive)
+    - [Approccio Cyclic Executive](#approccio-cyclic-executive)
+    - [Approccio Barker - Shaw](#approccio-barker---shaw)
+    - [Costruzione di un feasable schedule](#costruzione-di-un-feasable-schedule)
+  - [Schedulazione Priority Driven](#schedulazione-priority-driven)
+    - [Algoritmo Rate Monotonic Priority Ordering (RMPO)](#algoritmo-rate-monotonic-priority-ordering-rmpo)
+  - [Test di schedulabilità LIU-LAYLAND](#test-di-schedulabilità-liu-layland)
+    - [Corollario](#corollario)
 
 ## Assunti
 
@@ -117,3 +111,58 @@ Si può aggiungere il job slicing (frammentazione di un task)
 - $m \leq T_i , \forall i$ in ogni ciclo maggiore vanno eseguiti tutti i task
 
 - $2m - MCD(m,T_i) \leq T_i , \forall i \ |\  (T_i mod m) > 0$
+
+### Costruzione di un feasable schedule
+
+![alt text](image-8.png)
+
+![alt text](image-9.png)
+
+![alt text](image-10.png)
+
+**Job Slicing**: Si può adottare dividendo i job con un tempo di elaborazione più lungo, finche non si rispetta il vincolo 5.
+
+![alt text](image-11.png)
+
+> Dopo avere identificato $n$ e $m$ si applicano criteri euristici che possono portare a risultati differenti
+
+## Schedulazione Priority Driven
+
+Ad ogni processo è associata una priorità statica o dinamica
+
+Ogni processo può essere in stato:
+- **Ready**: pronto per essere eseguito
+- **Running**: in esecuzione
+- **Idle**: in attesa di un evento
+
+c'è preemption
+
+### Algoritmo Rate Monotonic Priority Ordering (RMPO)
+
+Ad ogni processo è associata una priorità statica, direttamente proporzionale alla frequenza di esecuzione.
+
+**Algoritmo Ottimo**: Un insieme id processi a priorità astatica se non è schedulabile con RMPO non è schedulabile
+
+## Test di schedulabilità LIU-LAYLAND
+
+> Condizione sufficiente affinchè un insieme di $N$ processi con RMPO:
+> $U \leq U_{RMPO}(N) = N(2^{\frac{1}{N}} -1)$
+
+![alt text](image-12.png)
+
+> $\lim_{N\rarr\inf} U_{RMPO}(N)=\ln 2 = 0.693$
+
+### Corollario
+
+Test meno stringente del teorema (che fallisce spesso)
+
+> $U_{RMPO} = \prod_{i=1}^{N} (1+U_j)\leq 2$
+
+![alt text](image-13.png)
+
+**(Caso con due processi)**
+
+Quando i due fattori di utilizzazione sono simili il corollario da risultati simili al teorema.
+
+Quando c'è differenza il corollario è meno stringente.
+
