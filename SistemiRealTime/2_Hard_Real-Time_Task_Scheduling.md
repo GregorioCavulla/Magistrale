@@ -19,6 +19,8 @@
     - [Algoritmo Rate Monotonic Priority Ordering (RMPO)](#algoritmo-rate-monotonic-priority-ordering-rmpo)
   - [Test di schedulabilità LIU-LAYLAND](#test-di-schedulabilità-liu-layland)
     - [Corollario](#corollario)
+  - [Test di Kuo - Mok](#test-di-kuo---mok)
+  - [Test di Burchard](#test-di-burchard)
 
 ## Assunti
 
@@ -166,3 +168,23 @@ Quando i due fattori di utilizzazione sono simili il corollario da risultati sim
 
 Quando c'è differenza il corollario è meno stringente.
 
+## Test di Kuo - Mok
+
+> Un insieme $S$ di $N$ processi $P_i$ con $i = 1, 2, ..., N$ è schedulabile con RMPO se:
+> $U \leq U_{RMPO}(K)$ essendo $K$ il numero di sottoinsiemi disgiunti di processi semplicemente periodici in $S$.
+
+Si Raggruppano i task con periodi armonici ottenendo dei nuovi task dove:
+
+- $U_{nuovo} = U_x + U_y + ... + U_z$
+- T_{nuovo} = min{T_x, T_y, ..., T_z}
+- C_{nuovo} = U_{nuovo} * T_{nuovo}
+
+I nuovi task poi si sottopongono al teorema di Liu-Layland o al suo corollario.
+
+Se il partizionamento non è univoco, allora optare per quello che ha fattori di utilizzazioni disuniformi.
+
+## Test di Burchard
+
+> L'utilizzazione schedulabile dell'algoritmo RMPO è tanto maggiore quanto meno i periodi dei processi si discostano dalla relazione armonica
+
+Per primo vanno calcolati: $X_j = \log_2(T_j) - \lfloor\log_2(T_j)\rfloor \quad \forall j$
