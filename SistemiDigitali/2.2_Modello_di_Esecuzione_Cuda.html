@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>2.2_Modello_di_Esecuzione_Cuda.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="modello-di-esecuzione-cudadiv-style%22text-align-right%22backdiv">Modello di Esecuzione CUDA<div style="text-align: right"><a href="./SistemiDigitali.md">back</a></div></h1>
+<h2 id="indice">Indice</h2>
+<ul>
+<li><a href="#modello-di-esecuzione-cudaback">Modello di Esecuzione CUDAback</a>
+<ul>
+<li><a href="#indice">Indice</a></li>
+<li><a href="#architettura-hardware-gpu">Architettura Hardware GPU</a>
+<ul>
+<li><a href="#introduzione-al-modello-di-esecuzione-cuda">Introduzione al Modello di Esecuzione CUDA</a></li>
+<li><a href="#streaming-multiprocessor-sm">Streaming Multiprocessor (SM)</a>
+<ul>
+<li><a href="#cuda-core">CUDA Core</a></li>
+</ul>
+</li>
+<li><a href="#architettura-fermi-2010">Architettura Fermi (2010)</a></li>
+<li><a href="#architettura-kepler-2012">Architettura Kepler (2012)</a>
+<ul>
+<li><a href="#gk100x-smx">GK100X SMX</a></li>
+<li><a href="#evoluzione">Evoluzione</a></li>
+</ul>
+</li>
+<li><a href="#tensor-core-acceleratori-di-intelligenza-artificiale-volta-">Tensor Core: Acceleratori di Intelligenza Artificiale (Volta +)</a>
+<ul>
+<li><a href="#evoluzione-dei-nvidia-tensor-core">Evoluzione dei NVIDIA Tensor Core</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#organizzazione-e-gestione-dei-thread">Organizzazione e Gestione dei Thread</a>
+<ul>
+<li><a href="#sm-trehad-blocks-e-risorse">SM, Trehad Blocks e Risorse</a></li>
+<li><a href="#corrispondenza-tra-vista-logica-e-vista-hardware">Corrispondenza tra Vista Logica e Vista Hardware</a>
+<ul>
+<li><a href="#software">Software</a></li>
+<li><a href="#hardware">Hardware</a></li>
+</ul>
+</li>
+<li><a href="#distribuzione-dei-blocchi-su-streaming-multiprocessor">Distribuzione dei Blocchi su Streaming Multiprocessor</a></li>
+<li><a href="#scalabilit%C3%A0-in-cuda">Scalabilità in CUDA</a></li>
+</ul>
+</li>
+<li><a href="#modello-di-esecuzione-simt-e-warp">Modello di Esecuzione SIMT e Warp</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="architettura-hardware-gpu">Architettura Hardware GPU</h2>
+<h3 id="introduzione-al-modello-di-esecuzione-cuda">Introduzione al Modello di Esecuzione CUDA</h3>
+<p>In generale un modello di esecuzione fornisce una visione operativa di come le istruzioni vengono eseguite su una specifica architettura di calcolo</p>
+<p><strong>Caratteristiche Principali:</strong></p>
+<ul>
+<li>Astrazione dell'architettura GPU NVIDIA</li>
+<li>Conservazione dei concetti fondamentali tra le generazioni</li>
+<li>Esposizione delle funzionalità architetturali chiave per la programmazione CUDA</li>
+<li>Basato sul parallelismo massivo e sul modello SIMT (Single Instruction, Multiple Threads)</li>
+</ul>
+<p><strong>Importanza:</strong></p>
+<ul>
+<li>Offre una visione unificata dell'esecuzione su diverse GPU</li>
+<li>Fornisce indicazioni utili per l'ottimizzazione del codice in termini di:
+<ul>
+<li>Througput delle istruzioni.</li>
+<li>Accessi alla memoria.</li>
+</ul>
+</li>
+<li>Facilita la comprensione della relazione tra il modello di programmazione e l'esecuzione effettiva</li>
+</ul>
+<h3 id="streaming-multiprocessor-sm">Streaming Multiprocessor (SM)</h3>
+<p>Gli streaming multiprocessor (SM) sono i blocchi di elaborazione principali delle GPU NVIDIA. Ogni SM è composto da:</p>
+<ul>
+<li>Unità di calcolo</li>
+<li>Memoria condivisa</li>
+<li>Risorse (registri, cache, ecc.)</li>
+</ul>
+<p>Il parallelismo hardware delle GPU è ottenuto attraverso la replica di questo blocco architetturale</p>
+<p><img src="image-30.png" alt="alt text"></p>
+<p><strong>Caratteristiche Principali:</strong></p>
+<ol>
+<li>CUDA Cores: Unità di calcolo che eseguono le istruzioni</li>
+<li>Shared Memory / L1 Cache: Memoria condivisa tra i thread di uno stesso blocco</li>
+<li>Register File: Memoria veloce per i registri dei thread</li>
+<li>Load/Store Units: Unità per l'accesso alla memoria globale</li>
+<li>Special Function Units: Unità per operazioni speciali (es. funzioni matematiche)</li>
+<li>Warp Scheduler: Unità per la gestione dei warp</li>
+<li>Dispatch Unit: Unità per l'assegnazione dei warp ai CUDA Cores</li>
+<li>Instruction Cache: Memoria per le istruzioni</li>
+</ol>
+<p><img src="image-31.png" alt="alt text"></p>
+<h4 id="cuda-core">CUDA Core</h4>
+<p>Un Cuda è l'unità di elaborazione di base all'interno di un SM di una GPU NVIDIA.</p>
+<p><img src="image-32.png" alt="alt text"></p>
+<p><strong>Composizione e Funzionamento (Fermi)</strong>
+I CUDA Core erano unità di elaborazione relativamente semplici, in grado di eseguire sia operazioni intere (INT) che in virgola mobile (FP) in un ciclo di clock.</p>
+<ul>
+<li>ALU (Arithmetic Logic Unit): Ogni CUDA Core contiene un'unità logico-aritmetica che esegue operazioni matematiche di base come addizioni, sottrazioni, moltiplicazioni e operazioni logiche.</li>
+<li>FPU (Floating Point Unit): Ogni CUDA Core contiene un'unità in virgola mobile che esegue operazioni in virgola mobile come addizioni, sottrazioni, moltiplicazioni e divisioni.</li>
+</ul>
+<p>I CUDA Core usano registri condivisi a livello di Streaming Multiprocessor per memorizzare i dati temporanei e i risultati intermedi.</p>
+<p><strong>Evoluzione dell'architettura (da Kepler)</strong></p>
+<p>Dall'architettura Kepler NVIDIA ha introdotto la specializzazione delle unità di calcolo all'interno di un SM:</p>
+<ul>
+<li><strong>General:</strong>
+<ul>
+<li><strong>Unità FP64</strong>: Unità specializzata per operazioni in virgola mobile a doppia precisione</li>
+<li><strong>Unità FP32</strong>: Unità specializzata per operazioni in virgola mobile a singola precisione</li>
+<li><strong>Unità INT</strong>: Unità specializzata per operazioni intere</li>
+</ul>
+</li>
+<li><strong>AI:</strong>
+<ul>
+<li><strong>Tensor Core</strong>: Unità specializzata per operazioni di moltiplicazione e accumulo di matrici</li>
+</ul>
+</li>
+<li><strong>Graphics:</strong>
+<ul>
+<li><strong>Ray Tracing Core (RT Core)</strong>: Unità specializzata per operazioni di ray tracing</li>
+<li><strong>Unità di Texture</strong>: Unità specializzata per operazioni di texture mapping</li>
+<li><strong>Unità di Rasterizzazione</strong>: Unità specializzata per operazioni di rasterizzazione</li>
+</ul>
+</li>
+</ul>
+<p>Ogni unità di elaborazione esegue un thread in parallelo con altri nel medesimo SM.</p>
+<h3 id="architettura-fermi-2010">Architettura Fermi (2010)</h3>
+<p><strong>Caratteristiche Principali:</strong></p>
+<ul>
+<li>Prima architettura GPU completa per <strong>applicazioni HPC</strong> ad alte prestazioni.</li>
+<li>Fino a <strong>521 CUDA</strong> cores organizzati in 16 SM.</li>
+<li>Ogni SM contiene:
+<ul>
+<li>32 CUDA Cores.</li>
+<li>2 unità di scheduling e dispatch.</li>
+<li>64KB di Shared Memory/Cache L1.</li>
+<li>32.768 registri da 32 bit.</li>
+</ul>
+</li>
+<li>768 KB di memoria cache L2 con <strong>coalescenza di memoria</strong>.</li>
+<li>Interfaccia di memoria a <strong>384 bit</strong> con <strong>GDDR5</strong>, supporto fino a <strong>6 GB</strong> di memoria globale.</li>
+<li>GigaThread Engine per la gestione di <strong>migliaia di thread</strong>.</li>
+<li>Interfaccia Host-Device per connessione CPU via PCI Express.</li>
+</ul>
+<p><img src="image-33.png" alt="alt text"></p>
+<p><strong>Esecuzione Concorrente dei Kernel:</strong></p>
+<ul>
+<li>L'architettura permette l'esecuzione di più kernel in modo concorrente.</li>
+<li>Supporta fino a 16 kernel in esecuzione contemporanea.</li>
+<li>Ottimizza l'uso della GPU per applicazioni con diversi kernel.</li>
+<li>Appare come una architettura MIMD (Multiple Instruction, Multiple Data).</li>
+<li>Le generazioni successive a Fermi supportano un numero ancora maggiore di kernel in esecuzione.</li>
+</ul>
+<p><img src="image-34.png" alt="alt text"></p>
+<h3 id="architettura-kepler-2012">Architettura Kepler (2012)</h3>
+<p><strong>Caratteristiche Principali GPU</strong></p>
+<ul>
+<li>L'architettura Kepler include 3 importanti novità:
+<ul>
+<li>Straming Multiprocessors Potenziati (SMX).</li>
+<li>Dynamic Parallelism: Permette ai kernel di lanciare altri kernel.</li>
+<li>Hyper-Q: Permette a più CPU di comunicare con la GPU.</li>
+<li>GPU Boost: Permette di aumentare la frequenza di clock della GPU in base al carico di lavoro.</li>
+</ul>
+</li>
+<li>2688 Cuda Corse organizzati in 15 SMX.</li>
+<li>6 Controller di Memoria a 64 bit.</li>
+<li>6 GB di Memoria Gloabale DDR5.</li>
+<li>Larghezza di Banda della memoria: 250 GB/s.</li>
+<li>1536 KB di Cache L2.</li>
+<li>Interfaccia Host-Device PCI Express 3.0.</li>
+</ul>
+<p><img src="image-35.png" alt="alt text"></p>
+<h4 id="gk100x-smx">GK100X SMX</h4>
+<p><strong>Caratteristiche Principali - Singolo SMX</strong></p>
+<ul>
+<li>Ogni SMX contiene 192 CUDA Cores, per un totale di 2880 CUDA Cores.</li>
+<li>Unità di precisione:
+<ul>
+<li>Unità di precisione singla (FP32): 192 CUDA Cores.</li>
+<li>Unità di precisione doppia (FP64): 64 CUDA Cores.</li>
+</ul>
+</li>
+<li>32 Unità di Funzione Speciale (SFU).</li>
+<li>32 Unità di Load/Store (LD/ST).</li>
+<li>64 KB di Shared Memory/Cache L1.</li>
+<li>48 KB di Read-Only Data Cache.</li>
+<li>65,536 Registri da 32 bit.</li>
+<li>4 Warp Scheduler.</li>
+<li>8 Instruction Cache.</li>
+</ul>
+<p><img src="image-36.png" alt="alt text"></p>
+<h4 id="evoluzione">Evoluzione</h4>
+<p><img src="image-37.png" alt="alt text"></p>
+<p><img src="image-38.png" alt="alt text"></p>
+<h3 id="tensor-core-acceleratori-di-intelligenza-artificiale-volta">Tensor Core: Acceleratori di Intelligenza Artificiale (Volta +)</h3>
+<p>I tensor core sono unità di elaborazione specializzata per operazioni tensoriali (array multidimensionali), progettati per accelerari i calcoli di AI e HPC, presenti in GPU NVIDIA RTX da Volta (2017) in poi.</p>
+<p><strong>Caratteristiche Principali:</strong></p>
+<ul>
+<li>
+<p>Esegue operazioni matrice-matrice in precisione mista.</p>
+</li>
+<li>
+<p>Supporta formati FP16, FP32, FP64, INT8, INT4, BF16 e nuovi formati come TF32.</p>
+</li>
+<li>
+<p>Offre un significativo speedup nel calcolo senza compromettere l'accuratezza</p>
+</li>
+<li>
+<p><strong>Fused Multiply-Add (FMA):</strong> Un'operazione che combina una moltiplicazione e una addizione di scalari in un unico passo eseguendo $d=a*b+c$. Un CUDA core esefue 1 FMA per ciclo di clock in FP32.</p>
+</li>
+<li>
+<p><strong>Matrix Multiply and Accumulate (MMA):</strong> Un'operazione che combina una moltiplicazione e una addizione di matrici in un unico passo eseguendo $D+=A*B$. Un Tensor Core esegue 64 FMA per ciclo di clock in FP16.</p>
+</li>
+<li>
+<p>Una MMA di dimensione $m<em>n$ richiede $m</em>n*k$ operazioni FMA dove $k$ è il numero di colonne di $A$ e il numero di righe di $B$.</p>
+</li>
+</ul>
+<p><img src="image-39.png" alt="alt text"></p>
+<blockquote>
+<p>Esecuazione Parallela</p>
+<ul>
+<li>ogni tensor core esegue 64 FMA in un singolo ciclo</li>
+<li>Per operazioni su matrici più grandi, queste vengono decomposte in sottomatrici 4x4</li>
+<li>più operazioni 4x4 vengono eseguite in parallelo su diversi Tensor Core</li>
+</ul>
+</blockquote>
+<h4 id="evoluzione-dei-nvidia-tensor-core">Evoluzione dei NVIDIA Tensor Core</h4>
+<p>Le generazioni più recenti di CPU hanno ampliato la flessibilità e le prestazioni dei Tensor Core, supportando dimensioni di matrici più grandi con un maggiore numero di formati numerici</p>
+<p><img src="image-40.png" alt="alt text"></p>
+<ul>
+<li><strong>Acelerazione</strong> significativa dei calcoli</li>
+<li><strong>Riduzione del consumo</strong> di memoria e energia.</li>
+<li><strong>Perdita di Precisione</strong>: Si è dimostrato che ha un impatto minimo sulla accuratezza finale dei modelli di deep learning.</li>
+</ul>
+<h2 id="organizzazione-e-gestione-dei-thread">Organizzazione e Gestione dei Thread</h2>
+<h3 id="sm-trehad-blocks-e-risorse">SM, Trehad Blocks e Risorse</h3>
+<ul>
+<li><strong>Parallelismo Hardware</strong>
+<ul>
+<li>Più SM per GPU permettono l'esecuzione simultanea di migliaia di thread (anche da kernel differenti).</li>
+</ul>
+</li>
+<li><strong>Distribuzione dei Thread Block</strong>
+<ul>
+<li>Quando un kernel viene lanciato, i blocchi vengono distribuiti dal GigaThread Engine ai SM.</li>
+<li>Le variabili di identificazione e dimensione <code>gridDim</code>, <code>blockIdx</code>, <code>blockDim</code> e <code>threadIdx</code> sono rese disponibili ad ogni thread e condivise nello stesso SM.</li>
+<li>Una volta assegnati a un SM, i thread di un blocco eseguono esclusivamente su quell'SM.</li>
+</ul>
+</li>
+<li><strong>Gestione delle Risorse</strong>
+<ul>
+<li>Più blocchi di Thread possono essere assegnati allo stesso SM contemporaneamente.</li>
+<li>Lo scheduling dei blocchi dipende dalla disponibilità delle risorse dell'SM e dai limiti architetturali di ciascun SM.</li>
+</ul>
+</li>
+<li><strong>Parallelismo Multi-Livello</strong>
+<ul>
+<li>Parallelismo a livello di istruzioni: Le istruzioni all'interno di un singolo thread sono eseguite in pipeline.</li>
+<li>Parallelismo a livello di Thread: Esecuzione concorrente di gruppi di threads (warp) su un SM.</li>
+</ul>
+</li>
+</ul>
+<h3 id="corrispondenza-tra-vista-logica-e-vista-hardware">Corrispondenza tra Vista Logica e Vista Hardware</h3>
+<p><img src="image-41.png" alt="alt text"></p>
+<h4 id="software">Software</h4>
+<ul>
+<li>
+<p><strong>Thread</strong>:</p>
+<ul>
+<li>ha uno spazio di memoria privato (registri nell'SM e Memoria locale) per indifie, variabili, e risultati intermedi.</li>
+</ul>
+</li>
+<li>
+<p><strong>Thread Block</strong>:</p>
+<ul>
+<li>Gruppo di thread eseguiti concorrentemente.</li>
+<li>Cooperazione tramite barriere di sincronizzazione</li>
+<li>Usa shared memory per comunicazione inter-thread.</li>
+<li>Un blocco di thread viene assegnato esclusivamente ad un solo SM.</li>
+<li>Una volta che un blocco di thread è stato assegnato ad un SM, vi rimane fino al completamento dell'esecuzione.</li>
+</ul>
+</li>
+<li>
+<p><strong>Grid</strong>:</p>
+<ul>
+<li>Insieme di thread block che eseguono lo stesso kernel.</li>
+<li>Accesso comune alla global memory.</li>
+<li>I thread block non possono sincronizzarsi direttamente tra di loro.</li>
+</ul>
+</li>
+</ul>
+<h4 id="hardware">Hardware</h4>
+<ul>
+<li><strong>SM</strong>:
+<ul>
+<li>Un SM più contenere più blocchi di thread contemporaneamente.</li>
+<li>Ogni SM ha un limite massimo di thread block gestibili, determinato dalla sua compute capability.</li>
+</ul>
+</li>
+</ul>
+<h3 id="distribuzione-dei-blocchi-su-streaming-multiprocessor">Distribuzione dei Blocchi su Streaming Multiprocessor</h3>
+<p>Supponiamo  di dovere realizzare un algoritmo parallelo che effettuio il calcolo parallelo su una immagine</p>
+<p><img src="image-42.png" alt="alt text"></p>
+<ul>
+<li>Il gigathread Engine smista i blocchi di thread agli SM in base alle risorse disponibili.</li>
+<li>CUDA non garantisce l'ordine e non è possibile scambiare dati tra i blocchi.</li>
+<li>Ogni blocco viene elaborato in modo indipendente.</li>
+</ul>
+<p><img src="image-43.png" alt="alt text"></p>
+<ul>
+<li>Quando un blocco completa l'esecuzione e libera le risorse, un nuovo blocco può essere assegnato allo SM. Questo processo continua fino a quando tutti i blocchi del grid non sono stati elaborati.</li>
+</ul>
+<h3 id="scalabilit%C3%A0-in-cuda">Scalabilità in CUDA</h3>
+<p>Per scalabilità in CUDA ci si riferisce alla capacità di una applicazione di migliorare le prestazioni proporzionalmente all'aumentodelle risorse hardware disponibili.</p>
+<p>Più SM disponibili = più blocchi eseguiti contemporaneamente = Maggiore Parallelismo.</p>
+<p>Nessuna modifica al codice richiesta per sfrittare hardware più potente.</p>
+<p><img src="image-44.png" alt="alt text"></p>
+<h2 id="modello-di-esecuzione-simt-e-warp">Modello di Esecuzione SIMT e Warp</h2>
+
+</body>
+</html>

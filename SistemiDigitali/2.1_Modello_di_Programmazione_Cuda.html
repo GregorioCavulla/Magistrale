@@ -1,0 +1,1410 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>2.1_Modello_di_Programmazione_Cuda.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="modello-di-programmazione-cudadiv-style%22text-align-right%22backdiv">Modello di Programmazione CUDA<div style="text-align: right"><a href="./SistemiDigitali.md">back</a></div></h1>
+<h2 id="indice">Indice</h2>
+<ul>
+<li><a href="#modello-di-programmazione-cudaback">Modello di Programmazione CUDAback</a>
+<ul>
+<li><a href="#indice">Indice</a></li>
+<li><a href="#introduzione-al-modello-di-programmazione-cuda">Introduzione al Modello di Programmazione CUDA</a>
+<ul>
+<li><a href="#struttura-stratificata-dellecosistema-cuda">Struttura stratificata dell'Ecosistema CUDA</a></li>
+<li><a href="#ruolo-del-modello-e-del-programmazione">Ruolo del Modello e del Programmazione</a></li>
+<li><a href="#livelli-di-astrazione-nella-programmazione-parallela-cuda">Livelli di Astrazione nella Programmazione Parallela CUDA</a></li>
+<li><a href="#thread-cuda-unita-fondamentale-di-calcolo">Thread CUDA, Unita Fondamentale di Calcolo</a></li>
+<li><a href="#struttura-di-programmazione-cuda">Struttura di Programmazione CUDA</a>
+<ul>
+<li><a href="#caratteristiche-principali">Caratteristiche Principali:</a></li>
+</ul>
+</li>
+<li><a href="#flusso-tipico-di-elaborazione-cuda">Flusso Tipico di Elaborazione CUDA</a></li>
+</ul>
+</li>
+<li><a href="#gestione-della-memoria-in-cuda">Gestione della Memoria in CUDA</a>
+<ul>
+<li><a href="#modello-di-memoria-cuda">Modello di Memoria CUDA</a></li>
+<li><a href="#gerarichi-di-memoria-in-cuda">Gerarichi di Memoria in CUDA</a></li>
+<li><a href="#allocazione-della-memoria-sul-device">Allocazione della Memoria sul Device</a></li>
+<li><a href="#trasferimento-dati">Trasferimento Dati</a></li>
+<li><a href="#deallocazione-della-memoria-sul-device">Deallocazione della Memoria sul Device</a></li>
+<li><a href="#allocazione-e-trasferimento-dati-sul-device">Allocazione e Trasferimento Dati sul Device</a></li>
+</ul>
+</li>
+<li><a href="#organizzazione-dei-thread-in-cuda">Organizzazione dei Thread in CUDA</a>
+<ul>
+<li><a href="#struttura-gerarchica">Struttura Gerarchica</a></li>
+<li><a href="#identificazione-dei-thread-in-cuda">Identificazione dei Thread in CUDA</a></li>
+</ul>
+</li>
+<li><a href="#kernel-cuda">Kernel CUDA</a>
+<ul>
+<li><a href="#qualificatori-di-funzione-in-cuda">Qualificatori di Funzione in CUDA</a></li>
+<li><a href="#restrizioni-dei-kernel-cuda">Restrizioni dei Kernel CUDA</a></li>
+<li><a href="#configurazioni-di-un-kernel-cuda">Configurazioni di un Kernel CUDA</a>
+<ul>
+<li><a href="#numero-di-thread-per-blocco">Numero di Thread per Blocco</a></li>
+</ul>
+</li>
+<li><a href="#compute-capability">Compute Capability</a></li>
+<li><a href="#identificazione-dei-thread-in-cuda-1">Identificazione dei Thread in CUDA</a></li>
+</ul>
+</li>
+<li><a href="#tecniche-di-mapping-e-dimensionamento">Tecniche di Mapping e Dimensionamento</a>
+<ul>
+<li><a href="#somma-di-array-in-cuda">Somma di Array in CUDA</a></li>
+<li><a href="#mapping-degli-indici-ai-dati-in-cuda">Mapping degli Indici ai Dati in CUDA</a>
+<ul>
+<li><a href="#esempio-group__cudart__memory_1g37d37965bfb4803b6d4e59ff26856356">Esempio group__CUDART__MEMORY_1g37d37965bfb4803b6d4e59ff26856356</a></li>
+</ul>
+</li>
+<li><a href="#identificazione-dei-thread-e-mapping-dei-dati-in-cuda">Identificazione dei Thread e Mapping dei Dati in CUDA</a>
+<ul>
+<li><a href="#calcolo-dellindice-globale-grid-1d-block-1d">Calcolo dell'indice Globale Grid 1D, Block 1D</a></li>
+<li><a href="#claclolo-dellindice-globale-grid-1d-block-2d">Claclolo dell'indice Globale Grid 1D, Block 2D</a>
+<ul>
+<li><a href="#metodo-lineare">Metodo Lineare</a></li>
+<li><a href="#metodo-basato-su-coordinate">Metodo Basato su Coordinate</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#analisi-delle-prestazioni">Analisi delle Prestazioni</a>
+<ul>
+<li><a href="#verifica-del-kernel-cuda">Verifica del Kernel CUDA</a></li>
+<li><a href="#gestione-degli-errori-in-cuda">Gestione degli Errori in CUDA</a></li>
+<li><a href="#profiling-delle-prestazioni-dei-kernel-cuda">Profiling delle prestazioni dei Kernel CUDA</a></li>
+<li><a href="#timer-cpu-per-profiling">Timer CPU per Profiling</a></li>
+<li><a href="#nvidia-profiler-da-cuda-50-a-cuda-80">NVIDIA Profiler da CUDA 5.0 a CUDA 8.0</a></li>
+<li><a href="#nvidia-nsight-system">NVIDIA Nsight System</a>
+<ul>
+<li><a href="#ottimizzazione-della-gestione-della-memoria-in-cuda">Ottimizzazione della Gestione della Memoria in CUDA</a></li>
+</ul>
+</li>
+<li><a href="#nvidia-nsight-compute">NVIDIA Nsight Compute</a></li>
+</ul>
+</li>
+<li><a href="#applicazioni-pratiche">Applicazioni Pratiche</a>
+<ul>
+<li><a href="#operazioni-su-matrici-in-cuda">Operazioni su Matrici in CUDA</a>
+<ul>
+<li><a href="#somma-di-matrici-in-cuda">Somma di matrici in CUDA</a>
+<ul>
+<li><a href="#mapping-degli-indici">Mapping degli indici</a></li>
+<li><a href="#suddivisione-della-matrice">Suddivisione della Matrice</a></li>
+<li><a href="#calcolo-dellindice-globale">Calcolo dell'indice globale</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="introduzione-al-modello-di-programmazione-cuda">Introduzione al Modello di Programmazione CUDA</h2>
+<h3 id="struttura-stratificata-dellecosistema-cuda">Struttura stratificata dell'Ecosistema CUDA</h3>
+<p><strong>Modello CUDA</strong>
+L'ecosistema CUDA nel suo complesso può essere visto come una struttura stratificata per esprimere algoritmi paralleli su GPU, bilanciando semplicità d'uso e controllo hardware per ottimizzare le prestazioni.</p>
+<p><img src="image-13.png" alt="alt text"></p>
+<p><strong>Applicazioni</strong>: programmi scritti per risolvere problemi utilizzando CUDA.</p>
+<p><strong>Modello di programmazione</strong>: CUDA, fornisce astrazione per programmare GPU offrendo concetto con thread, blocchi e griglie.</p>
+<p><strong>Compilatore/Librerie</strong>: Strumenti che traducono il codice CUDA in istruzioni eseguibili dalla GPU.</p>
+<p><strong>Sistema Operativo</strong>: Gestisce le risorse, inclusa l'allocazione della GPU tra diverse applicazioni.</p>
+<p><strong>Architetture</strong>: Le specifiche CPU NVIDIA su cui viene eseguito CUDA.</p>
+<h3 id="ruolo-del-modello-e-del-programmazione">Ruolo del Modello e del Programmazione</h3>
+<p><strong>Modello di Programmazione:</strong></p>
+<p>Definisce la struttura e le regole per sviluppare applicazioni parallele su GPU. Elementi fondamentali:</p>
+<ul>
+<li><strong>Gerarchia di Thread:</strong> Organizza l'esecuzione parallela in thread, blocchi e griglie, ottimizzando la scalabilità su diverse GPU.</li>
+<li><strong>Gerarchia di Memoria:</strong> Offre tipi di memoria (globale, condivisa, locale, costante, texture) con diverse prestazioni e scopi per ottimizzare l'accesso ai dati.</li>
+<li><strong>API:</strong> Fornisce funzioni e librerie per gestire l'esecuzione del kernel, il trasferimento dei dati e altre opzioni essenziali.</li>
+</ul>
+<p><strong>Il Programma:</strong></p>
+<p>Rappresenta l'implementazione concreta (il codice) che specifica come i thread condividono dati e coordinano le loro attività. Nel programma CUDA si definisce:</p>
+<ul>
+<li>Come i dati verranno suddivisi e elaborati tra i vari thread.</li>
+<li>Come i thread accederanno alla memoria e condivideranno dati.</li>
+<li>Quali operazioni verranno eseguite in parallelo.</li>
+<li>Quando e come i thread si sincornizzeranno per completare un compito.</li>
+</ul>
+<h3 id="livelli-di-astrazione-nella-programmazione-parallela-cuda">Livelli di Astrazione nella Programmazione Parallela CUDA</h3>
+<p>Il calcolo parallelo si articola in tre livelli di astrazione: dominio, logico e hardware.</p>
+<p><strong>Livello Dominio</strong>:</p>
+<ul>
+<li>Focus sulla decomposizione del problema.</li>
+<li>Definizione della struttura parallela di alto livello.</li>
+</ul>
+<blockquote>
+<p><strong>Chiave</strong>: Ottimizza la strategia di parallelizzazione.</p>
+</blockquote>
+<p><strong>Livello Logico</strong>:</p>
+<ul>
+<li>Organizzazione e gestione dei thread.</li>
+<li>Implementazione della strategia di parallelizzazione.</li>
+</ul>
+<blockquote>
+<p><strong>Chiave</strong>: Ottimizza l'efficienza dell'esecuzione parallela.</p>
+</blockquote>
+<p><strong>Livello Hardware</strong>:</p>
+<ul>
+<li>Mappatura dell'esecuzione sulla archietettura GPU.</li>
+<li>Ottimizzazione delle prestazioni hardware.</li>
+</ul>
+<blockquote>
+<p><strong>Chiave</strong>: Sfrutta al meglio le risorse GPU.</p>
+</blockquote>
+<h3 id="thread-cuda-unita-fondamentale-di-calcolo">Thread CUDA, Unita Fondamentale di Calcolo</h3>
+<p><strong>Thread CUDA</strong>:</p>
+<ul>
+<li>Un thread CUDA rappresenta una unità di esecuzione elementare nella GPU.</li>
+<li>Ogni thread CUDA esegue una porzione di un programma parallelo, chiamato kernel.</li>
+<li>Sebbene migliaia di thread vengano eseguiti concorrentemente sulla GPU, ogni singolo thread segue un precorso di esecuzione sequenziale all'interno del suo contesto.</li>
+</ul>
+<p>Un thread CUDA compie:</p>
+<ul>
+<li><strong>Elaborazione di Dati</strong>: Ogni thread CUDA si occupa di un piccolo pezzo del problema complessivo, eseguendo calcoli su un sottoinsieme di dati.</li>
+<li><strong>Esecuzione di Kernel</strong>: Ogni tread esegue lo stesso codice del kernel ma opera su dati diversi determinati dai suoi identificatori univoci <code>threadIdx</code> e <code>blockIdx</code>.</li>
+<li><strong>Stato del Thread</strong>: Ogni thread ha un proprio stato, compreso un insieme di registri e una piccola quantità di memoria locale.</li>
+</ul>
+<blockquote>
+<p><strong>Thread CUDA vs Thread CPU</strong>:</p>
+<ul>
+<li>GPU: Parallelismo massivo con migliaia di thread. CPU: Parallelismo limitato con pochi thread.</li>
+<li>Thread CUDA: Efficienza e Basso Overhead. Thread CPU: Maggior Overhead di gestione.</li>
+</ul>
+</blockquote>
+<h3 id="struttura-di-programmazione-cuda">Struttura di Programmazione CUDA</h3>
+<p><img src="image-14.png" alt="alt text"></p>
+<h4 id="caratteristiche-principali">Caratteristiche Principali:</h4>
+<ul>
+<li><strong>Codice Seriale e Parallelo:</strong> Alternanza tra sezioni di codice seriale e parallelo (stesso file).</li>
+<li><strong>Struttura Ibrida Host-Device:</strong> Codice eseguito su CPU (host) e GPU (device).</li>
+<li><strong>Esecuzione Asincrona:</strong> Il codice host può continuare l'esecuzione mentre i kernel GPU sono in eecuzione.</li>
+<li><strong>Kernel CUDA Multipli:</strong> Possibilità di lanciare più kernel GPU all'interno della stessa applicazione.</li>
+<li><strong>Gestione dei Risultati sull'Host:</strong> Trasferimento dei risultati dal device all'host ed elaborazione finale su CPU.</li>
+</ul>
+<h3 id="flusso-tipico-di-elaborazione-cuda">Flusso Tipico di Elaborazione CUDA</h3>
+<ol>
+<li><strong>Inizializzazione e Allocazione Memoria (Host):</strong>
+<ul>
+<li>Inizializzazione delle variabili e allocazione della memoria su CPU e GPU.</li>
+</ul>
+</li>
+<li><strong>Trasferimento Dati (Host-Device):</strong>
+<ul>
+<li>Copia dei dati dalla memoria host alla memoria device.</li>
+</ul>
+</li>
+<li><strong>Esecuzione del Kernel (Device):</strong>
+<ul>
+<li>Lancio del kernel per l'esecuzione parallela su GPU.</li>
+</ul>
+</li>
+<li><strong>Trasferimento Dati (Device-Host):</strong>
+<ul>
+<li>Copia dei risultati dalla memoria device alla memoria host.</li>
+</ul>
+</li>
+<li><strong>Elaborazione Risultati (Host):</strong>
+<ul>
+<li>Elaborazione finale dei risultati su CPU.</li>
+</ul>
+</li>
+<li><strong>Rilascio Risorse (Host):</strong>
+<ul>
+<li>Deallocazione della memoria e rilascio delle risorse.</li>
+</ul>
+</li>
+</ol>
+<h2 id="gestione-della-memoria-in-cuda">Gestione della Memoria in CUDA</h2>
+<h3 id="modello-di-memoria-cuda">Modello di Memoria CUDA</h3>
+<ul>
+<li>Il modello CUDA presuppone un sistema con un host e un device, ognuno con la propria memoria.</li>
+<li>La comunicazione tra la memoria dell'host e quella del device avviene tramite il bus seriale <strong>PCIe (Peripheral Component Interconnect Express)</strong> che permette di trasferire dati tra CPU e GPU.</li>
+</ul>
+<p><strong>Caratteristiche PCIe</strong></p>
+<ul>
+<li><strong>Lane</strong>: Ogni lane è costituito da due coppie di segnali differenziali (4 fili), una per ricevere e una per trasmettere.</li>
+<li><strong>Full Duplex</strong>: Permette la trasmissione simultanea in entrambe le direzioni.</li>
+<li><strong>Scalabilità</strong>: La larghezza di banda varia a seconda del numero di lane: x1, x4, x8, x16.</li>
+<li><strong>Bassa Latenza</strong>: Garantisce comunicazione rapide e reattive nei trasferimenti frequenti.</li>
+<li><strong>Bottleneck</strong>: Il bus PCIe può diventare un collo di bottiglia per applicazioni con elevato traffico di dati.</li>
+</ul>
+<p><img src="image-15.png" alt="alt text"></p>
+<ul>
+<li>I kernel CUDA operano sulla <strong>memoria del device</strong></li>
+<li>CUDA runtime fornisce funzioni per:
+<ul>
+<li><strong>Allocazione Memoria</strong> sul device.</li>
+<li><strong>Rilascio Memoria</strong> dal device quando non più necessaria.</li>
+<li><strong>Trasferimento Dati</strong> tra host e device bidirezionale.</li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Standard C</th>
+<th>CUDA C</th>
+<th>Funzione</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>malloc()</code></td>
+<td><code>cudaMalloc()</code></td>
+<td>Allocazione Dinamica Memoria</td>
+</tr>
+<tr>
+<td><code>memcpy()</code></td>
+<td><code>cudaMemcpy()</code></td>
+<td>Copia dati tra aree di memoria</td>
+</tr>
+<tr>
+<td><code>memset()</code></td>
+<td><code>cudaMemset()</code></td>
+<td>Inizializzazione Memoria ad uno specifico valore</td>
+</tr>
+<tr>
+<td><code>free()</code></td>
+<td><code>cudaFree()</code></td>
+<td>Libera Memoria</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>È responsabilità del programmatore gestire correttamente l'allocazione, il trasferimento e la deallocazione della memoria per ottimizzare le prestazioni.</p>
+</blockquote>
+<h3 id="gerarichi-di-memoria-in-cuda">Gerarichi di Memoria in CUDA</h3>
+<p>In CUDA esistono diversi tipi di memoria, ciascuno con caratteristche specifiche in termini di accesso, velocità e visibilità.</p>
+<table>
+<thead>
+<tr>
+<th><strong>Global Memory</strong></th>
+<th><strong>Shared Memory</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>- Accessibile da tutti i thread.</td>
+<td>- Condivisa tra i thread all'interno di un singolo blocco.</td>
+</tr>
+<tr>
+<td>- Più grande e lenta.</td>
+<td>- Più piccola e veloce.</td>
+</tr>
+<tr>
+<td>- Persiste per tutta la durata del programma CUDA.</td>
+<td>- Esiste solo per la durata del blocco di thread.</td>
+</tr>
+<tr>
+<td>- È adatta per memorizzare dati grandi e persistenti.</td>
+<td>- Utilizzata per dati temporanei e intermedi.</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Funzioni</strong>:</p>
+<ul>
+<li><code>cudaMalloc</code>: <strong>Alloca</strong> memoria sulla GPU.</li>
+<li><code>cudaMemcpy</code>: <strong>Copia</strong> dati tra host e device.</li>
+<li><code>cudaMemset</code>: <strong>Inizializza</strong> la memoria con un valore specifico.</li>
+<li><code>cudaFree</code>: <strong>Dealloca</strong> memoria sulla GPU.</li>
+</ul>
+<p>Queste funzioni operano principalmente sulla Global Memory</p>
+</blockquote>
+<p><img src="image-16.png" alt="alt text"></p>
+<h3 id="allocazione-della-memoria-sul-device">Allocazione della Memoria sul Device</h3>
+<p><strong>Firma della Fuznione:</strong> <a href="https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__MEMORY.html#group__CUDART__MEMORY_1g37d37965bfb4803b6d4e59ff26856356">Online Doc</a></p>
+<pre class="hljs"><code><div><span class="hljs-function">cudaError_t <span class="hljs-title">cudaMalloc</span><span class="hljs-params">(<span class="hljs-keyword">void</span> **devPtr, <span class="hljs-keyword">size_t</span> <span class="hljs-built_in">size</span>)</span></span>;
+</div></code></pre>
+<p><strong>Parametri:</strong></p>
+<ul>
+<li><code>devPtr</code>: Puntatore alla memoria allocata.</li>
+<li><code>size</code>: Dimensione in byte della memoria da allocare.</li>
+</ul>
+<p><strong>Valore di Ritorno:</strong></p>
+<ul>
+<li><code>cudaError_t</code>: Codice di errore (<code>cudaSuccess</code> se l'allocazione è avvenuta con successo).</li>
+</ul>
+<blockquote>
+<p><strong>Note Importanti:</strong></p>
+<ul>
+<li><strong>Allocazione</strong>: Riserva memoria lineare contigua sulla GPU e runtime.</li>
+<li><strong>Puntatore</strong>: Aggiorna puntatore CPU con indirizzo memoria GPU.</li>
+<li><strong>Stato iniziale</strong>: La memoria allocata non è inizializzata.</li>
+</ul>
+</blockquote>
+<p><strong>Firma della Funzione:</strong> <a href="https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__MEMORY.html#group__CUDART__MEMORY_1gf7338650f7683c51ee26aadc6973c63a">Online Doc</a></p>
+<pre class="hljs"><code><div><span class="hljs-function">cudaError_t <span class="hljs-title">cudaMemset</span><span class="hljs-params">(<span class="hljs-keyword">void</span> *devPtr, <span class="hljs-keyword">int</span> value, <span class="hljs-keyword">size_t</span> count)</span></span>;
+</div></code></pre>
+<p><strong>Parametri:</strong></p>
+<ul>
+<li><code>devPtr</code>: Puntatore alla memoria da inizializzare.</li>
+<li><code>value</code>: Valore con cui inizializzare la memoria.</li>
+<li><code>count</code>: Numero di byte da inizializzare.</li>
+</ul>
+<p><strong>Valore di Ritorno:</strong></p>
+<ul>
+<li><code>cudaError_t</code>: Codice di errore (<code>cudaSuccess</code> se l'inizializzazione è avvenuta con successo).</li>
+</ul>
+<blockquote>
+<p><strong>Note Importanti:</strong></p>
+<ul>
+<li><strong>Utilizzo</strong>: Comunemente utilizzata per azzerare la memoria (impostando <code>value</code> a 0).</li>
+<li><strong>Gestione</strong>: L'inizializzazione deve avvenire dopo l'allocazione della memoria tramite <code>cudaMalloc</code>.</li>
+<li><strong>Efficienza</strong>: È preferibile usare <code>cudaMemset</code> rispetto a <code>cudaMemcpy</code> per inizializzare la memoria per ridurre l'overhead.</li>
+</ul>
+</blockquote>
+<p><strong>Esempio di Allocazione di memoria sulla GPU:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;cuda_runtime.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span>
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">int</span> *d_data;
+    <span class="hljs-keyword">size_t</span> <span class="hljs-built_in">size</span> = <span class="hljs-number">1024</span> * <span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">int</span>);
+    cudaError_t err = cudaMalloc(&amp;d_data, <span class="hljs-built_in">size</span>);
+    <span class="hljs-keyword">if</span> (err != cudaSuccess) {
+        <span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">"Errore di allocazione della memoria: %s\n"</span>, cudaGetErrorString(err));
+        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;
+    }
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</div></code></pre>
+<h3 id="trasferimento-dati">Trasferimento Dati</h3>
+<p><strong>Firma della Funzione:</strong> <a href="https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__MEMORY.html#group__CUDART__MEMORY_1g7b1b3">Online Doc</a></p>
+<pre class="hljs"><code><div><span class="hljs-function">cudaError_t <span class="hljs-title">cudaMemcpy</span><span class="hljs-params">(<span class="hljs-keyword">void</span> *dst, <span class="hljs-keyword">const</span> <span class="hljs-keyword">void</span> *src, <span class="hljs-keyword">size_t</span> count, cudaMemcpyKind kind)</span></span>;
+</div></code></pre>
+<p><strong>Parametri:</strong></p>
+<ul>
+<li><code>dst</code>: Puntatore alla destinazione della copia.</li>
+<li><code>src</code>: Puntatore all'origine della copia.</li>
+<li><code>count</code>: Numero di byte da copiare.</li>
+<li><code>kind</code>: Direzione della copia</li>
+</ul>
+<p><strong>Valore di Ritorno:</strong></p>
+<ul>
+<li><code>cudaError_t</code>: Codice di errore (<code>cudaSuccess</code> se la copia è avvenuta con successo).</li>
+</ul>
+<p><strong>Tipi di Trasferimento (kind):</strong></p>
+<ul>
+<li><code>cudaMemcpyHostToHost</code>: Host -&gt; Host.</li>
+<li><code>cudaMemcpyHostToDevice</code>: Host -&gt; Device.</li>
+<li><code>cudaMemcpyDeviceToHost</code>: Device -&gt; Host.</li>
+<li><code>cudaMemcpyDeviceToDevice</code>: Device -&gt; Device.</li>
+</ul>
+<blockquote>
+<p><strong>Note Importanti:</strong></p>
+<ul>
+<li><strong>Funzione Sincrona</strong>: Blocca l'esecuzione del thread host finché la copia non è completata.
+PEr prestazioni ottimali, minimizzare il numero di trasferimenti dati tra host e device.</li>
+</ul>
+</blockquote>
+<p><strong>Spazi di Memoria Differenti</strong></p>
+<p><strong>! ATTENZIONE</strong>: I puntatori del device non devono essere dereferenziati nel codice host (spazi di memoria CPU e GPU differenti).</p>
+<p><strong>Esempio</strong>: Assegnazione errata come <code>host_array = dev_ptr</code> invece di
+<code> cudaMemcpy(host_array, dev_ptr, nBytes, cudaMemcpyDeviceToHost)</code>.</p>
+<p><strong>Conseguenza dell'errore</strong>: L'applicazione potrebbe cloccarsi durante l'esecuzione a causa del tentativo di accesso a uno spazio di memoria non valido.</p>
+<p><strong>Soluzione</strong>: CUDA 6 ha introdotto la Memoria Unificata che consente di accedere sia alla memoria CPU che GPU utilizzando un unico puntatore.</p>
+<h3 id="deallocazione-della-memoria-sul-device">Deallocazione della Memoria sul Device</h3>
+<p><strong>Firma della Funzione:</strong> <a href="https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__MEMORY.html#group__CUDART__MEMORY_1g7b1b3">Online Doc</a></p>
+<pre class="hljs"><code><div><span class="hljs-function">cudaError_t <span class="hljs-title">cudaFree</span><span class="hljs-params">(<span class="hljs-keyword">void</span> *devPtr)</span></span>;
+</div></code></pre>
+<p><strong>Parametri:</strong></p>
+<ul>
+<li><code>devPtr</code>: Puntatore alla memoria da deallocare.</li>
+</ul>
+<p><strong>Valore di Ritorno:</strong></p>
+<ul>
+<li><code>cudaError_t</code>: Codice di errore (<code>cudaSuccess</code> se la deallocazione è avvenuta con successo).</li>
+</ul>
+<blockquote>
+<p><strong>Note Importanti:</strong></p>
+<ul>
+<li><strong>Gestione:</strong> È responsabilità del programmatore assicurarsi che ogni blocco di memoria allocato con <code>cudaMalloc</code> sia liberato per evitare memory leaks sulla GPU.</li>
+<li><strong>Efficienza:</strong> La deallocazione della memoria è un'operazione veloce e non richiede la sincronizzazione tra host e device.</li>
+</ul>
+</blockquote>
+<h3 id="allocazione-e-trasferimento-dati-sul-device">Allocazione e Trasferimento Dati sul Device</h3>
+<p><strong>Esempio Completo:</strong></p>
+<pre class="hljs"><code><div>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;cuda_runtime.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span>
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">int</span> *h_data, *d_data;
+    <span class="hljs-keyword">size_t</span> <span class="hljs-built_in">size</span> = <span class="hljs-number">1024</span> * <span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">int</span>);
+    h_data = (<span class="hljs-keyword">int</span> *)<span class="hljs-built_in">malloc</span>(<span class="hljs-built_in">size</span>);
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">1024</span>; i++) {
+        h_data[i] = i;
+    }
+
+    <span class="hljs-comment">// Allocazione della memoria sul device</span>
+    cudaError_t err = cudaMalloc(&amp;d_data, <span class="hljs-built_in">size</span>);
+    <span class="hljs-keyword">if</span> (err != cudaSuccess) {
+        <span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">"Errore di allocazione della memoria: %s\n"</span>, cudaGetErrorString(err));
+        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;
+    }
+
+    <span class="hljs-comment">// Trasferimento dei dati da host a device</span>
+    err = cudaMemcpy(d_data, h_data, <span class="hljs-built_in">size</span>, cudaMemcpyHostToDevice);
+    <span class="hljs-keyword">if</span> (err != cudaSuccess) {
+        <span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">"Errore di copia della memoria: %s\n"</span>, cudaGetErrorString(err));
+        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;
+    }
+    <span class="hljs-built_in">free</span>(h_data);
+    err = cudaFree(d_data);
+    <span class="hljs-keyword">if</span> (err != cudaSuccess) {
+        <span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">"Errore di deallocazione della memoria: %s\n"</span>, cudaGetErrorString(err));
+        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;
+    }
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</div></code></pre>
+<h2 id="organizzazione-dei-thread-in-cuda">Organizzazione dei Thread in CUDA</h2>
+<p>CUDA adotta una gerarchia a due livelli per organizzare i thread basata su blocchi di thread e griglie di blocchi.</p>
+<h3 id="struttura-gerarchica">Struttura Gerarchica</h3>
+<ol>
+<li>Grid (Gliglia):
+<ul>
+<li>Array di thread blocks.</li>
+<li>Orgnaizzata in una struttura 1D, 2D o 3D.</li>
+<li>Rappresenta l'intera computazione di un kernel.</li>
+<li>Contiene tutti i thread che eseguono il singolo kernel.</li>
+<li>Condivide lo stesso spazio di memoria globale.</li>
+</ul>
+</li>
+<li>Block (Blocco):
+<ul>
+<li>Un thread block è un gruppo di thread eseguiti logicamente in parallelo.</li>
+<li>Ha un ID univoco all'interno della sua griglia.</li>
+<li>I blocchi sono organizzati in una struttura 1D, 2D o 3D.</li>
+<li>I thread di un blocco possono sincronizzarsi e condividere memoria.</li>
+<li>I thread di blocchi diversi non possono cooperare.</li>
+</ul>
+</li>
+<li>Thread:
+<ul>
+<li>Ha un proprio ID univoco all'interno del blocco.</li>
+<li>Ha accesso alla propria memoria privata (registri).</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p><strong>Perchè una Gerarchia di Thread?</strong></p>
+<ul>
+<li><strong>Mappatura Intuitiva</strong>: permette di scomporre problemi complessi in unità di lavoro parallele più piccole e gestibili, rispecchiando spesso la struttura intrinseca del problema stesso.</li>
+<li><strong>Organizzazione e Ottimizzazione</strong>: Il programmatore può controllare la dimensione dei blocchi e della griglia per adattare l'esecuzione alle caratteristiche specifiche dell'hardware e del problema, ottimizzando l'utilizzo delle risorse.</li>
+<li><strong>Efficienza nella Memoria</strong>: I thread di un blocco condividono dati tramte memoria on-chip veloce, riducendo gli accessi alla memoria globale più lenta, migliorando le prestazioni.</li>
+<li><strong>Scalabilità e Portabilità</strong>: La gerarchia è scalabile e permette di adattare l'esecuzione a GPU con diverse capacità e numero di core. Il codice CUDA, quindi, risultà più portabile e può essere eseguito su diverse architetture GPU.</li>
+<li><strong>Sincronizzazione Granulare</strong>: I thread possono essere sincronizzati solo all'interno del proprio blocco, evitando costose sincronizzazioni globali che possono creare colli di bottiglia.</li>
+</ul>
+</blockquote>
+<h3 id="identificazione-dei-thread-in-cuda">Identificazione dei Thread in CUDA</h3>
+<p>Ogni thread ha una identità unica definita da coordinate specifiche all'interno della gerarchia grid-block. Queste coordinate, private per ogni thread, sono essenziali per l'esecuzione del kernel e l'accesso corretto ai dati.</p>
+<p><img src="image-18.png" alt="alt text"></p>
+<p><code>uint3</code> è un built-in vector type di CUDA con tre campi (x,y,z) gnuno di tipo <code>unsigned int</code></p>
+<blockquote>
+<p><strong>Variabili di Identificazione (Coordinate):</strong></p>
+<ol>
+<li><code>blockIdx</code> : Coordinate del blocco all'interno della griglia (<code>blockIdx.x</code>, <code>blockIdx.y</code>, <code>blockIdx.z</code>).</li>
+<li><code>threadIdx</code> : Coordinate del thread all'interno del blocco (<code>threadIdx.x</code>, <code>threadIdx.y</code>, <code>threadIdx.z</code>).
+Entrambi sono variabili <strong>built-in</strong> di tipo <code>uint3</code> e sono disponibili in ogni kernel CUDA.</li>
+</ol>
+<p><strong>Variabili di Dimensioni:</strong></p>
+<ol>
+<li><code>blockDim</code> : Dimensioni del blocco (<code>blockDim.x</code>, <code>blockDim.y</code>, <code>blockDim.z</code>), di tipo <code>dim3</code> (lato host), <code>uint3</code> (lato device, built-in).</li>
+<li><code>gridDim</code> : Dimensioni della griglia (<code>gridDim.x</code>, <code>gridDim.y</code>, <code>gridDim.z</code>), di tipo <code>dim3</code> (lato host), <code>uint3</code> (lato device, built-in).</li>
+</ol>
+</blockquote>
+<p><strong>Dimensioni delle Griglie e dei Blocchi:</strong></p>
+<ul>
+<li>La scelta delle dimensioni ottimali dipende dalla struttura dati del task e dalle capacità dell'hardware.</li>
+<li>Le variabili per le dimensioni di griglie e blocchi vengono definite nel codice host prima di lanciare un kernel.</li>
+<li>Sia le griglie che i blocchi utilizzano il tipo <code>dim3</code> con tre campi <code>usnigned int</code>. I campi non utilizzati vengono inizializzati a 1 e ignorati.</li>
+<li>9 possibili configurazioni in tutto anche se in genere si usa la stessa per grid e block.</li>
+</ul>
+<h2 id="kernel-cuda">Kernel CUDA</h2>
+<p>Un kernel CUDA è una funzione che viene eseguita in parallelo sulla GPU da migliaia o milioni di thread.</p>
+<p>Rappresenta il nucleo computazionale di un programma CUDA.</p>
+<p>Nei kernel viene definita la logica di calcolo per un singolo thread e l'accesso ai dati associati a quel thread.</p>
+<p>Ogni thread esegue lo stesso codice kernel, ma opera su diversi elementi dei dati.</p>
+<p><strong>Sintassi della chiamata Kernel CUDA:</strong></p>
+<pre class="hljs"><code><div>kernel_name &lt;&lt;&lt;gridSize,blockSize&gt;&gt;&gt;(argument <span class="hljs-built_in">list</span>);
+</div></code></pre>
+<p><strong>gridSize</strong>: Diensioni della griglia (numero di blocchi).
+<strong>blockSize</strong>: Dimensione del blocco (numero di thread per blocco)
+<strong>argument list</strong>: Lista degli argomenti passati al kernel.</p>
+<p>con <code>gridSize</code> e <code>blockSize</code> si definisce il numero totale di thread per un kernel e il layout dei thread che si vuole utilizzare.</p>
+<pre class="hljs"><code><div>function_name (argument <span class="hljs-built_in">list</span>);
+</div></code></pre>
+<h3 id="qualificatori-di-funzione-in-cuda">Qualificatori di Funzione in CUDA</h3>
+<p>I qualificatori di funzione in CUDA sono essenziali per specificare dove una funzione verrà eseguita e da dove può essere chiamata.</p>
+<table>
+<thead>
+<tr>
+<th><strong>Qualificatore</strong></th>
+<th><strong>Esecuzione</strong></th>
+<th><strong>Chiamata</strong></th>
+<th><strong>Note</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>__global__</code></td>
+<td>Device (GPU)</td>
+<td>Host (CPU)</td>
+<td>Funzione eseguita su GPU e chiamata da CPU, sempre di tipo <code>void</code></td>
+</tr>
+<tr>
+<td><code>__device__</code></td>
+<td>Device (GPU)</td>
+<td>Device (GPU)</td>
+<td>Funzione eseguita e chiamata su GPU</td>
+</tr>
+<tr>
+<td><code>__host__</code></td>
+<td>Host (CPU)</td>
+<td>Host (CPU)</td>
+<td>Funzione eseguita e chiamata su CPU</td>
+</tr>
+</tbody>
+</table>
+<pre class="hljs"><code><div><span class="hljs-function">__global__ <span class="hljs-keyword">void</span> <span class="hljs-title">kernel_name</span> <span class="hljs-params">(<span class="hljs-keyword">int</span> *d_data, <span class="hljs-keyword">int</span> <span class="hljs-built_in">size</span>)</span> </span>{
+    <span class="hljs-comment">// Codice del kernel</span>
+}
+
+<span class="hljs-function">__device__ <span class="hljs-keyword">int</span> <span class="hljs-title">device_function</span> <span class="hljs-params">(<span class="hljs-keyword">int</span> a, <span class="hljs-keyword">int</span> b)</span> </span>{
+    <span class="hljs-comment">// Codice della funzione device</span>
+}
+
+<span class="hljs-function">__host__ <span class="hljs-keyword">int</span> <span class="hljs-title">host_function</span> <span class="hljs-params">(<span class="hljs-keyword">int</span> a, <span class="hljs-keyword">int</span> b)</span> </span>{
+    <span class="hljs-comment">// Codice della funzione host</span>
+}
+</div></code></pre>
+<p><strong>Combinazione qualificatori host e device</strong>:</p>
+<ul>
+<li><code>__host__ __device__</code>: Funzione eseguita sia su CPU che su GPU, chiamata da entrambi.</li>
+</ul>
+<p>Permette di scrivere una sola volta funzioni che possono essere eseguite in entrambi i contesti.</p>
+<h3 id="restrizioni-dei-kernel-cuda">Restrizioni dei Kernel CUDA</h3>
+<ol>
+<li><strong>Esclusivamente Memoria Device</strong>:
+<ul>
+<li>I kernel CUDA possono accedere solo alla memoria del device.</li>
+<li>I puntatori passati ai kernel devono fare riferimento alla memoria del device.</li>
+</ul>
+</li>
+<li><strong>Ritorno Void</strong>:
+<ul>
+<li>I kernel CUDA non possono restituire valori.</li>
+<li>I risultati devono essere scritti nella memoria del device.</li>
+</ul>
+</li>
+<li><strong>Nessun Supporto per Argomenti Variabili</strong>:
+<ul>
+<li>Il numero di argomenti del kernel deve essere definito staticamente a compile time.</li>
+</ul>
+</li>
+<li><strong>Nessun Supporto per Variabili Statiche</strong>:
+<ul>
+<li>Tutte le ariabili devono essere passate come argomenti o allocate dinamicamente.</li>
+</ul>
+</li>
+<li><strong>Nessun Supporto per Puntatori a Funzione</strong>:
+<ul>
+<li>Non è possibili utilizzare puntatori a funzione all'interno di un kernel.</li>
+</ul>
+</li>
+<li><strong>Comportamento Asincrono</strong>:
+<ul>
+<li>I kernel vengono lanciati in modo asincrono rispetto al codice host, salvo sincronizzazioni esplicite.</li>
+</ul>
+</li>
+</ol>
+<h3 id="configurazioni-di-un-kernel-cuda">Configurazioni di un Kernel CUDA</h3>
+<p><strong>Grigle e Blocchi 1D, 2D e 3D</strong>:</p>
+<p>La configurazione di griglia e blocchi può essere 1D, 2D, o 3D, permettendo una mappatura efficiente ed intuitiva su array, matrici o dati volumetrici.</p>
+<p><strong>Esempio di Configurazione 1D</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-function">dim3 <span class="hljs-title">gridSize</span><span class="hljs-params">(<span class="hljs-number">2</span>)</span></span>; <span class="hljs-comment">// 2 blocchi</span>
+<span class="hljs-function">dim3 <span class="hljs-title">blockSize</span><span class="hljs-params">(<span class="hljs-number">256</span>)</span></span>; <span class="hljs-comment">// 256 thread per blocco</span>
+kernel_name &lt;&lt;&lt;gridSize, blockSize&gt;&gt;&gt;(argument <span class="hljs-built_in">list</span>);
+</div></code></pre>
+<p><strong>Esempio di Configurazione 2D</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-function">dim3 <span class="hljs-title">gridSize</span><span class="hljs-params">(<span class="hljs-number">2</span>, <span class="hljs-number">2</span>)</span></span>; <span class="hljs-comment">// 4 blocchi</span>
+<span class="hljs-function">dim3 <span class="hljs-title">blockSize</span><span class="hljs-params">(<span class="hljs-number">16</span>, <span class="hljs-number">16</span>)</span></span>; <span class="hljs-comment">// 256 thread per blocco</span>
+kernel_name &lt;&lt;&lt;gridSize, blockSize&gt;&gt;&gt;(argument <span class="hljs-built_in">list</span>);
+</div></code></pre>
+<p><strong>Esempio di Configurazione 3D</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-function">dim3 <span class="hljs-title">gridSize</span><span class="hljs-params">(<span class="hljs-number">2</span>, <span class="hljs-number">2</span>, <span class="hljs-number">2</span>)</span></span>; <span class="hljs-comment">// 8 blocchi</span>
+<span class="hljs-function">dim3 <span class="hljs-title">blockSize</span><span class="hljs-params">(<span class="hljs-number">4</span>, <span class="hljs-number">4</span>, <span class="hljs-number">4</span>)</span></span>; <span class="hljs-comment">// 64 thread per blocco</span>
+kernel_name &lt;&lt;&lt;gridSize, blockSize&gt;&gt;&gt;(argument <span class="hljs-built_in">list</span>);
+</div></code></pre>
+<blockquote>
+<p><strong>Adatta per</strong>:</p>
+<p>Ottimale per problemi con dati volumetrici, come simulazioni fisiche o rendering 3D, dove ogni thread può operare su un voxel o una porzione dello spazio 3D.</p>
+<p><strong>Nota</strong>: L'efficienza di una configurazione dipende da vari fattori come la dimensione dei dati, architettura della GPU e la natura del problema.</p>
+</blockquote>
+<h4 id="numero-di-thread-per-blocco">Numero di Thread per Blocco</h4>
+<ul>
+<li>Il numero massimo totale di thread per blocco è 1024 per la maggior parte delle GPU.</li>
+<li>Un blocco può essere organizzato in 1, 2,o 3 dimensioni, ma non ci sono limiti per ciascuna dimensione. Il prodotto delle dimensioni non deve superare 1024.
+<ul>
+<li>Esempi 1D: 1024 thread, 2D: 32x32=1024 thread, 3D: 8x8x16=1024 thread.</li>
+</ul>
+</li>
+</ul>
+<h3 id="compute-capability">Compute Capability</h3>
+<p>La Compute Capability di NVIDIA è un numero che identifica le caratteristiche e le capacità di una GPU NVIDIA in termini di funzionalità supportate e limiti hardware.</p>
+<p>È composta da due numeri: il numero principale indica la generazione della architettura, il secondo indica revisioni e miglioramenti.</p>
+<p><img src="image-19.png" alt="alt text"></p>
+<h3 id="identificazione-dei-thread-in-cuda">Identificazione dei Thread in CUDA</h3>
+<pre class="hljs"><code><div>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;cuda_runtime.h&gt;</span></span>
+
+<span class="hljs-comment">//kernel</span>
+<span class="hljs-function">__global__ <span class="hljs-keyword">void</span> <span class="hljs-title">kernel</span><span class="hljs-params">(<span class="hljs-keyword">int</span> *d_data)</span> </span>{
+    <span class="hljs-keyword">int</span> blockId_x = blockIdx.x, blockId_y = blockIdx.y, blockId_z = blockIdx.z;
+    <span class="hljs-keyword">int</span> threadId_x = threadIdx.x, threadId_y = threadIdx.y, threadId_z = threadIdx.z;
+    <span class="hljs-keyword">int</span> totalThreads_x = blockDim.x, totalThreads_y = blockDim.y, totalThreads_z = blockDim.z;
+    <span class="hljs-keyword">int</span> totalBlocks_x = gridDim.x, totalBlocks_y = gridDim.y, totalBlocks_z = gridDim.z;
+
+    <span class="hljs-comment">//logica del kernel...</span>
+}
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>{
+    <span class="hljs-comment">//configurazione griglia e blocchi</span>
+    <span class="hljs-function">dim3 <span class="hljs-title">gridSize</span><span class="hljs-params">(<span class="hljs-number">2</span>, <span class="hljs-number">2</span>, <span class="hljs-number">2</span>)</span></span>;
+    <span class="hljs-function">dim3 <span class="hljs-title">blockSize</span><span class="hljs-params">(<span class="hljs-number">4</span>, <span class="hljs-number">4</span>, <span class="hljs-number">4</span>)</span></span>;
+
+    <span class="hljs-comment">//allocazione memoria</span>
+    <span class="hljs-keyword">int</span> *d_data;
+    cudaMalloc(&amp;d_data, <span class="hljs-number">1024</span> * <span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">int</span>));
+
+    <span class="hljs-comment">//chiamata al kernel</span>
+    kernel &lt;&lt;&lt;gridSize, blockSize&gt;&gt;&gt;(d_data);
+
+    <span class="hljs-comment">//deallocazione memoria</span>
+    cudaFree(d_data);
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</div></code></pre>
+<h2 id="tecniche-di-mapping-e-dimensionamento">Tecniche di Mapping e Dimensionamento</h2>
+<h3 id="somma-di-array-in-cuda">Somma di Array in CUDA</h3>
+<p>Vogliamo sommare due array elemento per elemento in parallelo utilizzando CUDA.</p>
+<p><img src="image-20.png" alt="alt text"></p>
+<p><strong>Approccio Tradizionale (CPU)</strong>:</p>
+<ul>
+<li>Gli elementi degli array vengono sommati uno alla volta.</li>
+<li>Questo approccio è inefficiente per array di grandi dimensioni.</li>
+<li>Utilizza solo un core della CPU, rallentando il processo.</li>
+</ul>
+<p><strong>Approccio Parallelo (CUDA)</strong>:</p>
+<ul>
+<li>Gli elementi degli array vengono sommati contemporaneamente.</li>
+<li>La GPU è profettata per eseguire calcoli paralleli su larga scala.</li>
+<li>Migliaia di core della GPU lavorano insieme, accelerando enormemente il calcolo.</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-comment">// Approccio sequenziale (CPU)</span>
+
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span>
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">add</span><span class="hljs-params">(<span class="hljs-keyword">int</span> *a, <span class="hljs-keyword">int</span> *b, <span class="hljs-keyword">int</span> *c, <span class="hljs-keyword">int</span> n)</span> </span>{
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) {
+        c[i] = a[i] + b[i];
+    }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">int</span> n = <span class="hljs-number">1024</span>;
+    <span class="hljs-keyword">int</span> a[n], b[n], c[n]; <span class="hljs-comment">//inizializzati</span>
+
+    add(a, b, c, n);
+
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">10</span>; i++) {
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">"%d + %d = %d\n"</span>, a[i], b[i], c[i]);
+    }
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</div></code></pre>
+<pre class="hljs"><code><div><span class="hljs-comment">// Approccio parallelo (CUDA)</span>
+
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;cuda_runtime.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span>
+
+<span class="hljs-function">__global__ <span class="hljs-keyword">void</span> <span class="hljs-title">add</span><span class="hljs-params">(<span class="hljs-keyword">int</span> *a, <span class="hljs-keyword">int</span> *b, <span class="hljs-keyword">int</span> *c, <span class="hljs-keyword">int</span> n)</span> </span>{
+    <span class="hljs-keyword">int</span> idx = ????; <span class="hljs-comment">//calcolare l'indice del thread</span>
+
+    <span class="hljs-keyword">if</span> (idx &lt; n) { <span class="hljs-comment">//per evitare accessi non consentiti in memoria</span>
+        c[idx] = a[idx] + b[idx];
+    }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>{
+    <span class="hljs-keyword">int</span> n = <span class="hljs-number">1024</span>;
+    <span class="hljs-keyword">int</span> a[n], b[n], c[n]; <span class="hljs-comment">//inizializzati</span>
+
+    <span class="hljs-keyword">int</span> *d_a, *d_b, *d_c;
+
+    cudaMalloc(&amp;d_a, n * <span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">int</span>));
+
+    <span class="hljs-comment">//trasferimento dati da host a device</span>
+    cudaMemcpy(d_a, a, n * <span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">int</span>), cudaMemcpyHostToDevice);
+
+    <span class="hljs-comment">//configurazione griglia e blocchi</span>
+    <span class="hljs-function">dim3 <span class="hljs-title">gridSize</span><span class="hljs-params">(<span class="hljs-number">2</span>, <span class="hljs-number">2</span>, <span class="hljs-number">2</span>)</span></span>;
+    <span class="hljs-function">dim3 <span class="hljs-title">blockSize</span><span class="hljs-params">(<span class="hljs-number">4</span>, <span class="hljs-number">4</span>, <span class="hljs-number">4</span>)</span></span>;
+
+    <span class="hljs-comment">//chiamata al kernel</span>
+    add &lt;&lt;&lt;gridSize, blockSize&gt;&gt;&gt;(d_a, d_b, d_c, n);
+
+    <span class="hljs-comment">//trasferimento dati da device a host</span>
+    cudaMemcpy(c, d_c, n * <span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">int</span>), cudaMemcpyDeviceToHost);
+
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">10</span>; i++) {
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">"%d + %d = %d\n"</span>, a[i], b[i], c[i]);
+    }
+
+    cudaFree(d_a);
+    
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</div></code></pre>
+<table>
+<thead>
+<tr>
+<th><strong>Approccio Sequenziale</strong></th>
+<th><strong>Approccio Parallelo</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Caratteristiche:</strong> Esecuzione sequenziale, Iterazione con loop esplicito, Indice variabile di loop, Scalabilità limitata alla CPU</td>
+<td><strong>Caratteristiche:</strong> Esecuzione parallela, Iterazione implicita con thread paralleli, Indice: ??, Scalabilità su GPU con migliaia di thread</td>
+</tr>
+<tr>
+<td><strong>Vantaggi</strong>: Portabilità su qualsiasi sistema, Facilità di debugging</td>
+<td><strong>Vantaggi</strong>: Altamente parallelo, Eccellenti prestazioni su grandi dataset, Sfrutta la potenza di calcolo delle GPU</td>
+</tr>
+</tbody>
+</table>
+<h3 id="mapping-degli-indici-ai-dati-in-cuda">Mapping degli Indici ai Dati in CUDA</h3>
+<h4 id="esempio-groupcudartmemory1g37d37965bfb4803b6d4e59ff26856356">Esempio group__CUDART__MEMORY_1g37d37965bfb4803b6d4e59ff26856356</h4>
+<p>Come mappare gli indici dei thread agli elementi dell'array?</p>
+<p><img src="image-21.png" alt="alt text"></p>
+<p><strong>Proprietà Chiave:</strong></p>
+<ul>
+<li>Copertura completa: Tutti i 12 thread sono utilizzati per elaborare i 12 elementi degli array.</li>
+<li>Mapping corretto: Ogni thread è associato a un unico elemento degli array</li>
+<li>Nessuna ripetizione: l'indice idx, univoco, assicura che ogni elemento dell'array venga elaborato esattamente una volta</li>
+<li>Parallelismo massimizzato: La formula idx permette di sfruttare appieno il parallelismo della GPU, assegnando un copmito specifico ad ogni thread disponibile.</li>
+<li>Scalabilità: Questa formula si adatta bene a dimensioni di array diverse, purché si adegui il numero di blocchi.</li>
+<li>Bilanciamento del carico: Il lavoro è distribuito uniformemente tra tutti i thread, garantendo un utilizzo efficiente delle risorse.</li>
+<li>Accessi coalescenti: I thread adiacenti in un blocco accedono a elementi di memoria adiacenti, favorendo accesso coalescenti e migliorando l'efficienza della memoria.</li>
+</ul>
+<h3 id="identificazione-dei-thread-e-mapping-dei-dati-in-cuda">Identificazione dei Thread e Mapping dei Dati in CUDA</h3>
+<p><strong>Accesso alle Variabili di Identificazione</strong></p>
+<ul>
+<li>Le variabili di identificazione sono accessibili solo all'interno del kernel e permettono ai thread di conoscere la propria posizione all'interno della gerarchia e di adattare il proprio comportamento di conseguenza.</li>
+</ul>
+<p><strong>Perché Identificare i Threads?</strong></p>
+<ul>
+<li>L'indice globale del thread identifica univocamente quale parte dei dati deve essere elaborata.</li>
+<li>Essenziale per gestire l'accesso alla memoria e coordinare l'esecuzione di algoritmi complessi.</li>
+</ul>
+<p><strong>Struttura dei Dati e Calcolo dell'indice Globale</strong></p>
+<ul>
+<li>Anche le strutture più complesse, come matrici 2D o array tridimensionali 3D, vengono memorizzate come una sequenza di elementi contigui in memoria nella GPU, tiipicamente organizzati in array lineari.</li>
+<li>Ogni thread elabora uno o più elementi di questi array basandosi sul suo indice globale.</li>
+<li>Esistono diversi metodi per calcolare l'indice globale di un thread</li>
+<li>Metodi diversi possono produrre indici globali differenti per lo stesso thread.</li>
+<li>Metodi diversi possono produrre indici globali differenti per lo stesso thread e la leggibilità del codice.</li>
+</ul>
+<h4 id="calcolo-dellindice-globale-grid-1d-block-1d">Calcolo dell'indice Globale Grid 1D, Block 1D</h4>
+<p>In CUDA ogni thread ha un indice globale (<code>gloabl_idx</code>) che lo identifica nell'esecuzione del kernel. Il programmatore lo calcola usando l'indice del thread nel blocco e l'indice del blocco nella griglia.</p>
+<p><img src="image-22.png" alt="alt text"></p>
+<h4 id="claclolo-dellindice-globale-grid-1d-block-2d">Claclolo dell'indice Globale Grid 1D, Block 2D</h4>
+<h5 id="metodo-lineare">Metodo Lineare</h5>
+<p><img src="image-23.png" alt="alt text"></p>
+<h5 id="metodo-basato-su-coordinate">Metodo Basato su Coordinate</h5>
+<p><img src="image-24.png" alt="alt text"></p>
+<h2 id="analisi-delle-prestazioni">Analisi delle Prestazioni</h2>
+<h3 id="verifica-del-kernel-cuda">Verifica del Kernel CUDA</h3>
+<p>Il controllo dei kernel CUDA mira a conermare l'affidabilità dei calcolo eseguiti sulla GPU.</p>
+<pre class="hljs"><code><div>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">checkResult</span><span class="hljs-params">(<span class="hljs-keyword">float</span> *hostRef, <span class="hljs-keyword">float</span> *gpuRef, <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> N)</span> </span>{
+    <span class="hljs-keyword">double</span> epsilon = <span class="hljs-number">1.0E-8</span>;
+    <span class="hljs-keyword">bool</span> match = <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; N; i++) {
+        <span class="hljs-keyword">if</span> (<span class="hljs-built_in">abs</span>(hostRef[i] - gpuRef[i]) &gt; epsilon) {
+            match = <span class="hljs-number">0</span>;
+            <span class="hljs-built_in">printf</span>(<span class="hljs-string">"Arrays do not match!\n"</span>);
+            <span class="hljs-built_in">printf</span>(<span class="hljs-string">"host %5.2f gpu %5.2f at current %d\n"</span>, hostRef[i], gpuRef[i], i);
+            <span class="hljs-keyword">break</span>;
+        }
+    }
+    <span class="hljs-keyword">if</span> (match) <span class="hljs-built_in">printf</span>(<span class="hljs-string">"Arrays match.\n\n"</span>);
+}
+
+</div></code></pre>
+<p><strong>Suggerimenti per la Verifica:</strong></p>
+<ul>
+<li>Confronto sistematico: Verifica ogni elemento degli array per assicurarsi che i risultati del kernel corrispondano ai valori attesi.</li>
+<li>Tolleranza: Utilizza una tolleranza per confrontare i valori float e ridurre l'impatto degli errori di arrotondamento.</li>
+<li>Configurazione &lt;&lt;1,1&gt;&gt;:
+<ul>
+<li>Forza l'esecuzione del kernel con un solo blocco e un thread.</li>
+<li>Emula una implementazione sequenziale per confrontare i risultati.</li>
+</ul>
+</li>
+</ul>
+<h3 id="gestione-degli-errori-in-cuda">Gestione degli Errori in CUDA</h3>
+<p>Problemi:</p>
+<ul>
+<li><strong>Asincronicità</strong>: Molte chiamate CUDA sono asincrone, rendendo difficile associare un errore alla specifica chiamata che lo ha causato.</li>
+<li><strong>Complessità di debugging</strong>: Gli errori possono manifestarsi in punti del codice distanti da dove sono stati generati.</li>
+<li><strong>Gestione Manuale</strong>: Controllare ogni chiamata CUDA manualmente è tedioso e soggetto a errori.</li>
+</ul>
+<pre class="hljs"><code><div>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> CHECK(call){</span>
+    <span class="hljs-keyword">const</span> cudaError_t error = call;
+    <span class="hljs-keyword">if</span> (error != cudaSuccess) {
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">"Error: %s:%d, "</span>, __FILE__, __LINE__);
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">"code:%d, reason: %s\n"</span>, error, cudaGetErrorString(error));
+        <span class="hljs-built_in">exit</span>(<span class="hljs-number">1</span>);
+    }
+}
+
+</div></code></pre>
+<h3 id="profiling-delle-prestazioni-dei-kernel-cuda">Profiling delle prestazioni dei Kernel CUDA</h3>
+<ul>
+<li>
+<p>Misurare e ottimizzare le prestazioni dei kernel CUDA è cruciale per garantire l'efficienza del codice.</p>
+</li>
+<li>
+<p>Il profiling permette di analizzare l'uso delle risorse e identificare le aree di miglioramento.</p>
+</li>
+<li>
+<p>Identificazione dei colli di bottiglia: Identificare le parti del codice che rallentano l'esecuzione, Generalmente una implementazione inefficiente o un accesso alla memoria lento.</p>
+</li>
+<li>
+<p>Analisi degli effetti delle modifiche: Valutare come le modifiche del codice influenzano le prestazioni.</p>
+</li>
+<li>
+<p>Confronto tra implementazioni: Valutare le prestazioni tra diverse strategie di implementazione.</p>
+</li>
+<li>
+<p>Analisi del Bilanciamento Carico/Calcolo: Verificare se il carico di lavoro è distribuito in modo efficiente tra i ithread e i blocchi CUDA.</p>
+</li>
+</ul>
+<blockquote>
+<p><strong>Metodi Principalo:</strong></p>
+<ol>
+<li>Timer CPU: Semplice e diretto, utilizza funzioni di sistema per ottenere il tempo di esecuzione.</li>
+<li>Nvidia Nsight System e Nsight Compute: Strumenti di profilazione avanzati per analizzare le prestazioni dei kernel CUDA.</li>
+<li>Nvidia profiler (deprecato).</li>
+</ol>
+</blockquote>
+<h3 id="timer-cpu-per-profiling">Timer CPU per Profiling</h3>
+<pre class="hljs"><code><div><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;time.h&gt;</span></span>
+
+<span class="hljs-function"><span class="hljs-keyword">double</span> <span class="hljs-title">cpuSecond</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">timespec</span> <span class="hljs-title">ts</span>;</span>
+    timespec_get(&amp;ts, TIME_UTC);
+    <span class="hljs-keyword">return</span> (<span class="hljs-keyword">double</span>)ts.tv_sec + (<span class="hljs-keyword">double</span>)ts.tv_nsec * <span class="hljs-number">1.0e-9</span>;
+}
+
+<span class="hljs-keyword">double</span> iStart = cpuSecond(); <span class="hljs-comment">// Registra il tempo di inizio</span>
+kernel &lt;&lt;&lt;gridSize, blockSize&gt;&gt;&gt;(d_data); <span class="hljs-comment">// Chiamata al kernel</span>
+cudaDeviceSynchronize(); <span class="hljs-comment">// Sincronizza il device</span>
+<span class="hljs-keyword">double</span> iElaps = cpuSecond() - iStart; <span class="hljs-comment">// Calcola il tempo trascorso</span>
+<span class="hljs-built_in">printf</span>(<span class="hljs-string">"Tempo di esecuzione: %f\n"</span>, iElaps); <span class="hljs-comment">// Stampa il tempo di esecuzione</span>
+</div></code></pre>
+<p>La chiamata a <code>cudaDeviceSynchronize()</code> è necessaria per sincronizzare il device e assicurarsi che il kernel sia completato prima di calcolare il tempo trascorso.
+Il tempo misurato include l'overhead di lancio del kernel e la sincronizzazione.</p>
+<table>
+<thead>
+<tr>
+<th>Pro</th>
+<th>Contro</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Facile da implementare e utilizzare.</td>
+<td>Impreciso per kernel molto brevi (millisecondi).</td>
+</tr>
+<tr>
+<td>Non richiede librerie CUDA specifiche per il timing.</td>
+<td>Include overhead non relativo all'esecuzione del kernel.</td>
+</tr>
+<tr>
+<td>Funziona su qualsiasi sistema con supporto CUDA.</td>
+<td>Non fornisce dettagli sulle fasi interne del kernel.</td>
+</tr>
+<tr>
+<td>Efficace per kernel lunghi e misure approssimative.</td>
+<td>Precisione influenzata dal carico dell'host.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="nvidia-profiler-da-cuda-50-a-cuda-80">NVIDIA Profiler da CUDA 5.0 a CUDA 8.0</h3>
+<p><code>$ nvprof ./my_app</code></p>
+<p>Disponibile su Google Colab (GPU NVIDIA Tesla T4, Compute Capability 7.5)</p>
+<h3 id="nvidia-nsight-system">NVIDIA Nsight System</h3>
+<p>È uno strumento di profilazione e analisi delle prestazioni a livello di sistema. Fornisce una visione di insieme delle prestazioni dell'applicazione, inclusi CPU, GPU e interazioni di sistema.
+Permette di:</p>
+<ul>
+<li>Identificare i colli di bottiglia.</li>
+<li>Analizzare l'overhead delle chiamate API.</li>
+<li>Esaminare le operazioni di input/output.</li>
+<li>Ottimizzare il flusso di lavoro dell'applicazione.</li>
+</ul>
+<p>Si ha una visualizzazione grafica delle timeline di esecuzione, monitoraggio dell'utilizzo di memoria e cache e Supporto per sistemi multi-GPU.</p>
+<ul>
+<li>Genera report dettagliati in vari formati.</li>
+<li>Fornisce grafici</li>
+<li>Evidenzia aree di potenziale ottimizzazione.</li>
+</ul>
+<p><code>$ nsys profile --stats=true ./my_app</code></p>
+<p><img src="image-25.png" alt="alt text"></p>
+<h4 id="ottimizzazione-della-gestione-della-memoria-in-cuda">Ottimizzazione della Gestione della Memoria in CUDA</h4>
+<p><strong>Sfide:</strong></p>
+<ul>
+<li>Trasferimenti lenti: I trasferimenti di dati tra host e device attraverso il bus PCIe rappresentano un collo di bottiglia</li>
+<li>Allocazione sulla GPU: L'allocazione di memoria sulla GPU è un'operazione relativamente lenta.</li>
+</ul>
+<p><strong>Best Practices:</strong></p>
+<ul>
+<li>Minimizzare i Trasferimenti di Memoria
+<ul>
+<li>I trasferimenti di dati tra host e device hanno un'alta latenza.</li>
+<li>Raggruppare i dati in buffer più grandi per ridurre i trasferimenti e sfruttare la larghezza di banda.</li>
+</ul>
+</li>
+<li>Allocazione e Deallocazione efficiente
+<ul>
+<li>L'allocazione di memoria sulla GPU tramite <code>cudaMalloc</code> è un'operazione lenta.</li>
+<li>Allocare al memoria una volta all'inizio dell'applicazione e riutilizzarla quando possibile.</li>
+<li>Liberare la memoria con <code>cudaFree</code> quando non è più necessaria.</li>
+</ul>
+</li>
+<li>Sfruttare la Shared Memory
+<ul>
+<li>La shared memory è una memoria on chip a bassa latenza accessibile a tutti i thread di un blocco.</li>
+<li>Utilizzare la shared memory per i dati frequentemente acceduti e condivisi tra i thread di un blocco per ridurre l'accesso alla memoria globale.</li>
+</ul>
+</li>
+</ul>
+<h3 id="nvidia-nsight-compute">NVIDIA Nsight Compute</h3>
+<p>È uno strumento di analisi delle prestazioni dei kernel CUDA che fornisce una visione dettagliata delle prestazioni dei kernel CUDA.</p>
+<p>Permette di:</p>
+<ul>
+<li>Analizzare l'utilizzo delle risorse GPU.</li>
+<li>Identificare colli di bottiglia.</li>
+<li>Offre report dettagliati che possono essere utilizzati per ottimizzare il codice a livello di kernel.</li>
+</ul>
+<p><code>$ ncu --set full -o test_report ./my_app</code></p>
+<p>Utilizzando NVIDIA Nsight Copmute si può esaminare il tempo di esecuzione del kernel, evidenziando dettagli cruciali sull'uso della memoria e delle unità di calcolo.</p>
+<p><img src="image-26.png" alt="alt text"></p>
+<h2 id="applicazioni-pratiche">Applicazioni Pratiche</h2>
+<h3 id="operazioni-su-matrici-in-cuda">Operazioni su Matrici in CUDA</h3>
+<p>Le operazioni su matrici sono il cuore di molti algoritmi. CUDA permette di eseguire queste operazioni in modo molto veloce sfruttado la potenza delle GPU.</p>
+<p>In CUDA come in altri contesti di programmazione, le matrici sono tipicamente memorizzate in modo lineare nella memoria globale utilizzando un approccio <strong>row-major</strong> o <strong>column-major</strong>.</p>
+<p><img src="image-27.png" alt="alt text"></p>
+<h4 id="somma-di-matrici-in-cuda">Somma di matrici in CUDA</h4>
+<p><strong>Obiettivo</strong>: Realizzare in CUDA la somma parallela di due matrici A e B per ottenere una matrice C.</p>
+<h5 id="mapping-degli-indici">Mapping degli indici</h5>
+<p>Nell'elaborazione di matrici con CUDA, è fondamentale definire come i thread vengono mappati agli elementi della matrice. Questo processo di mapping incide direttamente sulle prestazioni dell'algoritmo.</p>
+<p><strong>Problema Generale</strong>:</p>
+<ul>
+<li>Le matrici vengono linearizzate in memoria, quiindi ogni elemento della matrice 2D deve essere mappato a un indice lineare: <code>idx = i * width + j</code>.</li>
+</ul>
+<p><strong>Impatto della Configurazione</strong>:</p>
+<ul>
+<li>La configurazione scelta per la griglia e i blocchi (1D o 2D) influenza come i thread sono associati agli elementi della matrice.
+<ul>
+<li>Una configurazione adueguata permette a ogni thread di gestire porzioni ben definite dei dati.</li>
+<li>Una configurazione non ottimale può portare a inefficienze, come thread che gestiscono intere colonne o righe della matrice, oppure che elaborano dati in modo non bilanciato.</li>
+</ul>
+</li>
+</ul>
+<h5 id="suddivisione-della-matrice">Suddivisione della Matrice</h5>
+<p><img src="image-28.png" alt="alt text"></p>
+<h5 id="calcolo-dellindice-globale">Calcolo dell'indice globale</h5>
+<p><img src="image-29.png" alt="alt text"></p>
+<blockquote>
+<p>Prosegue con esempi</p>
+</blockquote>
+
+</body>
+</html>
