@@ -1,4 +1,0 @@
-# RiscV
-
-## Introduzione
-
