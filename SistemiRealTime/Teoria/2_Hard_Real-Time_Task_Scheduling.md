@@ -83,25 +83,25 @@ lo schedule viene fatto su un iperperiodo in istanti decisionali predefiniti.
 
 ## Timer-driven scheduling
 
-![alt text](image-2.png)
+![alt text](../image-2.png)
 
 ## Ambiente di esecuzione
 
-![alt text](image-4.png)
+![alt text](../image-4.png)
 
 ### Sequenziale
 
-![alt text](image-5.png)
+![alt text](../image-5.png)
 
-![alt text](image-6.png)
+![alt text](../image-6.png)
 
 ## Cyclic Executive
 
-![alt text](image-3.png)
+![alt text](../image-3.png)
 
 ### Approccio Cyclic Executive
 
-![alt text](image-7.png)
+![alt text](../image-7.png)
 
 Supponiamo tre processi con periodi armonici 25, 50 e 100 ms. (20 50 100 non sono armonici)
 
@@ -133,15 +133,15 @@ Si può aggiungere il job slicing (frammentazione di un task)
 
 ### Costruzione di un feasable schedule
 
-![alt text](image-8.png)
+![alt text](../image-8.png)
 
-![alt text](image-9.png)
+![alt text](../image-9.png)
 
-![alt text](image-10.png)
+![alt text](../image-10.png)
 
 **Job Slicing**: Si può adottare dividendo i job con un tempo di elaborazione più lungo, finche non si rispetta il vincolo 5.
 
-![alt text](image-11.png)
+![alt text](../image-11.png)
 
 > Dopo avere identificato $n$ e $m$ si applicano criteri euristici che possono portare a risultati differenti
 
@@ -167,7 +167,7 @@ Ad ogni processo è associata una priorità statica, direttamente proporzionale 
 > Condizione sufficiente affinchè un insieme di $N$ processi con RMPO:
 > $U \leq U_{RMPO}(N) = N(2^{\frac{1}{N}} -1)$
 
-![alt text](image-12.png)
+![alt text](../image-12.png)
 
 > $\lim_{N\rarr\inf} U_{RMPO}(N)=\ln 2 = 0.693$
 
@@ -177,7 +177,7 @@ Test meno stringente del teorema (che fallisce spesso)
 
 > $U_{RMPO} = \prod_{i=1}^{N} (1+U_j)\leq 2$
 
-![alt text](image-13.png)
+![alt text](../image-13.png)
 
 **(Caso con due processi)**
 
@@ -222,7 +222,7 @@ $$
 \end{cases}
 $$
 
-![alt text](image-14.png)
+![alt text](../image-14.png)
 
 dove $\zeta = 0$ indica che i periodi sono armonici quindi $U_{RMPO}=1$.
 
@@ -257,7 +257,7 @@ $R_i^0 = C$, $R_i^n=C_i+I_i(R_i^{n-1})$ con $n=1,2,...$
 
 > **Esempio**:
 >
-> ![alt text](image-15.png)
+> ![alt text](../image-15.png)
 
 ### Alternativa all'algoritmo di Audsley
 

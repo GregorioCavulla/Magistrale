@@ -62,7 +62,7 @@ Ai task Hard Real Time si aggiungono quelli Soft Real Time, l'obiettivo è veloc
   
 ### Servizio in background
 
-![alt text](image-16.png)
+![alt text](../image-16.png)
 
 Lerichieste aperiodiche sono definite da vincoli temporali soft o hard real time.
 
@@ -74,7 +74,7 @@ In questa situazione il tempo di risposta degli SRT non è ottimale.
 
 I task periodici (HRT) tra cui il server sono schedulati con priorità statica, solitamente RMPO.
 
-![alt text](image-17.png)
+![alt text](../image-17.png)
 
 Il server ha parametri $T_s$ (periodo) e $C_s$ (Tempo di esecuzione) da dimensionare correttamente per rispettare le deadline degli hrt.
 
@@ -162,14 +162,14 @@ $$
 
 Quando il carico di richieste aperiodiche non comporta al totale consumo di $C_s$ del server, le distinte porzioni (chunks) di capacità: quella residua e quella consumata, devono essere gestite separatamente.
 
-![alt text](image-18.png)
+![alt text](../image-18.png)
 
 - $t_e = t_a$ perchè $C_s$ è massima
 - $t_e$ deriva da $R_T$ precedente
 
 ### Server a Priorità Dinamica
 
-![alt text](image-19.png)
+![alt text](../image-19.png)
 
 Il server e gli altri processi sono schedulati con EDF (Earliest Deadline First).
 

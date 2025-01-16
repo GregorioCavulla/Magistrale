@@ -89,7 +89,7 @@ La progettazione di un sistema complesso si basa su una decomposizione gerarchic
 
 ## Parametri temporali
 
-![alt text](image.png)
+![alt text](../image.png)
 
 Per ogni processo $i$, vengono definiti:
 
@@ -116,7 +116,7 @@ Per ogni processo $i$, vengono definiti:
 
 ## Funzioni di utilità di un processo
 
-![alt text](image-1.png)
+![alt text](../image-1.png)
 
 ## Problematiche nei sistemi real-time
 
