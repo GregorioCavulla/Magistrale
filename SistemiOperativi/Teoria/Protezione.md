@@ -1,8 +1,36 @@
-# Protezione nei Sistemi Operativi<div style="text-align: right"> [back](./SistemiOperativi.md) </div>
+# Protezione nei Sistemi Operativi
+
+[Return](./SistemiOperativi.md)
+
+---
 
 # Indice
 
-
+- [Protezione nei Sistemi Operativi](#protezione-nei-sistemi-operativi)
+- [Indice](#indice)
+  - [Protezione e Sicurezza](#protezione-e-sicurezza)
+    - [Sicurezza:](#sicurezza)
+    - [Protezione:](#protezione)
+  - [Modelli](#modelli)
+  - [Politiche](#politiche)
+    - [Classificazione delle politiche:](#classificazione-delle-politiche)
+    - [Principio del privilegio minimo](#principio-del-privilegio-minimo)
+  - [Meccanismi](#meccanismi)
+    - [Principi di realizzazione](#principi-di-realizzazione)
+  - [Dominio di protezione](#dominio-di-protezione)
+    - [Domini disgiunti o domini con diritti di accesso in comune](#domini-disgiunti-o-domini-con-diritti-di-accesso-in-comune)
+  - [Associazione tra processo e dominio](#associazione-tra-processo-e-dominio)
+    - [Statica](#statica)
+    - [Dinamica](#dinamica)
+      - [Cambio di dominio esempio](#cambio-di-dominio-esempio)
+  - [Matrice degli accessi](#matrice-degli-accessi)
+  - [Meccanimsi](#meccanimsi)
+    - [Verifica del rispetto dei vincoli di accesso:](#verifica-del-rispetto-dei-vincoli-di-accesso)
+    - [Modifica dello stato di protezione](#modifica-dello-stato-di-protezione)
+    - [Modello di Graham-Denning](#modello-di-graham-denning)
+      - [Propagazione dei diritti di accesso](#propagazione-dei-diritti-di-accesso)
+      - [Diritto Owner](#diritto-owner)
+      - [Diritto Control](#diritto-control)
 
 
 ## Protezione e Sicurezza
@@ -122,7 +150,7 @@ Non realizza la protezione tra utenti ma solo tra kernel e utente.
 
 Un sistema di protezione può essere rappresentato a livello astratto utilizzando la matrice degli accessi.
 
-![img pack 2 slide 18](image-5.png)
+![img pack 2 slide 18](./image-5.png)
 
 - Ogni riga è associata ad un soggetto (riga=dominio)
 - Ogni colonna è associata ad un oggetto

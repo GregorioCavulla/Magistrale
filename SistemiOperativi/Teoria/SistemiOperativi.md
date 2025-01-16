@@ -1,6 +1,10 @@
 
 
-# [Sistemi Operativi M](https://www.unibo.it/it/studiare/dottorati-master-specializzazioni-e-altra-formazione/insegnamenti?codiceMateria=72947&annoAccademico=2024&codiceCorso=5826&single=True&search=True)  <div style="text-align: right"> [back](../Appunti.md) </div>
+# [Sistemi Operativi M](https://www.unibo.it/it/studiare/dottorati-master-specializzazioni-e-altra-formazione/insegnamenti?codiceMateria=72947&annoAccademico=2024&codiceCorso=5826&single=True&search=True)
+
+[Return](../../README.md)
+
+---
 
 ## Indice
 

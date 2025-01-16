@@ -1,9 +1,13 @@
 
-# Virtualizzazione <div style="text-align: right"> [back](./SistemiOperativi.md) </div>
+# Virtualizzazione
+
+[Return](./SistemiOperativi.md)
+
+---
 
 # Indice
 
-- [Virtualizzazione  back ](#virtualizzazione--back-)
+- [Virtualizzazione](#virtualizzazione)
 - [Indice](#indice)
   - [Introduzione](#introduzione)
   - [Esempi di Virtualizzazione](#esempi-di-virtualizzazione)
@@ -50,7 +54,7 @@
 
 La **virtualizzazione** consente di separare il comportamento delle risorse di un sistema dalla loro realizzazione fisica. In pratica, l'utente vede una versione "virtuale" delle risorse hardware e software che può differire dalle risorse fisiche reali.
 
-![img: pack 1 slide 2](../Assets/2024-10-15-153142_hyprshot.png)
+![img: pack 1 slide 2](../.Assets/2024-10-15-153142_hyprshot.png)
 
 - **Obiettivo**: disaccoppiare il comportamento delle risorse di un sistema di elaborazione offerte all’utente dalla loro realizzazione fisica.
 
@@ -58,7 +62,7 @@ Le risorse virtualizzate appaiono all'utente con caratteristiche in generale div
 
 - **Esempio**: macchine virtuali, che permettono l'esecuzione di sistemi operativi indipendenti su uno stesso hardware.
 
-![img: pack 1 slide 3](../Assets/2024-10-15-155356_hyprshot.png)
+![img: pack 1 slide 3](../.Assets/2024-10-15-155356_hyprshot.png)
 
 ## Esempi di Virtualizzazione
 
@@ -118,7 +122,7 @@ Viene utilizzata dagli emulatori più noti (QEMU, Virtual PC, Mame).
 
 ## Livelli di virtualizzazione
 
-![img: pack 1 slide 12](../Assets/2024-10-20-163711_hyprshot.png)
+![img: pack 1 slide 12](../.Assets/2024-10-20-163711_hyprshot.png)
 
 
 ## Macchine Virtuali
@@ -174,7 +178,7 @@ In un VMM di sistema le funzionalità di virtualizzazione vengono integrate in u
 - **Host**: piattaforma di base sulla quale si realizzano le VM. Comprende macchina fisica e VMM.
 - **Guest**: macchine virtuali che eseguono sopra il VMM. Comprende applicazioi e SO
 
-![img pack 1 slide 22](../Assets/2024-10-20-181228_hyprshot.png)
+![img pack 1 slide 22](../.Assets/2024-10-20-181228_hyprshot.png)
 
 ## VMM Ospitato
 
@@ -185,7 +189,7 @@ Il VMM opera nello spazio utente e accede all'HW tramite le system call del SO s
 - Può fare riferimento al SO sottostante per la gestione delle periferiche e utilizzare alti servizi del SO.
 - Prestazioni inferiori rispetto ai VMM di sistema
 
-![img pack 1 slide 24](../Assets/2024-10-20-181628_hyprshot.png)
+![img pack 1 slide 24](../.Assets/2024-10-20-181628_hyprshot.png)
 
 # Ring di Protezione
 
@@ -262,7 +266,7 @@ Il VMM scansiona dinamicamente il codice dei SO guest prima dell'esecuzione per 
 
 - I blocchi tradotti sono eseguiti e conservati in cache per eventuali riusi futuri (e.g. Vmware).
 
-![img pack 1 slide 33](../Assets/2024-10-22-144523_hyprshot.png)
+![img pack 1 slide 33](../.Assets/2024-10-22-144523_hyprshot.png)
 
 - **Pro:** ogni macchina virtuale è una esatta replica della macchina fisica
   - possibilità di installare gli stessi SO di architetture non virtualizzate (virtualizzazione pura)
@@ -281,7 +285,7 @@ Il VMM offre al sistema operativo guest una interfaccia virtuale alla quale i si
 - **Pro**: prestazioni migliori rispetto a fast binary translation
 - **Contro**: necessità di porting dei sistemi operativi guest, soluzione preclusa a molti sistemi proprietari non open source.
 
-![img pack 1 slide 36](../Assets/2024-10-22-151921_hyprshot.png)
+![img pack 1 slide 36](../.Assets/2024-10-22-151921_hyprshot.png)
 
 # Architetture Virtualizzabili
 
@@ -321,7 +325,7 @@ Una macchina virtuale può trovarsi nei seguenti stati:
   
 **Diagramma degli stati**
 
-![img pack 1 slide 47](../Assets/2024-10-22-160825_hyprshot.png)
+![img pack 1 slide 47](../.Assets/2024-10-22-160825_hyprshot.png)
 
 ## Migrazione di VM
 
@@ -336,7 +340,7 @@ In tutti questi asi la possibilità di muovere VM tra server è un meccanismo fo
 
 Le macchine virtuali possono essere spostate da un server fisico a un altro senza essere spente.
 
-![img pack 1 slide 49](../Assets/2024-10-22-161451_hyprshot.png)
+![img pack 1 slide 49](../.Assets/2024-10-22-161451_hyprshot.png)
 
 ### Suspend / Resume
 
@@ -348,7 +352,7 @@ Una VM suspended può riprendere l'esecuzione a partire dallo stato in cui si tr
 
 ### Realizzazione della live migration
 
-![img pack 1 slide 52](../Assets/2024-10-22-161843_hyprshot.png)
+![img pack 1 slide 52](../.Assets/2024-10-22-161843_hyprshot.png)
 
 È desiderabile minimizzare:
 
@@ -369,11 +373,11 @@ La migrazione viene realizzata in 6 passi:
 5. **Commit**: la VM viene eliminata dal server A
 6. **Resume**: la VM viene attivata nel server B
 
-![img pack 1 slide 54](../Assets/2024-10-22-162951_hyprshot.png)
+![img pack 1 slide 54](../.Assets/2024-10-22-162951_hyprshot.png)
 
 **Precopy: risultati sperimentali**
 
-![img pack 1 slide 55](../Assets/2024-10-22-163053_hyprshot.png)
+![img pack 1 slide 55](../.Assets/2024-10-22-163053_hyprshot.png)
 
 In alternativa a precopy si può fare **post copy**:
 la macchina virtuale viene sospesa e vengono copiate pagine e stato. Tempo di migrazione più basso ma downtime molto più elevato.
@@ -385,7 +389,7 @@ la macchina virtuale viene sospesa e vengono copiate pagine e stato. Tempo di mi
 
 ## Architettura di Xen
 
-![img pack 1 slide 58](image.png)
+![img pack 1 slide 58](../image.png)
 
 ## Organizzazione
 
@@ -393,21 +397,21 @@ la macchina virtuale viene sospesa e vengono copiate pagine e stato. Tempo di mi
 
 ## Caratteristiche
 
-![img pack 1 slide 61](image-1.png)
+![img pack 1 slide 61](../image-1.png)
 
 ## Gestione della memoria e paginazione
 
 ## Protezione
 
-![img pack 1 slide 63](image-2.png)
+![img pack 1 slide 63](../image-2.png)
 
 ## Gestione della memoria
 
-![img pack 1 slide 65](image-3.png)
+![img pack 1 slide 65](../image-3.png)
 
 ## Creazione di un processo
 
-![img pack 1 slide 66](image-4.png)
+![img pack 1 slide 66](../image-4.png)
 
 
 Ecco un paragrafo di riepilogo per ciascuna delle slide a partire dalla 57 riguardanti Xen.
