@@ -68,7 +68,7 @@
   - [DOMANDE REALI](#domande-reali-1)
     - [Differenza tra SIMT e SIMD](#differenza-tra-simt-e-simd)
     - [Warp scheduler e dispatcher](#warp-scheduler-e-dispatcher)
-    - [gigatrhread engine e occupancy](#gigatrhread-engine-e-occupancy)
+    - [gigathread engine e occupancy](#gigathread-engine-e-occupancy)
     - [Shared Memory, come accedere e come allocare](#shared-memory-come-accedere-e-come-allocare)
     - [Occupancy (Definizione, Teorica vs Effettiva)](#occupancy-definizione-teorica-vs-effettiva)
     - [Zero-Copy Memory](#zero-copy-memory)
@@ -216,9 +216,11 @@ Weight sharing, formati più piccoli del float: fixed point, bfloat, minifloat (
 
 Una FPGA (field programmable gate array) è una rete composta di blocchi interconnessi tra di loro programmabile. È composta di blocchi CLB (configurable logic block) composti a loro volta da Slice, a loro volta copmosti di 2 o più celle logiche. Ogni cella logica è copmosta di una look up table che definisce la funzione che si vuole implementare.
 
-Una Fpga viene programmata utilizzando u llinguaggio di descrizione hardware HDL come VHDL o verylog. Attraverso questo linguaggio si possono definire le funzioni di ogni cella logica, le interconnessioni tra i CBL e Quali unità computazionali accessorie si vogliono utilizzare come FPU, Multiplier, Adder e BlockRAM. Una volta scritto il programma può essere convertito in bitstream che viene caricato sulla FPGA perchè venga configurata.
+Una Fpga viene programmata utilizzando u llinguaggio di descrizione hardware HDL come VHDL o verylog. Attraverso questo linguaggio si possono definire le funzioni di ogni cella logica, le interconnessioni tra i CBL e Quali unità computazionali accessorie si vogliono utilizzare come FPU, Multiplier, Adder e BlockRAM.
 
 Queste ultime sono blocchi di memoria che memorizzano in modo efficiente e ottimibzabile per il parallelismo i dati che verranno utilizzati da CLB e unità computazionali.
+
+Una volta scritto il programma può essere convertito in bitstream che viene caricato sulla FPGA perchè venga configurata.
 
 ### Metodi efficienti per rappresentare reali su FPGA
 
@@ -653,22 +655,53 @@ Quando più tread tentano di accedere ad **indirizzi diversi corrispondenti allo
 
 ### Differenza tra SIMT e SIMD
 
+La differenza principale tra SIMD e SIMT è la possibilità, in questo ultimo approccio, di avere divergenza, o meglio, per un thread di eseguire un percorso diverso da quello degli altri thread nello stesso warp.
+
 ### Warp scheduler e dispatcher
 
-### gigatrhread engine e occupancy
+Warp scheduler e dispatcher sono due unità fondamentali dello Streaming Multiprocessor, la prima prende i warp che sono ready per l'esecuzione e li "consegna" alla dispatch unit che, a sua volta, assegna le risorse computazionali per la effettiva esecuzione del warp.
+
+### gigathread engine e occupancy
+
+Il Gigathread engine è l'unità di una GPU che distribuisce i blocchi ai diversi Straming Multiprocessor, il suo buon funzionamento è fondamentale per garantire una buona occupancy in qunto questa indica quanti SM vengono utilizzati sul totale di SM disponibili. Se il gigathread engine riesce ad assegnare quanti più possibili blocchi a tutti i possibili SM si avrà una occupancy superiore.
 
 ### Shared Memory, come accedere e come allocare
 
+Per accedere alla shared memory in CUDA è neccessario dichiarare la shared memory all'interno del kernel utilizzando __shared__ per definire uno spazio condiviso tra i thread dello stesso blocco.
+Si calcola quindi la dimensione della shared memory che si vuole allocare e si può passare come parametro al kernel.
+Si alloca quindi lo spazio nella shared memory che sarà quindi visibile a tutti i thread del blocco.
+Si copiano i dati dalla memoria globale alla shared memory.
+Al termine di questa operazione si sincronizzano i thread in modo che i dati siano consistenti prima dell'utilizzo.
+
 ### Occupancy (Definizione, Teorica vs Effettiva)
+
+La occupancy effettiva indica quanti warp attivi ci sono rispetto al massimo numero di warp supportati da uno Streaming Multiprocessor. La occupancy teorica indica quanti warp attivi ci sarebbero se tutti gli SM fossero utilizzati al massimo. Non sempre si riesce a raggiungere la occupancy teorica banalmente perchè durante l'esecuzione il numero di warp attivi cambia e se il numero totale di warp da lanciare non è multiplo del numero di warp massimo per SM si avrà almeno una wave di warp che non riempirà completamente l'SM.
 
 ### Zero-Copy Memory
 
+La ZeroCopy Memory permette al device di accedere alla memoria host senza la necessità di copiare esplicitamente i dati tra le memorie, i dati vengono trasferiti sul bus PCIe quando il kernel li richiede. Questa tecnica è utile per dati a cui si accede raramente, evitando copie in memoria device e riducendo l'occupazione di quest'ultima.
+
 ### Shared Memory struttura
+
+La shared memory è divisa in 32 banchi di memoria, ognuno contenente una word. Questa suddivisione permette ai thread di uno stesso warp di accedere contemporaneamente alla smem se i thread accedono ad indirizzi di quest'ultima corrispondenti a banchi diversi. Quando più tread tentano di accedere ad indirizzi diversi corrispondenti allo stesso banco si verifica un bank conflict che ha come conseguenza la sequenzializzazione delle risposte ai vari thread.
 
 ### Shared Memory vs Cache L1
 
+La shared memory è una memoria on-chip condivisa tra i thread di un blocco, mentre la cache L1 è una cache on-chip che serve tutti. La shared memory, inoltre, è programmabile dal programmatore e può essere utilizzata per memorizzare temporaneamente porzioni di memoria per accessi più veloci. La cache L1, invece, è una cache non programmabile che serve tutti i thread dell'SM e serve da ponte tra le cache L1 più veloci e la memoria principale più lenta.
+
 ### Unified Memory
+
+Unified Memory è una tecnica che permette alla CPU e alla GPU di condividere lo stesso spazio di indirizzamento virtuale, eliminando la distinzione tra un puntatore host e uno device. Unified Memory è una estensione di Unified Virtual Addressing che gestisce in maniera automatica i trasferimenti di memoria tra i vari dispositivi.
 
 ### ITS
 
+Indipendent Thread Scheduling è una tecnica che permette ai thread di uno stesso warp di eseguire istruzioni indipendenti, anche se appartenenti a rami diversi dello stesso warp. Questa tecnica permette di mantenere l'alto throughput dell'esecuzione SIMT.
+
 ### Metodi per trasferire memoria da host a device
+
+I metodi per trasferire memoria da host a device sono:
+- Memoria Pageable: la memoria allocata dall'host di default è pageable e il driver CUDA alloca temporaneamente memoria host pinned e copia i dati dalla memoria host sorgente alla memoria pinned e trasferisce i dati dalla memoria pinned alla memoria del device.
+- Memoria Pinned: la memoria pinned è una memoria host non pageable che non è soggetta a swap-out e bloccata in RAM. La memoria pinned è utile per evitare trasferimenti multipli e per effettuare trasferimenti asincroni.
+- Memoria Zero-Copy: la memoria zero-copy è una tecnica che consente al device di accedere direttamente alla memoria dell'host senza la necessità di copiare esplicitamente i dati tra le due memorie.
+- Unified Memory: Unified Memory è una tecnica che permette alla CPU e alla GPU di condividere lo stesso spazio di indirizzamento virtuale, eliminando la distinzione tra un puntatore host e uno device.
+- Unified Virtual Addressing: Unified Virtual Addressing è una tecnica che permette alla CPU e alla GPU di condividere lo stesso spazio di indirizzamento virtuale, eliminando la distinzione tra un puntatore host e uno device.
