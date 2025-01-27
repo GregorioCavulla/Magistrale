@@ -277,7 +277,7 @@ TLP e ILP contribuiscono a mantenere le unità di calcolo attive e occupate ridu
 
 **26. Parlami di come si può ottenere il latency hiding massimo**
 
-Siccome il latency hiding si ottiene sostituende il warp correntemente in stallo con un warp pronto, una condizione necessaria per massimizzare quest'ultimo è avere a disposizione "tanti" warp pronti.
+Siccome il latency hiding si ottiene sostituendo il warp correntemente in stallo con un warp pronto, una condizione necessaria per massimizzare quest'ultimo è avere a disposizione "tanti" warp pronti.
 
 Una formalizzazione di questo concetto più operativa è data dalla **Legge di Little**. Questa legge  ci aiuta a calcolare quanti warp (approssimativamente) devono essere in esecuzione/pronti per ottimizzare il latency hiding e mantenere le unità di elaborazione della GPU occupate.
 
@@ -351,9 +351,11 @@ Come funziona:
     - Sincronizzazione esplicita possibile con *CudaDeviceSynchronize()*
 
 ## Modello di memoria CUDA
+
 **32. Parlami di kernel compute bound e kernel memory bound, come mai è importante distinguere queste due categorie?** 
+
 Un kernel è memory bound quando il tempo di esecuzione è limitato dalla velocità di accesso alla memoria piuttosto che dalla capacità di elaborazione dei core.
-- Le unitò di calcolo della GPU trascorrono più tempo in attesa dei dati rispetto a eseguire calcoli
+- Le unità di calcolo della GPU trascorrono più tempo in attesa dei dati rispetto a eseguire calcoli
 - poche operazioni per byte letto/scritto.
 - Accessi frequenti alla memoria.
 - Banda di memoria insufficiente rispetto ai requisiti del kernel.
@@ -364,8 +366,8 @@ Un kernel è compute Bound quando il tempo di esecuzione è limitato dalla capac
 - Operazioni aritmetiche intensive
 - Molte operazioni per byte letto/scritto
 
-Questa distinzione è utile i quanto per ottimizzare un kernel è cruciale comprendere se il collo di bottiglia risiede negli accessi alla memoria o nella capacità computazionale della GPU. Questa distinzione determina le strategie di ottimizzazione da adottare. Ad esempio:
-- In un contesto memory bound, è di notevole importanza ottimizzare gli accessi alla memoria considerando quale sia il tipo di memoria pià opportuna da usare e i pattern di accesso. Questo massimizza la bandwith effettiva di trasferimento dei dati
+Questa distinzione è utile in quanto per ottimizzare un kernel è cruciale comprendere se il collo di bottiglia risiede negli accessi alla memoria o nella capacità computazionale della GPU. Questa distinzione determina le strategie di ottimizzazione da adottare. Ad esempio:
+- In un contesto memory bound, è di notevole importanza ottimizzare gli accessi alla memoria considerando quale sia il tipo di memoria più opportuna da usare e i pattern di accesso. Questo massimizza la bandwith effettiva di trasferimento dei dati
     - Distinguiamo tra:
         - bandwidth teorica (considera solo i dati "lordi" trasferiti)
         - bandwidth effettiva (byte effettivamente letti/scritti; considera gli sprechi)
@@ -374,7 +376,8 @@ Questa distinzione è utile i quanto per ottimizzare un kernel è cruciale compr
     - memory bound: un tipo più piccolo mi permette di trasferire meno dati
     - compute bound: tipi di dato diversi possono avere un numero diverso di unità di elaborazione
 
-**33. Come possiamo capire se un kernel è memory bound o compute bound? Che cos'è il diagramma di roofline?** 
+**33. Come possiamo capire se un kernel è memory bound o compute bound? Che cos'è il diagramma di roofline?**
+
 Innanzitutto un kernel memory bound su una GPU potrebbe diventare compute bound su di un altra e viceversa. Questo perchè GPU diverse hanno bandwidth e velocità di elaborazione diverse. Per stabilire la tipologia di un kernel utilizziamo quindi due metriche:
 - Intensità aritmetica
     - dipende solo dal kernel
