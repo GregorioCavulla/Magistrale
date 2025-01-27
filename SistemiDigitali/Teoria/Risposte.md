@@ -496,7 +496,7 @@ Facciamo un passo indietro e definiamo prima che cos'è una transazione di memor
 Con i pattern di accesso alla memoria si classifica come sono distribuiti gli indirizzi di una richiesta di accesso alla memoria globale da parte dei thread di un warp. In particolare si distinguono due caratteristiche:
 1. Allineamento: quando l'indirizzo iniziale della transazione è multiplo della dimensione di quest'ultima.
 2. Coalescenza: quando tutti i 32 thread di un warp accedono ad un blocco contiguo di memoria.
-Entrambe queste caratteristiche sono desiderabili per ridurre al minimo il numero di transazioni richieste per servire la memoria richiesta dal warp. Quando una di questa due proprietà è assente (non sempre è possibile averle entrambe) il numero di transazioni diventa maggiore del minimo teorico e, siccome esse corrispondono ad accessi alla memoria aggiuntivi sequenziale, si ha un peggioramento delle performance.
+Entrambe queste caratteristiche sono desiderabili per ridurre al minimo il numero di transazioni richieste per servire la memoria richiesta dal warp. Quando una di queste due proprietà è assente (non sempre è possibile averle entrambe) il numero di transazioni diventa maggiore del minimo teorico e, siccome esse corrispondono ad accessi alla memoria aggiuntivi sequenziale, si ha un peggioramento delle performance.
 
 Con un pattern di accesso ottimale si riesce a massimizzare la bandwidth effettiva nella lettura/scrittura dei dati, e siccome la maggior parte delle applicazioni GPU è limitata dalla larghezza di banda della memoria DRAM, ottimizzare l'uso della memoria globale è fondamentale per le prestazioni del kernel.
 
