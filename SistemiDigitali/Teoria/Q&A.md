@@ -202,17 +202,45 @@ Se si ha la necessità di usare floating-point, è importante utilizzare il form
 
 ### Weight Sharing
 
+In una rete neurale vengono utilizzate grandi quantità di pesi per effettuare i calcoli, il weight sharing ha l'obiettivo di ridurre lo spazio in memoria utilizzato da questa mole di pesi.
+
+Riesce a farlo sostituendo alcuni pesi con il loro valore medio detto centroide e salvando in una LUT (look up table) degli indici che puntano ai centroidi. In questo modo si riesce a ridurre lo spazio in memoria utilizzando un numero limitato di bit per rappresentare gli indici della LUT invece che i valori reali dei pesi.
+
+Per assegnare un peso medio ad ogni valore, vengono effettuati N raggruppamenti di pesi simili calcolandone la media. Il peso medio viene assegnato ad ogni peso. Per ogni centroide viene quindi salvato nella matrice dei pesi non il valore ma uno degli $log_2(N)$ indici interi che puntano ai centroidi riducendo quindi di molto lo spazio occupato. I valori dei centroidi vengono salvati nella look up table all'indice corrispondente e vengono recuperati a runtime.
+
 ### Tecniche per ridurre la memoria usata da un software
+
+Weight sharing, formati più piccoli del float: fixed point, bfloat, minifloat (E5M2), interi (o cast dei fixed point a interi)
 
 ### FPGA
 
+Una FPGA (field programmable gate array) è una rete composta di blocchi interconnessi tra di loro programmabile. È composta di blocchi CLB (configurable logic block) composti a loro volta da Slice, a loro volta copmosti di 2 o più celle logiche. Ogni cella logica è copmosta di una look up table che definisce la funzione che si vuole implementare.
+
+Una Fpga viene programmata utilizzando u llinguaggio di descrizione hardware HDL come VHDL o verylog. Attraverso questo linguaggio si possono definire le funzioni di ogni cella logica, le interconnessioni tra i CBL e Quali unità computazionali accessorie si vogliono utilizzare come FPU, Multiplier, Adder e BlockRAM. Una volta scritto il programma può essere convertito in bitstream che viene caricato sulla FPGA perchè venga configurata.
+
+Queste ultime sono blocchi di memoria che memorizzano in modo efficiente e ottimibzabile per il parallelismo i dati che verranno utilizzati da CLB e unità computazionali.
+
 ### Metodi efficienti per rappresentare reali su FPGA
+
+Una FPGA può essere programmata per utilizzare qualsiasi tipo di dato, tuttavia questo approccio può andare ad inficiare sulle performance, sul consumo e sullo spazio utilizzato per determinate unità computazionali. 
+Per questo motivo, per risparmiare spazio e potenza di elaborazione, spesso vengono utilizzati formati come Fixed Point perchè facili da convertire in interi attraverso una moltiplicazione per 10^n dove n è il numero di elementi della parte decimale, questo permette di potere utilizzare solamente unità computazionali per operare su degli interi, e utilizzare algoritmi come il CORDIC per ottenere funzioni non necessariamente intere, Al termine di queste operazioni è possibile convertire il risultato in un formato più comune come il float.
 
 ### Fixed-point
 
+Il Fixed point è una alternativa al float che ha un numero prestabilito di bit per la parte intera e bit per quella decimale, questo permette di avere un range molto più limitato rispetto al float ma una precisione costante su tutto il range rappresentabile. Questo formato è molto utilizzato in applicazioni dove non è necessario avere un range molto ampio di valori ma è necessario avere una precisione costante su tutto il range rappresentabile.
+
 ### Come vengono gestiti gli arrotondamenti nei float
 
+Gli arrotondamenti in float avvenfgono tramite 3 bit:
+1. Bit di Guard: primo bit a destra della mantissa, se è 0 la mantissa non cambia, se è 1 si guardano:
+2. Bit di Round: secondo bit a destra della mantissa
+3. Sticky Bit: ultimo bit a destra
+
+Se il bit di round è 1 e il sticky bit è 1 si arrotonda per eccesso, se il bit di round è 0 e lo sticky bit è 0 si arrotonda per difetto, se il bit di round è 1 e lo sticky bit è 0 si arrotonda per eccesso, se il bit di round è 0 e lo sticky bit è 1 si arrotonda per eccesso.
+
 ### Cordic gain
+
+L'algoritmo CORDIC è un algoritmo iterativo per il calcolo di funzioni utilizzando solamente operazioni tra interi. Questo è permesso da una look up table contenente i risultati di determinate funzioni per operandi noti (come csn e cos per angoli noti). Quest Peermette al cordic di approssimare per esepio il coseno di un angolo non noto a una somma o sottrazione di seni e coseni di angoli noti il cui risultato è nella lut. Il cordic gain è quindi il fattore dell'ultima operazione composto dalle funzioni note in lut.
 
 # MODULO 2
 
