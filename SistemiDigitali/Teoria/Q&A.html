@@ -458,7 +458,7 @@ code {
 <ul>
 <li><a href="#differenza-tra-simt-e-simd">Differenza tra SIMT e SIMD</a></li>
 <li><a href="#warp-scheduler-e-dispatcher">Warp scheduler e dispatcher</a></li>
-<li><a href="#gigatrhread-engine-e-occupancy">gigatrhread engine e occupancy</a></li>
+<li><a href="#gigathread-engine-e-occupancy">gigathread engine e occupancy</a></li>
 <li><a href="#shared-memory-come-accedere-e-come-allocare">Shared Memory, come accedere e come allocare</a></li>
 <li><a href="#occupancy-definizione-teorica-vs-effettiva">Occupancy (Definizione, Teorica vs Effettiva)</a></li>
 <li><a href="#zero-copy-memory">Zero-Copy Memory</a></li>
@@ -602,12 +602,31 @@ Inoltre proprità associativa e distributiva di somme e prodotti non sono realme
 <p>Se si ha la necessità di usare floating-point, è importante utilizzare il formato più compatto possibile. Se invece floating point non è strettamente necessario, potrebbe essere più intelligente utilizzare fixed-point e passare al mondo degli interi.</p>
 <h2 id="domande-reali">Domande Reali</h2>
 <h3 id="weight-sharing">Weight Sharing</h3>
+<p>In una rete neurale vengono utilizzate grandi quantità di pesi per effettuare i calcoli, il weight sharing ha l'obiettivo di ridurre lo spazio in memoria utilizzato da questa mole di pesi.</p>
+<p>Riesce a farlo sostituendo alcuni pesi con il loro valore medio detto centroide e salvando in una LUT (look up table) degli indici che puntano ai centroidi. In questo modo si riesce a ridurre lo spazio in memoria utilizzando un numero limitato di bit per rappresentare gli indici della LUT invece che i valori reali dei pesi.</p>
+<p>Per assegnare un peso medio ad ogni valore, vengono effettuati N raggruppamenti di pesi simili calcolandone la media. Il peso medio viene assegnato ad ogni peso. Per ogni centroide viene quindi salvato nella matrice dei pesi non il valore ma uno degli $log_2(N)$ indici interi che puntano ai centroidi riducendo quindi di molto lo spazio occupato. I valori dei centroidi vengono salvati nella look up table all'indice corrispondente e vengono recuperati a runtime.</p>
 <h3 id="tecniche-per-ridurre-la-memoria-usata-da-un-software">Tecniche per ridurre la memoria usata da un software</h3>
+<p>Weight sharing, formati più piccoli del float: fixed point, bfloat, minifloat (E5M2), interi (o cast dei fixed point a interi)</p>
 <h3 id="fpga">FPGA</h3>
+<p>Una FPGA (field programmable gate array) è una rete composta di blocchi interconnessi tra di loro programmabile. È composta di blocchi CLB (configurable logic block) composti a loro volta da Slice, a loro volta copmosti di 2 o più celle logiche. Ogni cella logica è copmosta di una look up table che definisce la funzione che si vuole implementare.</p>
+<p>Una Fpga viene programmata utilizzando u llinguaggio di descrizione hardware HDL come VHDL o verylog. Attraverso questo linguaggio si possono definire le funzioni di ogni cella logica, le interconnessioni tra i CBL e Quali unità computazionali accessorie si vogliono utilizzare come FPU, Multiplier, Adder e BlockRAM.</p>
+<p>Queste ultime sono blocchi di memoria che memorizzano in modo efficiente e ottimibzabile per il parallelismo i dati che verranno utilizzati da CLB e unità computazionali.</p>
+<p>Una volta scritto il programma può essere convertito in bitstream che viene caricato sulla FPGA perchè venga configurata.</p>
 <h3 id="metodi-efficienti-per-rappresentare-reali-su-fpga">Metodi efficienti per rappresentare reali su FPGA</h3>
+<p>Una FPGA può essere programmata per utilizzare qualsiasi tipo di dato, tuttavia questo approccio può andare ad inficiare sulle performance, sul consumo e sullo spazio utilizzato per determinate unità computazionali.
+Per questo motivo, per risparmiare spazio e potenza di elaborazione, spesso vengono utilizzati formati come Fixed Point perchè facili da convertire in interi attraverso una moltiplicazione per 10^n dove n è il numero di elementi della parte decimale, questo permette di potere utilizzare solamente unità computazionali per operare su degli interi, e utilizzare algoritmi come il CORDIC per ottenere funzioni non necessariamente intere, Al termine di queste operazioni è possibile convertire il risultato in un formato più comune come il float.</p>
 <h3 id="fixed-point">Fixed-point</h3>
+<p>Il Fixed point è una alternativa al float che ha un numero prestabilito di bit per la parte intera e bit per quella decimale, questo permette di avere un range molto più limitato rispetto al float ma una precisione costante su tutto il range rappresentabile. Questo formato è molto utilizzato in applicazioni dove non è necessario avere un range molto ampio di valori ma è necessario avere una precisione costante su tutto il range rappresentabile.</p>
 <h3 id="come-vengono-gestiti-gli-arrotondamenti-nei-float">Come vengono gestiti gli arrotondamenti nei float</h3>
+<p>Gli arrotondamenti in float avvenfgono tramite 3 bit:</p>
+<ol>
+<li>Bit di Guard: primo bit a destra della mantissa, se è 0 la mantissa non cambia, se è 1 si guardano:</li>
+<li>Bit di Round: secondo bit a destra della mantissa</li>
+<li>Sticky Bit: ultimo bit a destra</li>
+</ol>
+<p>Se il bit di round è 1 e il sticky bit è 1 si arrotonda per eccesso, se il bit di round è 0 e lo sticky bit è 0 si arrotonda per difetto, se il bit di round è 1 e lo sticky bit è 0 si arrotonda per eccesso, se il bit di round è 0 e lo sticky bit è 1 si arrotonda per eccesso.</p>
 <h3 id="cordic-gain">Cordic gain</h3>
+<p>L'algoritmo CORDIC è un algoritmo iterativo per il calcolo di funzioni utilizzando solamente operazioni tra interi. Questo è permesso da una look up table contenente i risultati di determinate funzioni per operandi noti (come csn e cos per angoli noti). Quest Peermette al cordic di approssimare per esepio il coseno di un angolo non noto a una somma o sottrazione di seni e coseni di angoli noti il cui risultato è nella lut. Il cordic gain è quindi il fattore dell'ultima operazione composto dalle funzioni note in lut.</p>
 <h1 id="modulo-2">MODULO 2</h1>
 <h2 id="modello-di-programmazione-cuda">Modello di programmazione CUDA</h2>
 <h3 id="11-che-cos%C3%A8-il-modello-di-programmazione-cuda">11. Che cos'è il modello di programmazione CUDA?</h3>
@@ -1070,16 +1089,38 @@ Entrambe queste caratteristiche sono desiderabili per ridurre al minimo il numer
 <p>Quando più tread tentano di accedere ad <strong>indirizzi diversi corrispondenti allo stesso banco</strong> si verifica un bank conflict che ha come conseguenza la sequenzializzazione delle risposte ai vari thread. Questo è chiaramente non desiderabile in quando diminuisce la potenziale bandwidth.</p>
 <h2 id="domande-reali">DOMANDE REALI</h2>
 <h3 id="differenza-tra-simt-e-simd">Differenza tra SIMT e SIMD</h3>
+<p>La differenza principale tra SIMD e SIMT è la possibilità, in questo ultimo approccio, di avere divergenza, o meglio, per un thread di eseguire un percorso diverso da quello degli altri thread nello stesso warp.</p>
 <h3 id="warp-scheduler-e-dispatcher">Warp scheduler e dispatcher</h3>
-<h3 id="gigatrhread-engine-e-occupancy">gigatrhread engine e occupancy</h3>
+<p>Warp scheduler e dispatcher sono due unità fondamentali dello Streaming Multiprocessor, la prima prende i warp che sono ready per l'esecuzione e li &quot;consegna&quot; alla dispatch unit che, a sua volta, assegna le risorse computazionali per la effettiva esecuzione del warp.</p>
+<h3 id="gigathread-engine-e-occupancy">gigathread engine e occupancy</h3>
+<p>Il Gigathread engine è l'unità di una GPU che distribuisce i blocchi ai diversi Straming Multiprocessor, il suo buon funzionamento è fondamentale per garantire una buona occupancy in qunto questa indica quanti SM vengono utilizzati sul totale di SM disponibili. Se il gigathread engine riesce ad assegnare quanti più possibili blocchi a tutti i possibili SM si avrà una occupancy superiore.</p>
 <h3 id="shared-memory-come-accedere-e-come-allocare">Shared Memory, come accedere e come allocare</h3>
+<p>Per accedere alla shared memory in CUDA è neccessario dichiarare la shared memory all'interno del kernel utilizzando <strong>shared</strong> per definire uno spazio condiviso tra i thread dello stesso blocco.
+Si calcola quindi la dimensione della shared memory che si vuole allocare e si può passare come parametro al kernel.
+Si alloca quindi lo spazio nella shared memory che sarà quindi visibile a tutti i thread del blocco.
+Si copiano i dati dalla memoria globale alla shared memory.
+Al termine di questa operazione si sincronizzano i thread in modo che i dati siano consistenti prima dell'utilizzo.</p>
 <h3 id="occupancy-definizione-teorica-vs-effettiva">Occupancy (Definizione, Teorica vs Effettiva)</h3>
+<p>La occupancy effettiva indica quanti warp attivi ci sono rispetto al massimo numero di warp supportati da uno Streaming Multiprocessor. La occupancy teorica indica quanti warp attivi ci sarebbero se tutti gli SM fossero utilizzati al massimo. Non sempre si riesce a raggiungere la occupancy teorica banalmente perchè durante l'esecuzione il numero di warp attivi cambia e se il numero totale di warp da lanciare non è multiplo del numero di warp massimo per SM si avrà almeno una wave di warp che non riempirà completamente l'SM.</p>
 <h3 id="zero-copy-memory">Zero-Copy Memory</h3>
+<p>La ZeroCopy Memory permette al device di accedere alla memoria host senza la necessità di copiare esplicitamente i dati tra le memorie, i dati vengono trasferiti sul bus PCIe quando il kernel li richiede. Questa tecnica è utile per dati a cui si accede raramente, evitando copie in memoria device e riducendo l'occupazione di quest'ultima.</p>
 <h3 id="shared-memory-struttura">Shared Memory struttura</h3>
+<p>La shared memory è divisa in 32 banchi di memoria, ognuno contenente una word. Questa suddivisione permette ai thread di uno stesso warp di accedere contemporaneamente alla smem se i thread accedono ad indirizzi di quest'ultima corrispondenti a banchi diversi. Quando più tread tentano di accedere ad indirizzi diversi corrispondenti allo stesso banco si verifica un bank conflict che ha come conseguenza la sequenzializzazione delle risposte ai vari thread.</p>
 <h3 id="shared-memory-vs-cache-l1">Shared Memory vs Cache L1</h3>
+<p>La shared memory è una memoria on-chip condivisa tra i thread di un blocco, mentre la cache L1 è una cache on-chip che serve tutti. La shared memory, inoltre, è programmabile dal programmatore e può essere utilizzata per memorizzare temporaneamente porzioni di memoria per accessi più veloci. La cache L1, invece, è una cache non programmabile che serve tutti i thread dell'SM e serve da ponte tra le cache L1 più veloci e la memoria principale più lenta.</p>
 <h3 id="unified-memory">Unified Memory</h3>
+<p>Unified Memory è una tecnica che permette alla CPU e alla GPU di condividere lo stesso spazio di indirizzamento virtuale, eliminando la distinzione tra un puntatore host e uno device. Unified Memory è una estensione di Unified Virtual Addressing che gestisce in maniera automatica i trasferimenti di memoria tra i vari dispositivi.</p>
 <h3 id="its">ITS</h3>
+<p>Indipendent Thread Scheduling è una tecnica che permette ai thread di uno stesso warp di eseguire istruzioni indipendenti, anche se appartenenti a rami diversi dello stesso warp. Questa tecnica permette di mantenere l'alto throughput dell'esecuzione SIMT.</p>
 <h3 id="metodi-per-trasferire-memoria-da-host-a-device">Metodi per trasferire memoria da host a device</h3>
+<p>I metodi per trasferire memoria da host a device sono:</p>
+<ul>
+<li>Memoria Pageable: la memoria allocata dall'host di default è pageable e il driver CUDA alloca temporaneamente memoria host pinned e copia i dati dalla memoria host sorgente alla memoria pinned e trasferisce i dati dalla memoria pinned alla memoria del device.</li>
+<li>Memoria Pinned: la memoria pinned è una memoria host non pageable che non è soggetta a swap-out e bloccata in RAM. La memoria pinned è utile per evitare trasferimenti multipli e per effettuare trasferimenti asincroni.</li>
+<li>Memoria Zero-Copy: la memoria zero-copy è una tecnica che consente al device di accedere direttamente alla memoria dell'host senza la necessità di copiare esplicitamente i dati tra le due memorie.</li>
+<li>Unified Memory: Unified Memory è una tecnica che permette alla CPU e alla GPU di condividere lo stesso spazio di indirizzamento virtuale, eliminando la distinzione tra un puntatore host e uno device.</li>
+<li>Unified Virtual Addressing: Unified Virtual Addressing è una tecnica che permette alla CPU e alla GPU di condividere lo stesso spazio di indirizzamento virtuale, eliminando la distinzione tra un puntatore host e uno device.</li>
+</ul>
 
 </body>
 </html>
