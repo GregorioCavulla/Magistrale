@@ -7,4 +7,5 @@
 
 ## Indice
 
--- ### [Introduzione](./01.Introduzione.md)
+- ### [Introduzione al corso](./01.IntroduzioneAlCorso.md)
+- ### [Introduzione alla Intelligenza Artificiale](./02.IntroduzioneAllAI.md)
