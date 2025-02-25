@@ -18,7 +18,7 @@
 
 #### [Fondamenti di Inteligenza Artificiale M](./FondamentiDiAI/Teoria/FondamentiDiAI.md) 8 CFU
 
-#### [Ingegneria dei Sistemi Software M](./IngegneriaDeiSistemiSoftware/Teoria/IngegneriaDeiSistemiSoftware.md) Oppure [Sicurezza dell'Informazione M](./SicurezzaDellInformazione/Teoria/SicurezzaDellInformazione.md) 8 CFU
+#### [Sicurezza dell'Informazione M](./SicurezzaDellInformazione/Teoria/SicurezzaDellInformazione.md) 8 CFU
 
 #### LAB [Attività Progettuale di Fondamenti di Intelligenza Artificiale M](./FondamentiDiAI/Lab.md) 3 CFU
 
@@ -31,7 +31,6 @@
 #### [Cybersecurity M](./Cybersecurity/Teoria/Cybersecurity.md) 8 CFU
 
 #### [Gestione dell'Innovazione e Dei Progetti M](./GestioneDellInnovazioneEGestioneDeiProgetti/Teoria/GestioneDellInnovazioneEGestioneDeiProgetti.md) 8 CFU
-
 
 ### Secondo Semestre 16 CFU
 
