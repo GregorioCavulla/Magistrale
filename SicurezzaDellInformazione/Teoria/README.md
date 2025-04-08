@@ -4,7 +4,7 @@
 
 ---
 
-## Indice
+## [[FondamentiDiAI]]
 
 - ### [Introduzione](./00.Introduzione.md)
 - ### [Dati Sicuri](./01.DatiSicuri.md)

@@ -4,7 +4,7 @@
 
 ---
 
-## Indice
+## [[FondamentiDiAI]]
 
 - ## Mattoccia 
   - ### [Introduzione](./0.0_Introduzione.md)

@@ -4,7 +4,7 @@
 
 ---
 
-## Indice
+## [[FondamentiDiAI]]
 
 - [Q\&A Sistemi Digitali](#qa-sistemi-digitali)
   - [Indice](#indice)
@@ -246,7 +246,7 @@ L'algoritmo CORDIC è un algoritmo iterativo per il calcolo di funzioni utilizza
 
 # MODULO 2
 
-## Modello di programmazione CUDA
+## [[2.1_Modello_di_Programmazione_Cuda_GC]]
 ### 11. Che cos'è il modello di programmazione CUDA?
 
 Il Modello di Programmazione definisce la struttura e le regole per sviluppare applicazioni parallele su GPU. In particolare definisce:

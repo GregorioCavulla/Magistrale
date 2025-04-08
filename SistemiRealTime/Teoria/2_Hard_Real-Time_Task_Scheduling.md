@@ -6,10 +6,9 @@
 
 ---
 
-## Indice
-
+# Indice
 - [Hard Real Time Task Scheduling](#hard-real-time-task-scheduling)
-  - [Indice](#indice)
+- [Indice](#indice)
   - [Assunti](#assunti)
   - [Teorema sulla schedulabilità](#teorema-sulla-schedulabilità)
   - [Schedulazione clock-driven](#schedulazione-clock-driven)

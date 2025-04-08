@@ -6,40 +6,22 @@
 
 ---
 
-## Indice
+# Indice
+- [Soft Real Time Task Scheduling](#soft-real-time-task-scheduling)
+- [Indice](#indice)
+  - [00.Introduzione](#00introduzione)
+  - [Modalità di getsione](#modalità-di-getsione)
+    - [Servizio in background](#servizio-in-background)
+    - [Server a priorità statica](#server-a-priorità-statica)
+    - [Polling Server](#polling-server)
+    - [Deferrable Server](#deferrable-server)
+    - [Priority Exchange Server](#priority-exchange-server)
+    - [Sporadic Server (rotto)](#sporadic-server-rotto)
+    - [Sporadi Server (corretto)](#sporadi-server-corretto)
+    - [Server a Priorità Dinamica](#server-a-priorità-dinamica)
+    - [Constant Utilization Server](#constant-utilization-server)
 
-- [Hard Real Time Task Schedulingback](#hard-real-time-task-schedulingback)
-  - [Indice](#indice)
-  - [Assunti](#assunti)
-  - [Teorema sulla schedulabilità](#teorema-sulla-schedulabilità)
-  - [Schedulazione clock-driven](#schedulazione-clock-driven)
-  - [Timer-driven scheduling](#timer-driven-scheduling)
-  - [Ambiente di esecuzione](#ambiente-di-esecuzione)
-    - [Sequenziale](#sequenziale)
-  - [Cyclic Executive](#cyclic-executive)
-    - [Approccio Cyclic Executive](#approccio-cyclic-executive)
-    - [Approccio Barker - Shaw](#approccio-barker---shaw)
-    - [Costruzione di un feasable schedule](#costruzione-di-un-feasable-schedule)
-  - [Schedulazione Priority Driven](#schedulazione-priority-driven)
-    - [Algoritmo Rate Monotonic Priority Ordering (RMPO)](#algoritmo-rate-monotonic-priority-ordering-rmpo)
-  - [Test di schedulabilità LIU-LAYLAND](#test-di-schedulabilità-liu-layland)
-    - [Corollario](#corollario)
-  - [Test di Kuo - Mok](#test-di-kuo---mok)
-  - [Test di Burchard](#test-di-burchard)
-  - [Test di Han](#test-di-han)
-  - [Analisi di schedulabilità di Audsley](#analisi-di-schedulabilità-di-audsley)
-    - [Alternativa all'algoritmo di Audsley](#alternativa-allalgoritmo-di-audsley)
-  - [Processi Sporadici](#processi-sporadici)
-  - [Deadline Monotonic Priority Ordering (DMPO)](#deadline-monotonic-priority-ordering-dmpo)
-  - [Analisi di schedulabilità attraverso i tempi di risposta](#analisi-di-schedulabilità-attraverso-i-tempi-di-risposta)
-    - [Altro test](#altro-test)
-  - [Test di Lehoczky](#test-di-lehoczky)
-  - [Test di Utilizzazione Efficace dei Processi](#test-di-utilizzazione-efficace-dei-processi)
-  - [Algoritmo Earliest Deadline First (EDF)](#algoritmo-earliest-deadline-first-edf)
-  - [Algoritmo Least Slack Time First (LST)](#algoritmo-least-slack-time-first-lst)
-  - [Metascheduler](#metascheduler)
-
-## Introduzione
+## 00.Introduzione
 
 Ai task Hard Real Time si aggiungono quelli Soft Real Time, l'obiettivo è velocizzare la loro esecuzione.
 

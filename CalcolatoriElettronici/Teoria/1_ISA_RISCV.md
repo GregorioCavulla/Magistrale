@@ -1,10 +1,10 @@
 
 # ISA RISCV <div style="text-align: right"> [back](./CalcolatoriElettronici.md) </div>
 
-## Indice
+# Indice
 
 - [ISA RISCV  back ](#isa-riscv--back-)
-  - [Indice](#indice)
+- [Indice](#indice)
   - [RISC-V ISA nomenclatura](#risc-v-isa-nomenclatura)
   - [ISA RISC-V](#isa-risc-v)
   - [Ripasso Concetti Base - Pipeline RISC-V](#ripasso-concetti-base---pipeline-risc-v)
@@ -12,7 +12,7 @@
   - [Concetti Principali](#concetti-principali)
   - [Soluzioni alle Alee](#soluzioni-alle-alee)
   - [Prestazioni Pipeline](#prestazioni-pipeline)
-  - [Conclusione](#conclusione)
+  - [\[\[2.2\_Modello\_di\_Esecuzione\_Cuda\_GC\]\]](#22_modello_di_esecuzione_cuda_gc)
   - [Ripasso concetti base](#ripasso-concetti-base)
   - [Data Hazards in ALU Instructions](#data-hazards-in-alu-instructions)
   - [Rilevazione della necessità di Forwarding](#rilevazione-della-necessità-di-forwarding)
@@ -22,7 +22,7 @@
   - [1-Bit Predictor: Problema](#1-bit-predictor-problema)
   - [2-Bit Predictor](#2-bit-predictor)
   - [Calcolo del Branch Target](#calcolo-del-branch-target)
-- [Dipendenze e Architetture Superscalari](#dipendenze-e-architetture-superscalari)
+- [\[\[Lezione\_3\]\]](#lezione_3)
   - [Intructions Level Parallelism (ILP)](#intructions-level-parallelism-ilp)
   - [Data Level Parallelism (DLP)](#data-level-parallelism-dlp)
   - [Thread Level Parallelism (TLP)](#thread-level-parallelism-tlp)
@@ -121,7 +121,7 @@
 - **Formula del Tempo di CPU**:
   - `CPU Time = Instruction Count × CPI × Clock Cycle Time`.
 
-## Conclusione
+## [[2.2_Modello_di_Esecuzione_Cuda_GC]]
 
 - La pipeline migliora il throughput eseguendo istruzioni in parallelo.
 - Affetta da alee strutturali, di dati e di controllo.
@@ -206,7 +206,7 @@
   - Indicizzato dal PC quando l'istruzione viene fetchata
   - Se c'è un hit e l'istruzione è predetta taken, è possibile fetchare immediatamente il target.
 
-# Dipendenze e Architetture Superscalari
+# [[Lezione_3]]
 
 ## Intructions Level Parallelism (ILP)
 

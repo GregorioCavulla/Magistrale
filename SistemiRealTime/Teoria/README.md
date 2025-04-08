@@ -3,8 +3,7 @@
 [Return](../../README.md)
 
 ---
-
-## Indice
+# Indice
 
 - ### [Introduzione](./1_Introduzione.md)
 

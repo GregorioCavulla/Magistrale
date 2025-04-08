@@ -1,0 +1,672 @@
+.
+├── CalcolatoriElettronici
+│   ├── 0_Introduzione.md
+│   ├── 1_ISA_RISCV.md
+│   ├── Appunti23-24
+│   │   ├── 1.Pipeline
+│   │   │   ├── 1a.RISC-V ISA nomenclatura.pdf
+│   │   │   ├── 2b.Pipeline_RISC-V_v2.pdf
+│   │   │   ├── 2.ISA_RISCV.pdf
+│   │   │   ├── 2.Pipeline_RISC-V_v2.pdf
+│   │   │   ├── 3a.ILP_dipendenze_e_superscalare.pdf
+│   │   │   ├── 3b.pipeline_con_fpu_multicilclo_v2.pdf
+│   │   │   ├── 4.Architetture_OutOfOrder_scoreboarding.pdf
+│   │   │   ├── 5.Architetture_OutOfOrder_tommasulo.pdf
+│   │   │   ├── 6.speculative_superscalari.pdf
+│   │   │   └── 7.Es_pipeline.pdf
+│   │   ├── 2.Memorie
+│   │   │   ├── 10.a.Gestione_periferiche.pdf
+│   │   │   ├── 10.b.AMBA_AXI.pdf
+│   │   │   ├── 11.SIMD_and_Vector.pdf
+│   │   │   ├── 12.Performance.pdf
+│   │   │   ├── 6_gerarchia_memoria_v2.pdf
+│   │   │   ├── 7_cache_avanzate_v1.pdf
+│   │   │   ├── 8_cache_multicore.pdf
+│   │   │   ├── 9.Memoria Virtuale_v2.pdf
+│   │   │   ├── 9p.Memoria Virtuale.pdf
+│   │   │   ├── Date Delle Lezioni Da Guardare.pdf
+│   │   │   ├── Esercizi Esame
+│   │   │   │   ├── 9.cache_esercizio.pdf
+│   │   │   │   ├── 9.soluzione.pdf
+│   │   │   │   └── Testo_CEM_19_01_2023.pdf
+│   │   │   └── [Sistemi Operativi] Memoria Virtuale e Translation Lookaside Buffer - InformaticaLab.pdf
+│   │   ├── Architetture Teoria .pdf
+│   │   └── ESERCIZI D'ESAME CALCOLATORI M.zip
+│   ├── CalcolatoriElettronici.md
+│   ├── Lezione_1.md
+│   ├── Lezione_2.md
+│   ├── Lezione_3.md
+│   ├── LEzione_4.md
+│   ├── Prove
+│   │   ├── 20221219-20240930.zip
+│   │   ├── 2023119-20240930.zip
+│   │   ├── Esame 20220111-20240930.zip
+│   │   ├── Esame 20220124-20240930.zip
+│   │   ├── Esame 20220224-20240930.zip
+│   │   ├── Esame 20240108 e Soluzioni-20240930.zip
+│   │   ├── EsercitazioneCacheTesto.xlsx
+│   │   └── Soluzione_Modulo1_esempio.xlsx
+│   └── Slide
+│       ├── 10.AMBA_AXI.pdf
+│       ├── 10.Gestione_periferiche.pdf
+│       ├── 11.SIMD_and_Vector.pdf
+│       ├── 12.Performance.pdf
+│       ├── 1a.RISC-V ISA nomenclatura.pdf
+│       ├── 1 Introduzione.pdf
+│       ├── 2b.Pipeline_RISC-V_v2.pdf
+│       ├── 2.ISA_RISCV.pdf
+│       ├── 2.Pipeline_RISC-V_v2.pdf
+│       ├── 3a.ILP_dipendenze_e_superscalare.pdf
+│       ├── 3b.pipeline_con_fpu_multicilclo_v4.pdf
+│       ├── 4.1Es_pipeline.pdf
+│       ├── 4.Architetture_OutOfOrder_scoreboarding.pdf
+│       ├── 4.Es_pipeline.pdf
+│       ├── 5.Architetture_OutOfOrder_speculative_superscalari.pdf
+│       ├── 5.Architetture_OutOfOrder_tommasulo.pdf
+│       ├── 6_gerarchia_memoria_v2.pdf
+│       ├── 7_cache_avanzate_v1.pdf
+│       ├── 8_cache_esercizio.pdf
+│       ├── 8_cache_multicore.pdf
+│       ├── 9.Memoria Virtuale_v2.pdf
+│       ├── 9p.Memoria Virtuale.pdf
+│       ├── EsercitazioneCacheTesto_Soluzione.pdf
+│       ├── EsercizioCacheAula_CommentoSoluzione.pdf
+│       └── perf-bartolini-2023.pdf
+├── ComputerVision
+│   └── ComputerVision.md
+├── Cybersecurity
+│   └── Cybersecurity.md
+├── FondamentiDiAI
+│   ├── Lab.md
+│   ├── Materiale
+│   │   ├── aima-java-1.8.0-Chp7-Rewrite
+│   │   │   ├── aima-core
+│   │   │   ├── aima-gui
+│   │   │   └── aimax-osm
+│   │   ├── Appunti Fabio viola
+│   │   │   ├── 00_introduzione.pdf
+│   │   │   ├── 01_sistemibasatisullaconoscenza.pdf
+│   │   │   ├── 02_spaziodeglistati.docx
+│   │   │   ├── 02_spaziodeglistati.pdf
+│   │   │   ├── 03_ricercanoninformata.docx
+│   │   │   ├── 03_ricercanoninformata.pdf
+│   │   │   ├── 04_ricerca_informata.docx
+│   │   │   ├── 04_ricerca_informata.pdf
+│   │   │   ├── 05_giochi.pdf
+│   │   │   ├── 06_problemi_con_vincoli.pdf
+│   │   │   ├── 08_logica.pdf
+│   │   │   ├── 09_inferenza_e_logica_proposizionale.pdf
+│   │   │   ├── 10_inferenza_e_logica_dei_predicati.pdf
+│   │   │   ├── 11_sistemiesperti.pdf
+│   │   │   └── 13-prolog-aritmetica.pdf
+│   │   ├── Artificial Intelligence A Modern Approach (3rd Edition).pdf
+│   │   ├── Concetti Fondamentali IA.docx
+│   │   ├── Copy of Domande e risposte.docx
+│   │   ├── Domande e risposte.docx
+│   │   ├── Esami Vecchi
+│   │   │   ├── 05 - esameAI20050621-ParteI.pdf
+│   │   │   ├── 05 - esameAI20050713-ParteI.pdf
+│   │   │   ├── 05 - esameAI20050916-ParteI.pdf
+│   │   │   ├── 05 - esameAI20051216-ParteI.pdf
+│   │   │   ├── 06 - 13Dicembre2006-ParteI.pdf
+│   │   │   ├── 06 - 13Settembre2006-ParteI.pdf
+│   │   │   ├── 06 - 2012.06 - Bologna.pdf
+│   │   │   ├── 06 - 22Giugno2006-ParteI.pdf
+│   │   │   ├── 06 - esameAI20060112-ParteI.pdf
+│   │   │   ├── 06 - FondAI.20060711.pdf
+│   │   │   ├── 07 - 12Luglio2007-ParteI.pdf
+│   │   │   ├── 07 - 21Giugno2007-ParteI_corrected.pdf
+│   │   │   ├── 07 - 29Marzo2007-ParteI.pdf
+│   │   │   ├── 07 - CompitoFondAI.20070913.pdf
+│   │   │   ├── 07 - FondAI.20070115.pdf
+│   │   │   ├── 08 - 10Gennaio2008-ParteI11.pdf
+│   │   │   ├── 08 - 10Luglio2008-ParteI2.pdf
+│   │   │   ├── 08 - 11Settembre2008-ParteInew.pdf
+│   │   │   ├── 08 - 16Dicembre2008-ParteI-new.pdf
+│   │   │   ├── 08 - 25Giugno2008-ParteI.pdf
+│   │   │   ├── 08 - 3Aprile2008-ParteI.pdf
+│   │   │   ├── 09 - 10Luglio2009-ParteI-finalissimo.pdf
+│   │   │   ├── 09 - 17Settembre2009-ParteI.pdf
+│   │   │   ├── 09 - 19Giugno2009-ParteI-newissimo.pdf
+│   │   │   ├── 09 - 22Dicembre2009-ParteI.pdf
+│   │   │   ├── 09 - 2Aprile2009-ParteI.pdf
+│   │   │   ├── 09 - 8Gennaio2009-ParteI.pdf
+│   │   │   ├── 10 - 11Febbraio2010-ParteI2.pdf
+│   │   │   ├── 10 - 13Gennaio2010.pdf
+│   │   │   ├── 10 - 15Giugno2010-ParteII.pdf
+│   │   │   ├── 10 - 15Giugno2010-ParteI.pdf
+│   │   │   ├── 10 - 15Giugno2010-Totale.pdf
+│   │   │   ├── 10 - 15Luglio2010-Full.Soluzione.pdf
+│   │   │   ├── 10 - 15luglio2010-ParteII.Soluzione.pdf
+│   │   │   ├── 10 - 15Luglio2010-ParteI.Soluzione.pdf
+│   │   │   ├── 10 - 9Settembre2010-ParteII-Soluzione.pdf
+│   │   │   ├── 10 - 9Settembre2010-ParteI-Soluzione.pdf
+│   │   │   ├── 10 - 9Settembre2010-Totale-Soluzione.pdf
+│   │   │   ├── 11 - 19Gennaio2011.pdf
+│   │   │   ├── 11 - 21.12.2011 - Testo.pdf
+│   │   │   ├── 11 - 2Febbario2011-Totale.pdf
+│   │   │   ├── 11 - Compito16.06.2011.pdf
+│   │   │   ├── 11 - Compito.20110713.pdf
+│   │   │   ├── 11 - Compito.20110914.pdf
+│   │   │   ├── 12 - 20120712.FondAI.pdf
+│   │   │   ├── 12 - 2012.09.13 - Fond AI.pdf
+│   │   │   ├── 13 - 2013.01.10 - Fond AI.pdf
+│   │   │   ├── 13 - 2013.01.31 - Fond IA.pdf
+│   │   │   ├── 13 - 2013.02.15 - Fond IA.pdf
+│   │   │   ├── 13 - 2013.06.14.pdf
+│   │   │   ├── 13 - 2013.07.11.pdf
+│   │   │   ├── 13 - 2013.09.12.pdf
+│   │   │   ├── 14 - 20140612.FondAI.Soluzione.pdf
+│   │   │   ├── 14 - 20140710.FondAI.Soluzione.pdf
+│   │   │   ├── 14 - 20140911.FondAI.Soluzione.pdf
+│   │   │   ├── 14 - 2014-Gennaio10.pdf
+│   │   │   ├── 15 - 20150113.FondAI.Soluzione.pdf
+│   │   │   ├── 15 - 20150129.FondAI.Soluzione.pdf
+│   │   │   ├── 2015-Giugno-15.pdf
+│   │   │   ├── 2015-Luglio-09.Soluzione.pdf
+│   │   │   ├── 2015-Settembre-10.Soluzione.pdf
+│   │   │   ├── 2016-Febbraio-12.Soluzione.pdf
+│   │   │   ├── 2016-Gennaio-14.Soluzione.pdf
+│   │   │   ├── 2016-Gennaio-28.Soluzione.pdf
+│   │   │   ├── 2016-Settembre-8.pdf
+│   │   │   ├── 2017-Gennaio-12(1).docx
+│   │   │   └── 2017-Gennaio-12.docx
+│   │   ├── Fondamenti di Intelligenza Artificiale M.docx
+│   │   ├── Fondamenti di Intelligenza Artificiale - Registrazioni 2010-2011.torrent
+│   │   ├── IA-M.pdf
+│   │   ├── Programmazione Logica e Prolog - Console Lamma
+│   │   │   ├── 0 - Indice.pdf
+│   │   │   ├── 1 -  Programmazione logica.pdf
+│   │   │   ├── 2 -  Introduzione.pdf
+│   │   │   ├── Capitolo 01 - La logica dei predicati del primo ordine.pdf
+│   │   │   ├── Capitolo 02 - Principio di risoluzione.pdf
+│   │   │   ├── Capitolo 03 - Programmazione logica.pdf
+│   │   │   ├── Capitolo 04 - Semantica della programmazione logica.pdf
+│   │   │   ├── Capitolo 05 - Problema della negazione.pdf
+│   │   │   ├── Capitolo 06 - Dalla programmazione logica al prolog.pdf
+│   │   │   ├── Capitolo 07 - Aritmetica e ricorsione.pdf
+│   │   │   ├── Capitolo 08 - Liste.pdf
+│   │   │   ├── Capitolo 09 - Controllo di un programma.pdf
+│   │   │   ├── Capitolo 10 - Strutture dati.pdf
+│   │   │   ├── Capitolo 11 - Predicati di meta-livello.pdf
+│   │   │   ├── Capitolo 12 - Strutture dati complesse - Alberi e grafi.pdf
+│   │   │   ├── Capitolo 13 - Prolog e analisi sintattica dei linguaggi (1).pdf
+│   │   │   ├── Capitolo 13 - Prolog e analisi sintattica dei linguaggi (2).pdf
+│   │   │   ├── Capitolo 13 - Prolog e analisi sintattica dei linguaggi (3).pdf
+│   │   │   ├── Capitolo 13 - Prolog e analisi sintattica dei linguaggi.pdf
+│   │   │   ├── Capitolo 14 - Prolog e intelligenza artificiale.pdf
+│   │   │   ├── Capitolo 15 - Programmazione logica a vincoli (1).pdf
+│   │   │   └── Capitolo 15 - Programmazione logica a vincoli.pdf
+│   │   ├── Riassunti IA.docx
+│   │   ├── Riassunti IA.pdf
+│   │   ├── [Riassunto (parziale)] Fondamenti di intelligenza artificiale.pdf
+│   │   ├── Slide
+│   │   │   ├── Binder01-19x4.pdf
+│   │   │   └── Prolog
+│   │   │       └── Binder01-09x4.pdf
+│   │   ├── swi-prolog.pdf
+│   │   └── Video_Corso
+│   │       ├── IA02_ Logica del 1° Ordine_ Semantica
+│   │       ├── IA03_ Logica del 1° Ordine_ Sistemi Formali
+│   │       ├── IA05_ Logica del 1° Ordine_ Teorema di Herbrand
+│   │       ├── IA06_ Logica del 1° Ordine_ Risoluzione Lineare
+│   │       ├── IA07_ Logica del 1° Ordine_ Risoluzione SLD
+│   │       ├── IA08_ Logica del 1° Ordine_ Alberi SLD
+│   │       ├── IA09_ Logica del 1° Ordine_ Programmi Normali
+│   │       ├── IA10 1 PROLOG  IB - Introduzione 1
+│   │       ├── IA10 2 PROLOG  IB - Introduzione 2
+│   │       ├── IA10 6 PROLOG  IB - Introduzione 6
+│   │       ├── IA11 2 PROLOG  IB - Sintassi e Semantica 2
+│   │       ├── IA12 2 PROLOG  IB - Liste, Operatori, Aritmetica 2
+│   │       ├── IA12 4 PROLOG  IB - Liste, Operatori, Aritmetica 4
+│   │       ├── IA13 1 PROLOG  IB - il CUT     _ ! _
+│   │       ├── IA13 2 PROLOG  IB - Negazione per Fallimento _ _+_
+│   │       ├── IA15 1 PROLOG  IB - Gestione dell_Input_Output
+│   │       ├── IA16 1 PROLOG  IB - Gestione del DataBase Prolog
+│   │       ├── IA18_3 Ricerca nello Spazio degli Stati_ UCS, DLS, IDS
+│   │       ├── IA18_5 Ricerca nello Spazio degli Stati_ DLS, IDS in Prolog
+│   │       ├── IA18_6 Ricerca nello Spazio degli Stati_ BFS in Prolog
+│   │       ├── IA18_7 Ricerca nello Spazio degli Stati_ UCS in Prolog
+│   │       ├── IA18_8 Ricerca nello Spazio degli Stati_  ricerca bidirezionale in Prolog
+│   │       ├── IA19 2 Ricerca con Funzione Euristica_ A_
+│   │       ├── IA19 3 Ricerca con Funzione Euristica_ implementazione GS in Prolog
+│   │       ├── IA19 4 Ricerca con Funzione Euristica_ implementazione A_ in Prolog
+│   │       ├── IA19 5 Ricerca con Funzione Euristica_ IDA_, RBFS, SMA_
+│   │       ├── IA19 6 Ricerca con Funzione Euristica_ sulle euristiche
+│   │       ├── IA20 1 Ricerca nel mondo reale_ Ricerca Locale
+│   │       ├── IA20 3 Ricerca nel mondo reale_ Assenza o Carenza di Osservazioni
+│   │       ├── IA21 1 Ricerca con Avversari_ MiniMax
+│   │       ├── IA21 2 Ricerca con Avversari_ Potatura α-β
+│   │       ├── IA21 3 Ricerca con Avversari_ estensioni a casi realistici
+│   │       ├── IA22 1  Pianificazione_ ricerca in uno spazio di teorie logiche
+│   │       ├── IA22 2  Pianificazione_ STRIPS_ pianificazione in PROLOG
+│   │       ├── IA22 3  Pianificazione_ STRIPS_ another forward planner in PROLOG
+│   │       ├── IA22 4  Pianificazione_ STRIPS_ Means-End planner in PROLOG
+│   │       ├── IA23 1 Forme di Inferenza Logica_ DEduzione, ABduzione, INduzione
+│   │       ├── IA23 4 MetaInterprete Prolog per Diagnosi Abduttiva
+│   │       ├── IA24 1 Apprendimento Automatico_ concetti introduttivi
+│   │       ├── IA24 2  Apprendimento Automatico_ induzione di regole in Prolog
+│   │       ├── IA24 3  Apprendimento Automatico_ induzione di alberi di decisione
+│   │       ├── IA24 4  Apprendimento Automatico_ induzione di alberi di decisione in PROLOG
+│   │       ├── IA25 1 Rappresentazione della Conoscenza_ OntoLogica
+│   │       └── IA26 2  LOGICA MODALE_ sintassi e sistemi formali
+│   ├── Slide
+│   │   ├── 01-introCorso2024-2025.pdf
+│   │   ├── 02-SpazioStati.pdf
+│   │   ├── 03-StriRicNonInf.pdf
+│   │   ├── 04-StriRicInf.pdf
+│   │   ├── 05-Giochi.pdf
+│   │   ├── 06-vincoli.pdf
+│   │   ├── 07-Introduzione alla Logica.pdf
+│   │   ├── IntroAIParte1.pdf
+│   │   ├── IntroAIParte2.pdf
+│   │   └── IntroAIParte3.pdf
+│   └── Teoria
+│       ├── 01.IntroduzioneAlCorso.md
+│       ├── 02.IntroduzioneAllAI.md
+│       ├── FondamentiDiAI.md
+│       └── image.png
+├── FondamentiDiComputerGraphics
+│   ├── FondamentiDiComputerGraphics.md
+│   └── Materiale
+├── GestioneDellInnovazioneEGestioneDeiProgetti
+│   ├── GestioneDellInnovazioneEGestioneDeiProgetti.md
+│   └── Materiale
+├── IntelligentSystems
+│   ├── IntelligentSystems.md
+│   └── Materiale
+├── LICENSE
+├── README.md
+├── RicercaOperativa
+│   ├── Esercitazioni
+│   │   ├── Esercitazione_III.pdf
+│   │   ├── Esercitazione_II.pdf
+│   │   ├── Esercitazione_I.pdf
+│   │   └── Esercitazione_IV.pdf
+│   ├── Materiale
+│   │   └── Ricerca Operativa (Silvano Martello) (Z-Library).pdf
+│   ├── Slides
+│   │   ├── Chapter0.pdf
+│   │   ├── Chapter1.pdf
+│   │   ├── Chapter2.pdf
+│   │   ├── Chapter3.pdf
+│   │   ├── Chapter4.pdf
+│   │   ├── Chapter5.pdf
+│   │   ├── Chapter6.pdf
+│   │   ├── Chapter7.pdf
+│   │   ├── Chapter8.pdf
+│   │   └── Chapter9.pdf
+│   └── Teoria
+│       ├── 00.IntroduzioneAlCorso.md
+│       ├── 01.IntroduzioneAllaRicercaOperativa.md
+│       └── RicercaOperativa.md
+├── SicurezzaDellInformazione
+│   ├── Materiale
+│   │   └── Appunti Lezione - Fabio Viola.pdf
+│   ├── Slides
+│   │   ├── 00-Intro.pdf
+│   │   ├── 01-DatiSicuriNew.pdf
+│   │   ├── 2-2Datisicuri.pdf
+│   │   ├── CenniCrittoClassica.pdf
+│   │   └── meccanismi simmetriciFinaleParte1.pdf
+│   └── Teoria
+│       ├── 00.Introduzione.md
+│       ├── 01.DatiSicuri.md
+│       ├── image-1.png
+│       ├── image-2.png
+│       ├── image-3.png
+│       ├── image-4.png
+│       ├── image-5.png
+│       ├── image-6.png
+│       ├── image-7.png
+│       ├── image-8.png
+│       ├── image.png
+│       └── SicurezzaDellInformazione.md
+├── SistemiDigitali
+│   ├── Esercitazioni
+│   │   ├── SIMD_code-20241023
+│   │   │   ├── add_subtract_bytes.cpp
+│   │   │   ├── copy_array.cpp
+│   │   │   └── performance_counters.cpp
+│   │   └── SIMD_Ghigo
+│   │       ├── Esercizio1.c
+│   │       └── Esercizio1.o
+│   ├── image-10.png
+│   ├── image-11.png
+│   ├── image-12.png
+│   ├── image-13.png
+│   ├── image-14.png
+│   ├── image-15.png
+│   ├── image-16.png
+│   ├── image-17.png
+│   ├── image-18.png
+│   ├── image-19.png
+│   ├── image-1.png
+│   ├── image-20.png
+│   ├── image-21.png
+│   ├── image-22.png
+│   ├── image-23.png
+│   ├── image-24.png
+│   ├── image-25.png
+│   ├── image-26.png
+│   ├── image-27.png
+│   ├── image-28.png
+│   ├── image-29.png
+│   ├── image-2.png
+│   ├── image-30.png
+│   ├── image-31.png
+│   ├── image-32.png
+│   ├── image-33.png
+│   ├── image-34.png
+│   ├── image-35.png
+│   ├── image-36.png
+│   ├── image-37.png
+│   ├── image-38.png
+│   ├── image-39.png
+│   ├── image-3.png
+│   ├── image-40.png
+│   ├── image-41.png
+│   ├── image-42.png
+│   ├── image-43.png
+│   ├── image-44.png
+│   ├── image-45.png
+│   ├── image-46.png
+│   ├── image-47.png
+│   ├── image-48.png
+│   ├── image-49.png
+│   ├── image-4.png
+│   ├── image-50.png
+│   ├── image-51.png
+│   ├── image-52.png
+│   ├── image-53.png
+│   ├── image-54.png
+│   ├── image-55.png
+│   ├── image-56.png
+│   ├── image-57.png
+│   ├── image-58.png
+│   ├── image-59.png
+│   ├── image-5.png
+│   ├── image-60.png
+│   ├── image-61.png
+│   ├── image-62.png
+│   ├── image-63.png
+│   ├── image-64.png
+│   ├── image-65.png
+│   ├── image-66.png
+│   ├── image-67.png
+│   ├── image-68.png
+│   ├── image-69.png
+│   ├── image-6.png
+│   ├── image-70.png
+│   ├── image-71.png
+│   ├── image-72.png
+│   ├── image-73.png
+│   ├── image-74.png
+│   ├── image-75.png
+│   ├── image-76.png
+│   ├── image-77.png
+│   ├── image-78.png
+│   ├── image-79.png
+│   ├── image-7.png
+│   ├── image-80.png
+│   ├── image-81.png
+│   ├── image-82.png
+│   ├── image-83.png
+│   ├── image-84.png
+│   ├── image-8.png
+│   ├── image-9.png
+│   ├── image.png
+│   ├── Slide
+│   │   ├── 0.0 Introduzione.pdf
+│   │   ├── Mattoccia
+│   │   │   ├── 1.1 - SIMD_Integer.pdf
+│   │   │   ├── 1.2 - Principles of image acquisition.pdf
+│   │   │   ├── 1.3 - Dealing with real numbers.pdf
+│   │   │   ├── 1.4 - Multithreading_with_OpenMP.pdf
+│   │   │   └── 1.5 - Field Programmable Gate Array (FPGA).pdf
+│   │   └── Tosi
+│   │       ├── 2.0 - CUDA Introduction.pdf
+│   │       ├── 2.1 - Modello di Programmazione CUDA.pdf
+│   │       ├── 2.2 - Modello di Esecuzione CUDA.pdf
+│   │       ├── [ITA] 2.3 - Modello di Memoria CUDA.pdf
+│   │       ├── [ITA] 2.b - CUDA Complementi (Riduzione Parallela).pdf
+│   │       └── Shorts
+│   │           ├── [ITA] 2.1 - Modello di Programmazione CUDA (Short Version).pdf
+│   │           ├── [ITA] 2.2 - Modello di Esecuzione CUDA (Short Version).pdf
+│   │           └── [ITA] 2.3 - Modello di Memoria CUDA (Short Version).pdf
+│   └── Teoria
+│       ├── 0.0_Introduzione.md
+│       ├── 1.1_SIMD_Integer.md
+│       ├── 1.1_SIMD_Integer.pdf
+│       ├── 1.2_Principles_of_Image_Acquisition.md
+│       ├── 1.2_Principles_of_Image_Acquisition.pdf
+│       ├── 1.3_Dealing_with_Real_Numbers.md
+│       ├── 1.3_Dealing_with_Real_Numbers.pdf
+│       ├── 1.4_Multithreading_with_OpenMP.md
+│       ├── 1.4_Multithreading_with_OpenMP.pdf
+│       ├── 1.5_Field_Programmable_Gate_Array.md
+│       ├── 1.5_Field_Programmable_Gate_Array.pdf
+│       ├── 2.0_Cuda_Introduction.md
+│       ├── 2.0_Cuda_Introduction.pdf
+│       ├── 2.1_Modello_di_Programmazione_Cuda.md
+│       ├── 2.1_Modello_di_Programmazione_Cuda.pdf
+│       ├── 2.2_Modello_di_Esecuzione_Cuda.md
+│       ├── 2.2_Modello_di_Esecuzione_Cuda.pdf
+│       ├── 2.3_Modello_di_Memoria_Cuda.md
+│       ├── 2.3_Modello_di_Memoria_Cuda.pdf
+│       ├── image-10.png
+│       ├── image-11.png
+│       ├── image-12.png
+│       ├── image-13.png
+│       ├── image-14.png
+│       ├── image-15.png
+│       ├── image-16.png
+│       ├── image-17.png
+│       ├── image-18.png
+│       ├── image-19.png
+│       ├── image-1.png
+│       ├── image-20.png
+│       ├── image-21.png
+│       ├── image-22.png
+│       ├── image-23.png
+│       ├── image-24.png
+│       ├── image-25.png
+│       ├── image-26.png
+│       ├── image-27.png
+│       ├── image-28.png
+│       ├── image-29.png
+│       ├── image-2.png
+│       ├── image-3.png
+│       ├── image-4.png
+│       ├── image-5.png
+│       ├── image-6.png
+│       ├── image-7.png
+│       ├── image-8.png
+│       ├── image-9.png
+│       ├── image.png
+│       ├── Q&A.html
+│       ├── Q&A.md
+│       ├── Q&A.pdf
+│       ├── Riassunti
+│       │   ├── 2.0_Cuda_Introduction_GC.md
+│       │   ├── 2.0_Cuda_Introduction_GC.pdf
+│       │   ├── 2.1_Modello_di_Programmazione_Cuda_GC.md
+│       │   ├── 2.1_Modello_di_Programmazione_Cuda_GC.pdf
+│       │   ├── 2.2_Modello_di_Esecuzione_Cuda_GC.md
+│       │   └── 2.2_Modello_di_Esecuzione_Cuda_GC.pdf
+│       ├── SistemiDigitali.md
+│       └── SistemiDigitali.pdf
+├── SistemiOperativi
+│   ├── Esami
+│   │   ├── 2025_02_11_GregorioCavulla
+│   │   ├── 2025_02_11_GregorioCavulla.go
+│   │   ├── Altro
+│   │   │   ├── Appello 8 gennaio 2020 - Testo ed esempio di soluzione-20240925.zip
+│   │   │   ├── Appello 8 gennaio 2021 - Testo e esempio di soluzione-20240925.zip
+│   │   │   ├── Simulazione esame 22 dicembre 2021-20240925.zip
+│   │   │   ├── Soluzione appello 10 gennaio 2022-20240925.zip
+│   │   │   ├── Soluzione appello 14 febbraio 2022-20240925.zip
+│   │   │   ├── Soluzione appello 26 gennaio 2023-20240925.zip
+│   │   │   ├── Soluzione appello 28 gennaio 2022-20240925.zip
+│   │   │   ├── Soluzione appello 9 gennaio 2023-20240925.zip
+│   │   │   ├── SOM-prove-esami.zip
+│   │   │   ├── Testo e soluzione del primo appello 202324 - 10 Giugno 2024-20240925.zip
+│   │   │   └── 💥Testo e soluzione del secondo appello 202324 - 26 Giugno 2024-20240925.zip
+│   │   ├── Ghigo
+│   │   │   ├── 2021-01-08_VaccinoRegioni
+│   │   │   │   ├── solGhigo
+│   │   │   │   ├── solGhigo.go
+│   │   │   │   └── testo.08gen20201.som.pdf
+│   │   │   ├── 2021-12-22_NegozioCommessi
+│   │   │   │   ├── solGhigo
+│   │   │   │   ├── solGhigo.go
+│   │   │   │   └── testo.pdf
+│   │   │   ├── 2022-01-28_MascherineDeposito
+│   │   │   │   ├── solGhigo.go
+│   │   │   │   └── testo.28gen22.som.pdf
+│   │   │   ├── 2022-02-14_CorridoioMostra
+│   │   │   │   ├── solGhigo
+│   │   │   │   ├── solGhigo.go
+│   │   │   │   └── testo.pdf
+│   │   │   ├── 2023-01-09_StradaParcheggio
+│   │   │   │   ├── solGhigo
+│   │   │   │   ├── solGhigo.go
+│   │   │   │   └── testo.pdf
+│   │   │   ├── 2023-02-26_bottiglieAcqua
+│   │   │   │   ├── solGhigo
+│   │   │   │   ├── solGhigo.go
+│   │   │   │   └── testo230126.som.pdf
+│   │   │   ├── 2025-01-07_A_BagniniFisio
+│   │   │   │   ├── solGhigo.go
+│   │   │   │   └── SOM.temaA.pdf
+│   │   │   ├── 2025-01-07_B_Palestra
+│   │   │   │   ├── solGhigo.go
+│   │   │   │   └── SOM.temaB.pdf
+│   │   │   └── new.go
+│   │   ├── Testi e soluzione primo appello 7 gennaio 2025-20250205
+│   │   │   ├── soluzioneA.7gen25.go
+│   │   │   └── soluzioneB.7gen25.go
+│   │   └── Testi e soluzione primo appello 7 gennaio 2025-20250205.zip
+│   ├── Esercitazioni
+│   │   ├── Esercitazione 1 - programmazione concorrente con pthread-20240925
+│   │   │   ├── es1.pdf
+│   │   │   ├── esempio1.c
+│   │   │   └── soluzioni esercitazione 1
+│   │   │       ├── es1.1.c
+│   │   │       └── es1.2.c
+│   │   ├── Esercitazione 2 - sincronizzazione pthread-20240925
+│   │   │   ├── es2.pdf
+│   │   │   └── soluzioni es2
+│   │   │       ├── sol2.1.c
+│   │   │       ├── sol2.2.c
+│   │   │       └── sol2.3.c
+│   │   ├── Esercitazione 3 - Modello a scambio di messaggi concorrenza e comunicazione in go-20240925
+│   │   │   ├── es3.pdf
+│   │   │   ├── esempio.pool1.go
+│   │   │   ├── esempio.pool2.go
+│   │   │   └── soluzioni es3
+│   │   │       ├── sol3.1.go
+│   │   │       └── sol3.2.go
+│   │   ├── Esercitazione 4 - Uso avanzato di go-20240925
+│   │   │   ├── es4.pdf
+│   │   │   ├── es4.ponteprio.go
+│   │   │   └── soluzioni
+│   │   │       ├── sol4.1.go
+│   │   │       └── sol4.2.go
+│   │   ├── Esercitazione 5 - Comunicazione con sincronizzazione estesa in ADA-20240925
+│   │   │   ├── es5.pdf
+│   │   │   └── esempi
+│   │   │       ├── ponte.adb
+│   │   │       └── torte.adb
+│   │   ├── Esercitazione 6 - Programmazione parallela con MPI-20240925
+│   │   │   ├── es6.pdf
+│   │   │   ├── launcher.sh
+│   │   │   ├── soluzioni es6
+│   │   │   │   ├── sol6.matrixmul.collettive.c
+│   │   │   │   └── sol6.matrixmul.sr.righe.c
+│   │   │   └── sommavet.c
+│   │   └── Esercitazione 7 - Programmazione parallela con OpenMP-20240925
+│   │       ├── es7.openmp.pdf
+│   │       └── materiale es. 7
+│   │           ├── iterLauncherOMP
+│   │           ├── launcherOMP
+│   │           └── sommavetOMP.c
+│   ├── image-1.png
+│   ├── image-2.png
+│   ├── image-3.png
+│   ├── image-4.png
+│   ├── image-5.png
+│   ├── image-6.png
+│   ├── image.png
+│   ├── Slide
+│   │   ├── 00.presentazione del corso.2024-25.pdf
+│   │   ├── 01.virtualizzazione.pdf
+│   │   ├── 02.protezione.pdf
+│   │   ├── 03.programmazione concorrente.pdf
+│   │   ├── 04.modello a memoria comune.pdf
+│   │   ├── 05.nucleo di un sistema a memoria comune.pdf
+│   │   ├── 06.modello a scambio di messaggi.pdf
+│   │   ├── 07.introduzione al linguaggio go.pdf
+│   │   ├── 08.comunicazione con sincronizzazione estesa.pdf
+│   │   ├── 09.programmazione concorrente in ada.pdf
+│   │   ├── 10.algoritmi di sincronizzazione distribuiti.pdf
+│   │   ├── HPC.1.pdf
+│   │   ├── HPC.2.pdf
+│   │   ├── HPC.3.pdf
+│   │   └── istruzioni cineca2024.pdf
+│   ├── Teoria
+│   │   ├── 01.Virtualizzazione.md
+│   │   ├── 01.Virtualizzazione.pdf
+│   │   ├── 02.Protezione.md
+│   │   ├── 02.Protezione.pdf
+│   │   ├── 03.Programmazione_Concorrente.md
+│   │   ├── 04.Modello_a_Memoria_Comune.md
+│   │   ├── 05.Nucleo_di_un_Sistema_a_Memoria_Comune.md
+│   │   ├── 06.Modello_a_Scambio_di_Messaggi.md
+│   │   ├── 07.Introduzione_al_Linguaggio_Go.md
+│   │   ├── 07.Introduzione_al_Linguaggio_Go.pdf
+│   │   ├── 08.Comunicazione_con_Sincronizzazione_Estesa.md
+│   │   ├── 09.Programmazione_Concorrente_in_Ada.md
+│   │   ├── 10.Algoritmi_di_Sincronizzazione_Distribuiti.md
+│   │   ├── image-1.png
+│   │   ├── image-2.png
+│   │   ├── image-3.png
+│   │   ├── image-4.png
+│   │   ├── image.png
+│   │   └── SistemiOperativi.md
+│   ├── [Teoria] Appunti di Francesco Pennella.pdf
+│   └── [Teoria] Sistemi Operativi M.pdf
+├── SistemiRealTime
+│   ├── image-10.png
+│   ├── image-11.png
+│   ├── image-12.png
+│   ├── image-13.png
+│   ├── image-14.png
+│   ├── image-15.png
+│   ├── image-16.png
+│   ├── image-17.png
+│   ├── image-18.png
+│   ├── image-19.png
+│   ├── image-1.png
+│   ├── image-2.png
+│   ├── image-3.png
+│   ├── image-4.png
+│   ├── image-5.png
+│   ├── image-6.png
+│   ├── image-7.png
+│   ├── image-8.png
+│   ├── image-9.png
+│   ├── image.png
+│   ├── Slide
+│   │   ├── 1 Introduzione.pdf
+│   │   ├── 2 Hard real-time tasks scheduling.pdf
+│   │   ├── 3 Scheduling di processi soft real-time.pdf
+│   │   └── 4 Shared resources access protocols.pdf
+│   └── Teoria
+│       ├── 1_Introduzione.md
+│       ├── 2_Hard_Real-Time_Task_Scheduling.md
+│       ├── 3_Soft_Real-Time_Task_Scheduling.md
+│       └── SistemiRealTime.md
+└── tree.txt
+
+126 directories, 544 files

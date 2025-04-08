@@ -5,6 +5,6 @@
 
 ---
 
-## Indice
+## [[FondamentiDiAI]]
 
 - ### [Introduzione al corso](./00.IntroduzioneAlCorso.md)

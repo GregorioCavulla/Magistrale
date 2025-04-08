@@ -6,7 +6,7 @@
 
 ---
 
-## Indice
+# Indice
 
 - ### [Virtualizzazione](./01.Virtualizzazione.md)
 - ### [Protezione](./02.Protezione.md)
