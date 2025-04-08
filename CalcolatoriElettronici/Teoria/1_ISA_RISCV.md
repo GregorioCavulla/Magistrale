@@ -1,5 +1,5 @@
 
-# ISA RISCV <div style="text-align: right"> [back](./CalcolatoriElettronici.md) </div>
+# ISA RISCV <div style="text-align: right"> [back](./README.md) </div>
 
 # Indice
 
