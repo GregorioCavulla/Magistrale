@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>04.MeccanismiAsimetrici.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="meccanismi-asimmetrici">Meccanismi Asimmetrici</h1>
+<p><a href="./README.md">Return</a></p>
+<hr>
+<h1 id="indice">Indice</h1>
+<ul>
+<li><a href="#meccanismi-asimmetrici">Meccanismi Asimmetrici</a></li>
+<li><a href="#indice">Indice</a>
+<ul>
+<li><a href="#introduzione">Introduzione</a></li>
+<li><a href="#il-certificato">Il Certificato</a>
+<ul>
+<li><a href="#rilascio-del-certificato">Rilascio del certificato</a></li>
+<li><a href="#formato-del-certificato">Formato del certificato</a></li>
+<li><a href="#pki---public-key-infrastructure">PKI - Public Key Infrastructure</a>
+<ul>
+<li><a href="#directory-db">Directory (DB)</a></li>
+</ul>
+</li>
+<li><a href="#ricerca-di-un-certificato">Ricerca di un certificato</a></li>
+<li><a href="#protocolli-di-gestione">Protocolli di gestione</a></li>
+</ul>
+</li>
+<li><a href="#proof-of-possession---pop">Proof Of Possession - POP</a></li>
+<li><a href="#revoca-dei-certificati">Revoca dei Certificati</a>
+<ul>
+<li><a href="#crl---certificate-revocation-list">CRL - Certificate Revocation List</a></li>
+<li><a href="#ocsp---online-certificate-status-protocol">OCSP - Online Certificate Status Protocol</a></li>
+</ul>
+</li>
+<li><a href="#modelli-di-fiducia">Modelli di Fiducia</a>
+<ul>
+<li><a href="#pki">PKI</a></li>
+</ul>
+</li>
+<li><a href="#certificati-e-reti-sicure">Certificati e Reti Sicure</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="introduzione">Introduzione</h2>
+<p>Nei meccanismi iasimmetrici si ha una coppia di chiavi per ogni soggetto: una <strong>chiave privata</strong> (usata per firmare e decifrare) e una <strong>chiave pubblica</strong> (usata per verificare la firma o cifrare). Le due chiavi sono legate da una funzione pseudo-unidirezionale.</p>
+<p>La chiaave privata deve essere tenuta con la massima segretezza, la chiaave pubblica invece deve potere essere associata univocamente ad un solo soggetto.</p>
+<ul>
+<li><strong>chiave privata</strong>: robustezza, segretezza, integrità</li>
+<li><strong>chiave pubblica</strong>: disponibilità, autenticità, robustezza, integrità</li>
+</ul>
+<p>Tramite una <strong>trapdoor one-way function</strong> (funzione unidirezionale con porta d'accesso) è possibile ottenere la chiave pubblica dalla chiave privata.</p>
+<p>Che si voglia cifrare o firmare un documento, si userà sempre una coppia di trasformazioni in cui una operazione è semplice e una difficile per chi non conosce la chiave privata. Nella cifratura è facile cifrare e difficile decifrare. Nella firma è difficile firmare e facile verificare.</p>
+<p>Gli algoritmi asimmetrici hanno due principali vantaggi:</p>
+<ul>
+<li>si può ottenere la <strong>non ripudiabilità</strong>: il mittente non può negare di aver firmato un messaggio, in quanto solo lui possiede la chiave privata.</li>
+<li>si possono implementare meccaniscmi di <strong>identificazione attiva</strong>.</li>
+</ul>
+<p>Per garantire riservatezza e autenticazione è lo stesso, cambia solo la coppia di chiavi che viene usata.</p>
+<blockquote>
+<p><strong>Cifratura</strong> (riservatezza): il mittente cifra il messaggio con la chiave pubblica del destinatario e lo invia. Il destinatario decifra il messaggio con la sua chiave privata.
+$A$ manda a $B$ il messaggio cifrato $E_{P_B}(M)$, dove $E_{P_B}$ è la cifratura con la chiave pubblica di $B$. $B$ decifra il messaggio con la sua chiave privata $D_{S_B}(E_{P_B}(M))=M$.</p>
+</blockquote>
+<blockquote>
+<p><strong>Firma</strong> (autenticazione): il mittente cifra il messaggio con la sua chiave privata e lo invia. Il destinatario verifica il messaggio con la chiave pubblica del mittente.
+$A$ manda a $B$ il messaggio firmato $S_{S_A}(M)$, dove $S_{S_A}$ è la firma con la chiave privata di $A$. $B$ verifica il messaggio con la chiave pubblica di $A$ $V_{P_A}(E_{S_A}(M))$.</p>
+</blockquote>
+<p>Come faccio ad associare ad una chiave publbica un proprietario? Se ogni utente distribuisse autonomamente la propria chiave pubblica si potrebbe incoorere in un attacco di <strong>man in the middle</strong>
+Serve quindi un ente fidato per la distribuzione delle chiavi pubbliche. Questo ente è chiamato <strong>PKI</strong> (Public Key Infrastructure) e si occupa di generare le chiavi, distribuirle e gestirle e generare i certificati.</p>
+<h2 id="il-certificato">Il Certificato</h2>
+<h3 id="rilascio-del-certificato">Rilascio del certificato</h3>
+<p>vediamo come viene rilasciato e utilizzato un certificato:</p>
+<ol>
+<li>L'utente $X$ costriusce e invia il messaggio $mX = X||IX||PX||IPX$ dove
+<ul>
+<li>$X$ è l'identificativo dell'utente</li>
+<li>$IX$ è un campo di informazioni sull'utente</li>
+<li>$PX$ è la chiave pubblica dell'utente</li>
+<li>$IPX$ è un campo di informazioni sulla chiave</li>
+</ul>
+</li>
+<li>Il server $T$ costruisce una struttura dati $m$:
+$$mT=T||IT\m=mT||mX$$</li>
+<li>Il server calcola l'hash del messaggio, lo firma e lo pubblica:
+$$H(m)\S_{S_T}(H(m))\Cert(PX,T)=m||S_{S_T}(H(m))$$
+<em>&quot;io, $T$, certifico che X è il proprietario della chiave pubblica $PX$&quot;</em></li>
+</ol>
+<p>Il <em>man in the middle</em> non è più possibile perchè non conosce la chiave del server $T$.</p>
+<h3 id="formato-del-certificato">Formato del certificato</h3>
+<p>il certificato è formato da una parte di dati e una di firma digitale. La parte di dati contiene:</p>
+<ul>
+<li><strong>versione</strong>: versione del certificato</li>
+<li><strong>serial number</strong>: numero di serie del certificato (univoco)</li>
+<li><strong>protocollo di firma</strong>: algoritmo di firma usato da $T$</li>
+<li><strong>emittente</strong>: identificativo dell'emittente</li>
+<li><strong>validità</strong>: periodo di validità del certificato</li>
+<li><strong>soggetto</strong>: identificativo del soggetto</li>
+<li><strong>informazioni sulla chaive pubblica del soggetto</strong>: quando e come è stata generata</li>
+</ul>
+<p>Ci sono diverse estensioni che sono state aggiunte nelle ultime versioni del certificato:</p>
+<ul>
+<li>aggiungere informazioni sulla chiave</li>
+<li>aggiungere informazioni sulle politiche di emissione</li>
+<li>aggiungere infomrazioni sull'utente e/o sull'ente di certificazione</li>
+<li>aggiungere ulteriori informazioni</li>
+</ul>
+<h3 id="pki---public-key-infrastructure">PKI - Public Key Infrastructure</h3>
+<p>Il sistema che permette di ottenere certificati e pubblicare le chiavi pubbliche è detto PKI (Public Key Infrastructure). Comprende:</p>
+<ul>
+<li><strong>Registration Authority (RA)</strong>: entità che si occupa di raccogliere le richieste di certificato e di verificare l'identità del richiedente</li>
+<li><strong>Certification Authority (CA)</strong>: rilascia il certificato per le chiavi e lo pubblica sul database. non deve essere contattata dall'esterno, e deve uscire solo sul DB per sicurezza.</li>
+<li><strong>Directory (DB)</strong>: ospita i certificati delle chiavi e li mette a disposizione.</li>
+</ul>
+<p>In fase di registrazione, l'utente invia la richiesta di certificato alla RA, che verifica l'identità dell'utente e invia la richiesta alla CA. La CA genera il certificato e lo pubblica sul DB.
+A regime l'interazione è solo tra Utente e DB.</p>
+<h4 id="directory-db">Directory (DB)</h4>
+<p>È un database per salvare i certificati delle chiavi delgli utenti. Deve sempre essere disponibile 24 ore su 24 e 7 giorni su 7.</p>
+<p>Segue lo standard X.500, che definisce un protocollo per la gestione di directory distribuite. Le directory sono organizzate in una struttura ad albero, in cui ogni nodo rappresenta un oggetto e ogni oggetto ha un identificativo unico (DN - Distinguished Name). In questo caso gli oggetti sono i certificati delle chiavi pubbliche.</p>
+<p>Le ricerche possono essere fatte tramite nome assoluto (univoco) o tramite nome relativo (non univoco). Le directory possono essere distribuite su più server, in modo da garantire la disponibilità e la ridondanza dei dati, X.500 gestisce automaticamente e efficientemente la distribuzione e la ricerca dei dati.</p>
+<h3 id="ricerca-di-un-certificato">Ricerca di un certificato</h3>
+<p>Per richiedere un certificato della propria chiave, l'utente si rivolge a un ente di certificazione. Nel modello a tre parti (Utente, RA, CA) l'utente chiede un certificato alla RA specificando:</p>
+<ul>
+<li>dati personali</li>
+<li>algoritmo di firma</li>
+<li>chiave pubblica</li>
+<li>firma del messaggio di richiesta</li>
+</ul>
+<h3 id="protocolli-di-gestione">Protocolli di gestione</h3>
+<p>Oltre al modello a tre parti, esiste anche il modello centralizzato (a due parti) in cui l'utente si rivolge direttamente alla CA per richiedere il certificato. La generazione delle chiavi avviene sul server e l'unico messaggio che viene inviato è originato dalla CA per comunicare all'utente le chiavi che ha generato.
+Questo modello però permette a due enti di avere la chiave privata dell'utente, quindi non è sicuro. Viene usato ad esempio nelle aziende quando l'ente di certificazione è l'azienda stessa che vuole permettere ai dipendenti di cifrari i dati, in questo modo, in caso di azioni malevole da parte di un dipendente, l'azienda può accedere ai dati cifrati.</p>
+<h2 id="proof-of-possession---pop">Proof Of Possession - POP</h2>
+<p>La CA deve essere in grado di dimostrare che il soggetto richiedende possiede la chiave privata associata alla chiave pubblica. Altrimenti si possono verificare diversi casi:</p>
+<ul>
+<li>un utente si fa rilasciare un certificato per la sua chiave spacciandosi per un altro utente emettendo documenti sotto falso nome.</li>
+<li>(di conseguenza) un utente può ripudiare la propria firma, in quanto non è in grado di dimostrare di possedere la chiave privata associata alla chiave pubblica.</li>
+</ul>
+<p>Il metodo migliore per avere la prova di possesso è il <strong>POP a tempo di firma</strong>. Questo metodo consiste nel inserire nei messaggi un riferimento al certificato e firmare con la propria chiave privata.  In modo che se il destinatario riesce a leggere il certificato ha la prova dell'identità.</p>
+<blockquote>
+<p>Esempio:
+Per provare la propria identità, l'utente $A$ che ha richiesto un certificato alla CA $T$, riceve un nonce da $T$ e lo firma con la propria chiave privata, lo invia a $T$ e $T$ verifica la firma con la chiave pubblica di $A$. Se la verifica ha successo, $T$ può rilasciare il certificato.</p>
+</blockquote>
+<p>La soluzione alternativa (utilizzata effettivamente) è il <strong>POP a tempo di registrazione</strong>. In questo caso l'utente $A$ richiede il certificato mandando la propria chiave pubblica concatenata alla propria chiave pubblica firmata con la chiave privata. Se la CA, verificata la firma, trova due chiavi pubbliche identiche allora $A$ è in possesso della chiave privata associata e rilascia il certificato.</p>
+<h2 id="revoca-dei-certificati">Revoca dei Certificati</h2>
+<p>Quando si ha il sospetto che la propria chiave privata sia stata compromessa è necessario revocare il certificato, quindi ripudiarla. Il ripudio è l'azione con la quale un utente spezza l'associazione tra chiave pubblica e proprietario, sancita da un certificato.</p>
+<p>Una volta notificato il ripudio alla RA, la CA emette la revoca del certificato. Come fanno gli utenti a sapere che un certifato è stato revocato?
+I metodi si classificano in:</p>
+<ul>
+<li><strong>PULL</strong>: l'informazione è pubblicata su una repository pubblica e gli utenti la consultano quando ne hanno bisogno.</li>
+<li><strong>PUSH</strong>: Ogni utente specifica i certificati di interesse, la CA ha la responsabilità di notificarli quando ci sono cambiamenti.</li>
+<li><strong>ONLINE STATUS CHECKING</strong>: Richiesta connessione tra CA e utente a tempo di verifica</li>
+<li><strong>OFFLINE STATUS CHECKING</strong></li>
+</ul>
+<h3 id="crl---certificate-revocation-list">CRL - Certificate Revocation List</h3>
+<p>È un metodo PULL che consente la notifica offline. La CA rilascia periodicamente una lista (CRL) di certificati revocati. La struttura dati contiene i seguenti campi:</p>
+<ul>
+<li>Nome della CA che ha emesso la lista</li>
+<li>Data di emissione della lista</li>
+<li>Data della prossima emissione</li>
+<li>Certificati revocati: ID del certificato, data di revoca</li>
+</ul>
+<p>La CRL aumenta periodicamente di dimensioni, la soluzione utilizzata è di dividere la lista in sottoliste in base all'ID del certificato.</p>
+<p>Se l'utente ha bisogno di informazioni sui certificati revocati in tempo reale si utilizza il metodo <strong>OCSP</strong> (Online Certificate Status Protocol).</p>
+<h3 id="ocsp---online-certificate-status-protocol">OCSP - Online Certificate Status Protocol</h3>
+<p>È un protocollo PULL online. I server offrono il serrvizio di consultazione in tempo reale dello stato dei certificati, fanno uso anche delle CRL per ottimizzare le richieste. Questi server sono detti <strong>OCSP Responder</strong>. Si dividono in:</p>
+<ul>
+<li><strong>Trusted Respondere</strong>: il server firma con una coppia chiave:certificato indipendere da quella della CA.</li>
+<li><strong>Delegated responder</strong>: il server firma con la coppia chiave:certificato in base alla CA che lo ha emesso.</li>
+</ul>
+<h2 id="modelli-di-fiducia">Modelli di Fiducia</h2>
+<p>Non tutti gli utenti si affidano alla stessa CA, quindi è necessario un modello di fiducia che permetta di stabilire la fiducia tra le CA attraverso un <strong>cammino di fiducia</strong>.</p>
+<p>Il protocollo di ricerca del percorso di fiducia è il seguente:</p>
+<ol>
+<li>Il certificato del nostro &quot;destinatario&quot; è firmato da una $CA_x$</li>
+<li>Cerchiamo le entità che hanno certificato $CA_x$.</li>
+<li>Tra le entità c'è una ROOT AUTHORITY? (no -&gt; torniamo a cercare per ogni entità dal passo 1)</li>
+<li>Se c'è una ROOT AUTHORITY abbiamo trovato il cammino di fiducia.</li>
+</ol>
+<p>È possibile avere più cammini di fiducia, è anche possibile che due CA diverse si certifichino a vicenda, in questo caso si ha una <strong>cross certification</strong>.</p>
+<p>Trovato un cammino di fiducia si verificano le firme di tutti i certificati, si controlla che il soggetto di ogni certificato sia colui che ha emesso il certificato successivo, si controlla il periodo di validità e si verifica che il certificato non sia revocato.</p>
+<h3 id="pki">PKI</h3>
+<p>La PKI è una infrastruttura che comprende la <strong>Registration Authority (RA)</strong>, la <strong>Certification Authority (CA)</strong> e la <strong>Directory (DB)</strong>. Affinchè si possa parlare di PKI è necessiario che abbia alcuni requisiti:</p>
+<ul>
+<li><strong>Key history</strong>: necessario mantenere una history delle chiavi</li>
+<li><strong>Cross certification</strong>: necessaria per la fiducia tra le CA</li>
+<li><strong>Key backup &amp; recovery</strong>: necessaria per il recupero delle chiavi</li>
+<li><strong>Aggiornamento automatico della chiave</strong>: sarebbe bene avere l'aggoirnamento della chiave in odo automatico alla scadenza</li>
+<li><strong>Supporto al non ripudio</strong>: è fondamentale garantire agli utenti di potere comunicare certi che sia garantita la non ripudiabilità</li>
+<li><strong>Timestamping</strong></li>
+</ul>
+<h2 id="certificati-e-reti-sicure">Certificati e Reti Sicure</h2>
+<p>Riprendendo Diffie-Hellman, il problema principale è garantire che $Y_A$ e $Y_B$ provengano effettivamente da $A$ e $B$, ovvero manca identificazione.</p>
+<p>Una prima opzione per risolvere il problema è il <strong>Fixed Diffie-Hellman</strong>.
+Questo meccanismo prevede una entità di certificazione che crea un certificato contenente p,g,Y per entrambe le entità che vogliono comunicare.
+Queste comunicheranno quindi scambiandosi il certificato e non più i valori Y.
+La chiave genereata poi non è la chiave definitiva, ma è detta <strong>pre-master key</strong>. La chiave definitiva è generata tramite una randomizzazione concatenando la pre-master key con due nonce generati da entrambe le entità e scambiati.
+La chiave definitiva è quindi:
+$$K_{final} = H(K_{pre-master}||nonce_A||nonce_B)$$</p>
+<p>Una seconda opzione è il <strong>Diffie-Hellman Ephemeral</strong>. All'inizio della comunicazione i due partecipanti scelgono una chiave privata, calcolano la chiave pubblica, la firmano con la privata e la inviano all'altro partecipante concatenando il certificato della firma.</p>
+
+</body>
+</html>

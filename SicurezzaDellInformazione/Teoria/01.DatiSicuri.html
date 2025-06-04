@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>01.DatiSicuri.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="dati-sicuri">Dati Sicuri</h1>
+<p><a href="./README.md">Return</a></p>
+<hr>
+<h1 id="indice">Indice</h1>
+<ul>
+<li><a href="#dati-sicuri">Dati Sicuri</a></li>
+<li><a href="#indice">Indice</a>
+<ul>
+<li><a href="#trasformazioni-per-la-sicurezza">Trasformazioni per la sicurezza</a></li>
+<li><a href="#crittografia-e-crittoanalisi">Crittografia e Crittoanalisi</a>
+<ul>
+<li><a href="#principi-della-difesa">Principi della difesa</a></li>
+</ul>
+</li>
+<li><a href="#integrit%C3%A0">Integrità</a></li>
+<li><a href="#riservatezza">Riservatezza</a></li>
+<li><a href="#autenticazione">Autenticazione</a></li>
+<li><a href="#identificazione">Identificazione</a></li>
+<li><a href="#calcoli-impossibili">Calcoli Impossibili</a></li>
+<li><a href="#trasformazioni-segrete-e-chiavi">Trasformazioni Segrete e Chiavi</a></li>
+<li><a href="#crittanalisi">Crittanalisi</a>
+<ul>
+<li><a href="#tre-livelli-di-gerarchia">Tre livelli di Gerarchia</a></li>
+</ul>
+</li>
+<li><a href="#generatore-di-numeri-casuali-rng">Generatore di numeri casuali (RNG)</a>
+<ul>
+<li><a href="#true-random-number-generator">True Random Number Generator</a></li>
+<li><a href="#pseudo-random-number-generator">Pseudo Random Number Generator</a></li>
+</ul>
+</li>
+<li><a href="#funzione-hash">Funzione Hash</a>
+<ul>
+<li><a href="#attacco-alle-funzioni-hash">Attacco alle funzioni hash</a></li>
+<li><a href="#algoritmi-di-hash">Algoritmi di hash</a></li>
+</ul>
+</li>
+<li><a href="#servizi-di-identificazione">Servizi di Identificazione</a>
+<ul>
+<li><a href="#identificazione-passiva">Identificazione passiva</a></li>
+<li><a href="#identificazione-attiva">Identificazione attiva</a></li>
+<li><a href="#one-time-password">One-time password</a></li>
+<li><a href="#sfida-e-risposta">Sfida e risposta</a></li>
+<li><a href="#zero-knowledge">Zero knowledge</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="trasformazioni-per-la-sicurezza">Trasformazioni per la sicurezza</h2>
+<p><img src="image.png" alt="alt text"></p>
+<p><strong>Trasformazione</strong>: Operazione che trasforma un messaggio in un altro messaggio</p>
+<p><strong>Arbitro</strong>: Terzo ente che verifica che le trasformazioni siano corrette</p>
+<p>Se Sorgente o Destinazioni sono fidate, potrebbe non servire l'arbitro</p>
+<p><img src="image-1.png" alt="alt text"></p>
+<h2 id="crittografia-e-crittoanalisi">Crittografia e Crittoanalisi</h2>
+<p><img src="image-2.png" alt="alt text"></p>
+<p><strong>Crittografia</strong>: Scienza che studia le trasformazioni per la sicurezza
+<strong>Crittoanalisi</strong>: Scienza che studia come rompere le trasformazioni per la sicurezza</p>
+<h3 id="principi-della-difesa">Principi della difesa</h3>
+<p><img src="image-3.png" alt="alt text"></p>
+<p>Le trasformazioni per chi è autorizzato sono calcoli facili da eseguire, per chi non è autorizzato diventano calcoli computazionalmente molto complicati.</p>
+<h2 id="integrit%C3%A0">Integrità</h2>
+<p>Preservare il dato da alterazioni accidentali o intenzionali.</p>
+<p>Il caso più semplice per proteggere da errori casuali potrebbe essere un checksum o un CRC (Cyclic Redundancy Check, hash semplice), ma non sono sufficienti per proteggere da attacchi intenzionali.</p>
+<p>Per proteggere da errori intenzionali si utilizzando <strong>funzioni hash crittografiche</strong>. Producono un riassunto univoco.</p>
+<p>Dato un messaggio di lunghezza <em>m</em>  producono un hash di lunghezza <em>n</em> (dove <em>n</em> è molto più piccolo di <em>m</em>). Per rendere difficile il compito dell'attaccante l'hash si deve comportare da <strong>oracolo casuale</strong>, utilizzare simboli equiprobabili.</p>
+<p><img src="image-9.png" alt="alt text"></p>
+<p>Il messaggio <em>m</em> viene inviato da S a D su un canale, il mittente calcola l'hash e lo trasmette su un canale sicuro, il destinatario calcola l'hash e lo confronta con quello ricevuto. Se sono uguali il messaggio è integro.
+Un attaccante proverà a mandare un messaggio alterato che produca lo stesso hash, con funzioni hash crittografichè è pressochè impossibile.</p>
+<h2 id="riservatezza">Riservatezza</h2>
+<p>Per proteggere la riservatezza delle informazioni è necessarrio ricorrere a metodi di cifratura. La sorgente concorda con la destinazione un metodo di rappresentazione.</p>
+<p>I calcoli da svolgere devono essere facili per sorgente e destinazione, ma computazionalmente impossibili per un attaccante.</p>
+<p><img src="image-10.png" alt="alt text"></p>
+<p>Ally cifra il messaggio con un <em>segeto</em> producendo il <em>ciphertext</em> e lo invia a Bob. Bob decifra il messaggio con lo stesso <em>segreto</em> concordato e ottiene il messaggio originale.</p>
+<p>Per proteggere contemporaneamente <a href="#riservatezza">riservatezza</a> e <a href="#integrit%C3%A0">integrità</a> si procede:</p>
+<ul>
+<li>producendo <em>p</em> concatenando il messaggio <em>m</em> e l'hash <em>h</em> <em>(m||H(m))</em></li>
+<li>cifrando <em>p</em> per produrre il <em>ciphertext</em> <em>c</em> <em>(c=E(p))</em>
+Bob riceve <em>c*</em> con * perchè non sa se è stato alterato o no</li>
+<li><em>p* = D(c*) =  m*||H*(m)</em> D = Decrypt</li>
+<li>Si confrontano <em>H(m</em>)* e <em>H*(m)</em>, se sono uguali il messaggio è integro, altrimenti è stato alterato.</li>
+</ul>
+<h2 id="autenticazione">Autenticazione</h2>
+<p>Per certificare che l'autore di un messaggio sia autenticato si utilizzano le firme digitali. Anche in questo caso i calcoli per dimostrare la propria identità devono essere semplici mentre computazionalmente impossibli quelli per creare un falso autentico.</p>
+<p><img src="image-11.png" alt="alt text"></p>
+<p>La sorgente trasmette il messaggio <em>m</em> su un canale, genera l'hash del messaggio e lo firma, lo cifra e lo trasmette al destinatario mediante un canale sicuro, Il destinatario riconosce la firma, decifra il messaggio e verifica che l'hash sia corretto. Se sono uguali il messaggio è integro e l'autore è autenticato.</p>
+<h2 id="identificazione">Identificazione</h2>
+<p>L'identificazione permette di identificare un utente a real time (non come l'autenticazione). Si basa su tre concetti principali:</p>
+<ul>
+<li><strong>conoscenza</strong>: l'utente deve conoscere un segreto (password, PIN, ecc.)</li>
+<li><strong>possesso</strong>: l'utente deve possedere un oggetto (carta di credito, smart card, ecc.)</li>
+<li><strong>conformità</strong> : l'utente deve essere conforme a un modello (impronta digitale, riconoscimento facciale, ecc.)</li>
+</ul>
+<p>Un protocollo di identificazione prevede una fase di <strong>registrazione</strong> in cui <strong>identificando</strong> e <strong>verificatore</strong> concordano un segreto. Poi si procede in 3 fasi:</p>
+<ol>
+<li><strong>dichiarazione</strong>: l'utente dichiara di voler essere identificato</li>
+<li><strong>interrogazione</strong>: il verificatore interroga l'utente</li>
+<li><strong>dimostrazione</strong>: l'identificando comunica il segreto e il verificatore lo confronta con quello atteso</li>
+</ol>
+<h2 id="calcoli-impossibili">Calcoli Impossibili</h2>
+<p>Abbiamo parlato di calcoli difficili per un utente malevolo. Definiamo questo concetto.</p>
+<p>Una funzione <em>f</em> è detta <strong>unidirezionale</strong> o <strong>one-way function</strong> se:</p>
+<ul>
+<li>è invertibile</li>
+<li>facile da calcolare</li>
+<li>per quasi tutti gli <em>x</em> appartenenti al dominio è <strong>difficile</strong> calcolare <em>y = f*(x)</em></li>
+</ul>
+<blockquote>
+<p>esempio: <strong>elenco telefonico</strong> trovare il numero di telefono di una persona ha complessità <em>O(n)</em>, mentre trovare il nome di una persona a partire dal numero di telefono ha complessità <em>O(n^2)</em></p>
+</blockquote>
+<p>Non esistono funzioni unidirezionali perfette ma <strong>pseudo unidirezionali</strong> o <strong>trapdoor one-way</strong>.</p>
+<p>I problemi vengono classificati in:</p>
+<ul>
+<li><strong>facili</strong> se esistono algoritmi polinomiali in grado di risolverli su macchine deterministiche</li>
+<li><strong>difficili</strong> se non sono stati individuati algoritmi che li risolvono in tempo polinomiale su macchine deterministiche.</li>
+</ul>
+<p>Definiamo quindi:</p>
+<ul>
+<li><strong>Tempo di esecuizione di un algoritmo</strong>: numero di operazioni <em>N</em> eseguite in funzione della dimensione <em>n</em> dell'input.</li>
+<li><strong>Tempo di esecuzione nel caso peggiore</strong>: è il numero massimo di operazioni $N_{max}$ eseguite in funzione della dimensione <em>n</em> dell'input.</li>
+</ul>
+<p>Sulla base di queste grandezze si studia l'andamento asintotico del tempo di esecuzione al cresere della dimensione di <em>n</em>, lo si definisce <strong>Ordine di grandezza del tempo di esecuzione</strong>: $T(n) = O(g(n))$, dove <em>g(n)</em> è una funzione tale che $0&lt;f(n)&lt;c\times g(n)$ per ogni $n&gt;n_0$, dove <em>c</em> è una costante positiva e $n_0$ è un numero naturale.</p>
+<p>Ogni algoritmo che consente di <strong>difendere</strong> una proprietà critica deve avere tempo polinomiale, metre gli algoritmi che consentono di <strong>rompere</strong> una proprietà critica devono avere tempo esponenziale.</p>
+<p>Utilizzeremo quindi funzioni pseudo-unidirezionali la cui risoluzione è polinomiale e la cui inversione è esponenziale o semi-esponenziale.</p>
+<p><img src="image-12.png" alt="alt text"></p>
+<h2 id="trasformazioni-segrete-e-chiavi">Trasformazioni Segrete e Chiavi</h2>
+<p>La cosa migliore è che la responsabilità del segreto sia dell'utente, utilizzando un algoritmo pubblico ma che funzioni con un parametri privato noto solo all'utente.</p>
+<p>Esistono due tipi di algoritmi:</p>
+<ul>
+<li><strong>a chiavi simmetriche</strong>: le due chiavi $k_s$ e $k_d$ sono uguali, la chiave è nota a sorgente e destinatario, ma non all'attaccante.</li>
+<li><strong>a chiavi asimmetriche</strong>: le due chiavi $k_s$ e $k_d$ sono diverse, la chiave di cifratura è nota a tutti (<strong>chiave pubblica</strong>), mentre la chiave di decifratura è nota solo al destinatario (<strong>chiave privata</strong>). Ogni soggetto ha una chiave pubblica e una privata.</li>
+</ul>
+<p><img src="image-13.png" alt="alt text"></p>
+<h2 id="crittanalisi">Crittanalisi</h2>
+<p>Studia come decifrare testi cifrati senza conoscere la chiave. Escludendo i calcoli, le chiavi possono essere indovinate, intercettate o dedotte. Questo ovviamente deve essere impossibile.</p>
+<p>I segreti possono essere indovinati facendo una ricerca esauriente (brute force), utilizzando dizionari composti con le parole più probabilmente utilizzate, oppure utilizzando le chiavi più comuni (es. 123456, password, ecc.).</p>
+<p>Siamo comunque esposti a diversi tipi di attacco:</p>
+<ul>
+<li><strong>con solo testo cifrato</strong>: si studia il presunto linguaggio del messaggio e si sfruttano calcoli sulle probabilità di occorrenza, (XOR tra il testo cifrato e il testo in chiaro dedotto)</li>
+<li><strong>con solo testo in chiaro noto</strong>: se si hanno coppie di testo in chiaro e cifrato si può dedurre la chiave (es. XOR tra il testo in chiaro e il testo cifrato)</li>
+<li><strong>con testo in chiaro scelto</strong>: se si ha la possibilità di avere la versione in chiaro di un determinato testo cifrato si può ricostruire il segreto.</li>
+<li><strong>con testo cifrato scelto</strong>: se si ha la possibilità di cifrare un testo a piacere e di ricevere il testo cifrato, si può dedurre la chiave.</li>
+</ul>
+<h3 id="tre-livelli-di-gerarchia">Tre livelli di Gerarchia</h3>
+<p>Si può strutturare un file system cifrato in tre livelli di gerarchia dei segreti:</p>
+<ul>
+<li><strong>Primo Livello</strong>: L'utente impara a memoria una password di cui viene memorizzato un hash</li>
+<li><strong>Terzo Livello</strong>: dove vengono salvati dati sensibili. Sono archiviati facendo uso di una chiave scelta ogni volta da un <strong>RNG</strong></li>
+<li><strong>Secondo Livello</strong>: per accedere al terzo livello si utilizza una chiave memorizzata in un portachiavi generata utilizzando un <strong>RNG</strong> e un segreto, al secondo livello.</li>
+</ul>
+<p>Serve una forma di recovery.</p>
+<h2 id="generatore-di-numeri-casuali-rng">Generatore di numeri casuali (RNG)</h2>
+<p>Alla stringa generata da un RNG sono richieste 2 proprietà:</p>
+<ul>
+<li><strong>Causalità</strong>: ogni valore deve avere la stessa rpobabilità di verificarsi ed essere statisticamente indipendente da tutti gli altri.</li>
+<li><strong>Imprevedibilità</strong>: deve essere computazinalmente impossibile preverede il valore successivo.</li>
+</ul>
+<p>per verificare la casualità sono stati definiti alcuni <em>test statistici</em>:</p>
+<ul>
+<li><strong>Monobit</strong>: valuta se il numero di 0 e 1 sono uguali.</li>
+<li><strong>Poker</strong>: divide la suquenza in blocchi da $M$ bit e valuta se il numero di volte che compare ciascuna delle $2^M$ configurazione è lo stesso.</li>
+<li><strong>Run</strong>: considera le stringhe di bit consecutivi uguali e valuta se il numero di 0 e 1 è lo stesso.</li>
+<li><strong>Long Run</strong>: considera il più lungo run di $1$ e valuta se la lunghezza è compatibile con quella attesa per una sequenza casuale.</li>
+<li><strong>Autocorrelazione</strong>: valuta se la sequenza è casuale considerando le differenze tra i bit.</li>
+<li><strong>Trasformata discreta di Fourier</strong>: valuta se la sequenza è casuale considerando le differenze tra i bit.</li>
+</ul>
+<p>L'imprevidibiltà viene valutata con <strong>next-bit test</strong>: data $L$ bit non deve eseistere nessun algoritmo polinomiale che permetta di predire $L+1$ con probabilità maggiore di $1/2$.</p>
+<h3 id="true-random-number-generator">True Random Number Generator</h3>
+<p>Il TRNG si basa su fenomeni fisici. I generatori hardware digitalizzano un segnale analogico fornito da una sorgente. A volte viene fatto un post processing per rendere equiprobabili 1 e 0 (skewing).</p>
+<h3 id="pseudo-random-number-generator">Pseudo Random Number Generator</h3>
+<p>Il PRNG si basa su algoritmi deterministici che producono sequenze di bit casuali. La sequenza è determinata da un seme iniziale, che deve essere scelto in modo casuale. La sequenza è periodica e il periodo è limitato dalla lunghezza del seme.</p>
+<hr>
+<p>Oggi è conveniente l'uso di generatori algoritmici, quindi sono stati trovati nuovi algoritmi per conseguire <strong>casualità</strong> e <strong>imprevedibilità</strong>. I generatori algoritmici sono più veloci e più facili da implementare, ma meno sicuri.</p>
+<h2 id="funzione-hash">Funzione Hash</h2>
+<p>L'output di una funzione di Hash è detta <strong>riassunto</strong> o <strong>impronta</strong> (<em>digest</em> o <strong>fingerprint</strong>).</p>
+<p>Tuttavita riducendo una stringa di $m$ bit a una di $n$ bit, con $n&lt;m$, è possibile che due stringhe diverse producano lo stesso hash. Questo fenomeno è detto <strong>collisione</strong>.</p>
+<p>Si distinguono quindi funzioni di hash <strong>semplici</strong> e <strong>crittografiche</strong> a seconda che l'individuazione di collisioni sia facile o difficile.</p>
+<p>Per proteggere l'<strong>integrità</strong> è necessario che l'individuazione di collisioni sia difficile.
+Per proteggere la <strong>riservatezza</strong> deve essere difficile il colcolo dell'inversa.</p>
+<p>Altra proprietà che devono avere le funzioni di Hash è la <strong>non invesibilità</strong>.</p>
+<p>Tutti gli algoritmi di has si basano sul principio della <strong>compressione iterata</strong>, ovvero si applica una funzione di compressione a blocchi di lunghezza fissa, che produce un hash di lunghezza fissa. La funzione di compressione è iterata più volte fino a ottenere l'hash finale.</p>
+<h3 id="attacco-alle-funzioni-hash">Attacco alle funzioni hash</h3>
+<p>Un attacco a cui sono vulnerabili alcune funzioni di hash è il <strong>length extension attack</strong>.</p>
+<h3 id="algoritmi-di-hash">Algoritmi di hash</h3>
+<ul>
+<li><strong>MD5</strong>: produce un hash di 128 bit, è stato progettato per essere veloce e sicuro, ma sono stati trovati attacchi che ne compromettono la sicurezza.</li>
+<li><strong>SHA-1</strong>: produce un hash di 160 bit, è stato progettato per essere sicuro, ma sono stati trovati attacchi che ne compromettono la sicurezza.</li>
+<li><strong>RIPEMD</strong>: produce un hash di 128, 160, 256, 384 o 512 bit, è stato progettato per essere sicuro e veloce.</li>
+</ul>
+<h2 id="servizi-di-identificazione">Servizi di Identificazione</h2>
+<p>Un protocollo di identificazione ha lo sscopo di identificare un'entità A verso un'entità B. Deve però rispettare alcuni requisiti:</p>
+<ul>
+<li>Se le entità in gioco sono fidate, B deve poter completare il protocollo di identificazione certo dell'identità di A.</li>
+<li>B non può riutilizzare lo scambio di identificazione avuto con A per impersonare illegittimamente A</li>
+<li>la probabilità che C riesca a completare il protocollo spacciandosi per A deve essere prossima allo 0.</li>
+<li>tutti gli obiettivi devono rimanere validi se un numero elevato di identificazioni tra A e B sono state osservate e se C è stato precedentemente coinvolto in sessioni di identificazioni con A o B.</li>
+</ul>
+<p>Un protocollo di identificazione si svolge in 3 fasi:</p>
+<ol>
+<li>A dichiara a B di volersi identificare</li>
+<li>B interroga A</li>
+<li>A fornisce a B una prova della sua identità</li>
+</ol>
+<p>L'identificazione può essere <strong>passiva</strong> o <strong>attiva</strong></p>
+<h3 id="identificazione-passiva">Identificazione passiva</h3>
+<p>Un meccanismo di identificazione passiva si basa sull'inserimento di una password che quindi sarà inviata all'ente verificatore tramite un messaggio del tipo $A||PSW$</p>
+<p>I possibili attacchi sono:</p>
+<ul>
+<li><strong>Replay attack</strong>: l'attaccante registra il messaggio e lo reinvia al verificatore, che lo accetta come valido.</li>
+<li><strong>attacco di forza bruta</strong>: l'attaccante prova tutte le possibili combinazioni di password fino a trovare quella giusta.</li>
+<li><strong>attacco a dizionario</strong>: l'attaccante prova tutte le parole di un dizionario fino a trovare quella giusta.</li>
+<li><strong>accesso al file di password</strong>: l'attaccante accede al file di password e trova la password giusta, o concatena il suo ID e la password per ottenere l'autorizzazione.</li>
+</ul>
+<h3 id="identificazione-attiva">Identificazione attiva</h3>
+<p>Consiste nel cambiare continuamente la prova d'identità.
+Può essere fatta in vari modi:</p>
+<ul>
+<li><strong>one-time password</strong></li>
+<li><strong>sfida e risposta</strong></li>
+<li><strong>zero knowledge</strong></li>
+</ul>
+<p>Tutte e tre devono rispettare che il calcolo della proa sia facile per chi conosce il segreto e difficile per chi non lo conosce o dispone solo delle prove precedenti.</p>
+<h3 id="one-time-password">One-time password</h3>
+<p>Funziona o tramite funzioni unidirezionali o tramite un cifrario con chiavi di sessione.</p>
+<p>Il primo metodo prevede che, in fase di registrazione, A scelga un numero casuale $X_A$ e immpieghi una funzione unidirezionale $F$ per calcolare $F(X_A), F^1(X_A), ... , F^n(X_A)$. Su B sarà memorizzato $F^n(X_A)$ e A potrà utilizzare $F^i(X_A)$ a partire da $i=n-1$ fino a $i=0$ per identificarsi. B memorizza $F^i(X_A)$ e lo conoscendo $F$ verifica che $F(F^i(X_A))$ sia $F^n(X_A)$, poi sostituisce l'ultimo.</p>
+<p>Il secondo metodo prevede che i corrispondenti, all'inizio di ogni sessione modifichino il segreto con il quale viene cifrata la medesima password. La password viene cifrata con una chiave di sessione, che viene generata in modo casuale.</p>
+<h3 id="sfida-e-risposta">Sfida e risposta</h3>
+<h3 id="zero-knowledge">Zero knowledge</h3>
+<p>Si tratta di dare testimonianza della propria capacità di risolvere un problema ritenuto difficile.</p>
+<ol>
+<li>L'identificando fornisce una testimonianza di ciò che sa fare.</li>
+<li>Il verificatore lancia una sfida che possa convincerlo.</li>
+<li>L'identificando fornisce una risposta alla sfida.</li>
+</ol>
+
+</body>
+</html>

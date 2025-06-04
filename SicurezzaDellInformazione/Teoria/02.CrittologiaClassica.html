@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>02.CrittologiaClassica.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="crittologia-classica">Crittologia Classica</h1>
+<p><a href="./README.md">Return</a></p>
+<hr>
+<h1 id="indice">Indice</h1>
+<ul>
+<li><a href="#crittologia-classica">Crittologia Classica</a></li>
+<li><a href="#indice">Indice</a>
+<ul>
+<li><a href="#introduzione">Introduzione</a></li>
+<li><a href="#cifrari-classici">Cifrari Classici</a>
+<ul>
+<li><a href="#sostituzione-monoalfabetica">Sostituzione monoalfabetica</a></li>
+<li><a href="#sostituzione-di-diagrammi-cifrario-di-playfair">Sostituzione di diagrammi: Cifrario di Playfair</a></li>
+<li><a href="#trasposizione-di-colonne">Trasposizione di colonne</a></li>
+<li><a href="#sostituzione-polialfabetica-cifrario-di-vigen%C3%A8re">Sostituzione polialfabetica: Cifrario di Vigenère</a></li>
+</ul>
+</li>
+<li><a href="#cifrario-vernam-one-time-pad">Cifrario Vernam One-Time Pad</a></li>
+<li><a href="#definizioni-di-sicurezza">Definizioni di sicurezza</a>
+<ul>
+<li><a href="#sicurezza-dei-cifrari">Sicurezza dei cifrari</a></li>
+<li><a href="#confusione-e-diffusione">Confusione e diffusione</a></li>
+<li><a href="#cifrari-composti">Cifrari composti</a></li>
+</ul>
+</li>
+<li><a href="#crittologia-classica-e-sicurezza-al-giorno-doggi">Crittologia classica e sicurezza al giorno d'oggi</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="introduzione">Introduzione</h2>
+<p>Si possono utilizzare <strong>codici</strong> o <strong>cifrari</strong> per proteggere le informazioni. I codici associano ad ogni simbolo di partenza un altro simbolo. I cifrari operano su un testo mediante l'utilizzo di chiavi.</p>
+<h2 id="cifrari-classici">Cifrari Classici</h2>
+<h3 id="sostituzione-monoalfabetica">Sostituzione monoalfabetica</h3>
+<p>Si effettua una sola operazione di sostituzione fra i simboli di un alfabeto di partenza e uno di arrivo tramite una chiave. Nel caso del cidrario di cesare la chiave è un numero che indica lo spostamento di ogni lettera dell'alfabeto. Ad esempio, con chiave 3:</p>
+<pre class="hljs"><code><div>A -&gt; D
+B -&gt; E
+...
+</div></code></pre>
+<p>Dato un alfabeto di $n$ simboli il numero di trasformazioni possibili è $n!$ quindi debole.</p>
+<p>Se il linguaggio di partenza è noto, si può utilizzare un attacco statistico basato sulla frequenza delle lettere del linguaggio.</p>
+<p>Ci sono diversi accorgimenti per rendere più difficile l'attacco:</p>
+<ul>
+<li>si eliminano spazi e punteggiatura</li>
+<li>si introducono caratteri non significativi (nulle)</li>
+<li>si impiega un alfabeto più ampio nel testo cifrato</li>
+<li>si sostituiscono più simboli con uno solo (ad esempio &quot;TH&quot; -&gt; &quot;X&quot;)</li>
+</ul>
+<p>Oggi viene applicate a blocchi di minimo 8 caratteri (a cui corrispondono, considerando ASCII, 64bit). Questo previene l'attacco statistico in quando è impossibile analizzare $2^64$ dati.</p>
+<h3 id="sostituzione-di-diagrammi-cifrario-di-playfair">Sostituzione di diagrammi: Cifrario di Playfair</h3>
+<p>Il <strong>cifrario di Playfair</strong> si basa sull'uso di una matrice 5x5 contenente una parola eliminando le duplicate e riempiendo gli spazi vuoti con le lettere rimanenti dell'alfabeto (J == I). Ad esempio, con la parola chiave &quot;CIFRARIO&quot;:</p>
+<pre class="hljs"><code><div>C I F R A
+O B D E G
+H K L M N
+P Q S T U
+V W X Y Z
+</div></code></pre>
+<p>Per cifrare una frase si dividono le lettere in coppie. Se una lettera è ripetuta, si inserisce una &quot;X&quot; tra le due lettere. Se la coppia è formata da due lettere della stessa riga, si sostituiscono con le lettere a destra. Se sono nella stessa colonna, si sostituiscono con le lettere sotto. Altrimenti, si formano un rettangolo e si sostituiscono con le lettere agli angoli opposti.</p>
+<p>Ad esempio, per cifrare &quot;Ciao mamma guarda come mi diverto&quot; si ottiene:</p>
+<pre class="hljs"><code><div>ci ao ma mm ag ua rd ac om em id iv er to
+
+IFCGNRLYLYGNZGFECHMTFBCWMAPE
+</div></code></pre>
+<p>Per decifrare, si applica la stessa regola ma in senso inverso.</p>
+<h3 id="trasposizione-di-colonne">Trasposizione di colonne</h3>
+<p>La <strong>trasposizione di colonne</strong> è un cifrario che non modifica i simboli ma la loro posizione. Si scrive il testo in righe paddando con X e si leggono le colonne in un certo ordine. Ad esempio, con la chiave &quot;31425&quot;:</p>
+<pre class="hljs"><code><div>1 2 3 4 5
+C I A O M
+M A M A G
+U A R D A
+C O M E M
+I A M C O
+D I V E R
+T O X X X
+</div></code></pre>
+<p>Si ottiene:</p>
+<pre class="hljs"><code><div>AMRMMV CMUCIDT OADECE IAAOAIO MGAMOR
+</div></code></pre>
+<h3 id="sostituzione-polialfabetica-cifrario-di-vigen%C3%A8re">Sostituzione polialfabetica: Cifrario di Vigenère</h3>
+<p>L'obiettivo della sostituzione polialfabetica è quello di rendere quiprobabile l'occorrenza di ogni lettera. Si utilizza una matrice 26x26 in cui ogni riga è una rotazione dell'alfabeto.</p>
+<pre class="hljs"><code><div>A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
+B C D E F G H I J K L M N O P Q R S T U V W X Y Z A
+C D E F G H I J K L M N O P Q R S T U V W X Y Z A B
+...
+Z A B C D E F G H I J K L M N O P Q R S T U V W X Y
+</div></code></pre>
+<p>Per cifrare, si sceglie una chiave &quot;CIFRARIO&quot;, il testo da cifrare &quot;CIAO MAMMA&quot;, si prende la righa della tabella che inizia con la prima lettera della chiave e la colonna della tabella che inizia con la prima lettera del testo e si ottiene la prima lettera del messaggio cifrato. Si prosegue con la seconda lettera della chiave e del testo e così via.</p>
+<p>Per rendere più sicuro il cifrario si utilizzano chiavi lunghe e casuali, in modo da non riuscire a sapere la lunghezza della chiave che renderebbe motlo facile l'attacco statistico, diventano $n$ cifrari di cesare.</p>
+<h2 id="cifrario-vernam-one-time-pad">Cifrario Vernam One-Time Pad</h2>
+<p>È un cifrario polialfabetico, dove si trasformano i simboli della chiave e della frase usando la codifica Baudot. Nella tabella si incrociano riga e colonna per ogni simbolo e si ottiene il gruppo di bit corrispondente. In questo algoritmo per aumentare la sicurezza si fa uso di una chiave lunga quanto il testo. La chiave è monouso e casuale rendendo inutile l'attacco statistico.</p>
+<p>Questo cifrario non può essere violato con attacchi passivi. Però serve un canale sicuro e disponibile per la chiave, che però vorrebbe dire che si può trasmettere il messaggio sullo stesso canale e non la chiave.</p>
+<h2 id="definizioni-di-sicurezza">Definizioni di sicurezza</h2>
+<h3 id="sicurezza-dei-cifrari">Sicurezza dei cifrari</h3>
+<p>Un cifrario è detto <strong>perfetto</strong> o <strong>assolutamente sicuro</strong> se dopo avere intercettato un testo cifrato, l'intetezza a posteriori sul testo in chiaro corrisponde a quella a priori. In altre parole, non si riesce a risalire al testo in chiaro.
+Un cifrario è detto <strong>sicuro</strong> se dato un testo cifrato C, trovare il testo in chiaro è impossibile per chi non conosce la chiave.
+Un cifrario è detto <strong>computazionalmente sicuro</strong> se calcolare il testo in chiaro da C è possibile ma richiede una potenza di elaborazione tale da non essere realizzabile in tempi ragionevoli.</p>
+<h3 id="confusione-e-diffusione">Confusione e diffusione</h3>
+<p>Il testo cifrato deve dipendere in modo complesso dalla chiave e dal testo in chiaro. Bisogna creare confusione effettuando sostituzione.
+Le infomrazioni contenute nel testo in chiaro devono essere diffuse nel testo cifrato in modo che la modifica di un solo simbolo del testo in chiaro modifichi più simboli del testo cifrato. Questo si ottiene con la trasposizione.</p>
+<h3 id="cifrari-composti">Cifrari composti</h3>
+<p>Shannon ha introdotto il <strong>cifrario composto</strong> che alterna stadi di sostituzione a stadi di permutazione. Effettuando più passaggi si aumenta confusione e diffusione.</p>
+<h2 id="crittologia-classica-e-sicurezza-al-giorno-doggi">Crittologia classica e sicurezza al giorno d'oggi</h2>
+<p>Oggi l'unico cifrario considerato al di sopra della sicurezza perfetta è il cifrario <strong>one time pad</strong>.</p>
+
+</body>
+</html>

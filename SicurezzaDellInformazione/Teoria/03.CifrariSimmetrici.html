@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>03.CifrariSimmetrici.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="cifrari-simmetrici">Cifrari Simmetrici</h1>
+<p><a href="./README.md">Return</a></p>
+<hr>
+<h1 id="indice">Indice</h1>
+<ul>
+<li><a href="#cifrari-simmetrici">Cifrari Simmetrici</a></li>
+<li><a href="#indice">Indice</a>
+<ul>
+<li><a href="#introduzione">Introduzione</a></li>
+<li><a href="#cifrari-a-flusso">Cifrari a Flusso</a></li>
+<li><a href="#cifrari-a-blocchi">Cifrari a Blocchi</a>
+<ul>
+<li><a href="#rete-di-feistel">Rete di Feistel</a></li>
+<li><a href="#des---data-encryption-standard">DES - Data Encryption Standard</a></li>
+<li><a href="#triple-des">Triple DES</a></li>
+<li><a href="#aes---advanced-encryption-standard">AES - Advanced Encryption Standard</a></li>
+</ul>
+</li>
+<li><a href="#modalit%C3%A0-di-cifratura">Modalità di cifratura</a>
+<ul>
+<li><a href="#ecb---electronic-code-book">ECB - Electronic Code Book</a></li>
+<li><a href="#cbc---cipher-block-chaining">CBC - Cipher Block Chaining</a></li>
+<li><a href="#cfb---cipher-feedback">CFB - Cipher Feedback</a></li>
+<li><a href="#ofb---output-feedback">OFB - Output Feedback</a></li>
+<li><a href="#ctr---counter">CTR - Counter</a></li>
+<li><a href="#generazione-di-bit-e-numeri-pseudo-casuali">Generazione di bit e numeri pseudo-casuali</a></li>
+</ul>
+</li>
+<li><a href="#integrit%C3%A0-e-origine-di-un-messaggio">Integrità e origine di un messaggio</a></li>
+<li><a href="#integrit%C3%A0-origine-e-non-ripudio">Integrità, origine e non ripudio.</a></li>
+<li><a href="#gestione-delle-chiavi">Gestione delle chiavi</a>
+<ul>
+<li><a href="#autorit%C3%A0-per-la-distribuzione-delle-chiavi">Autorità per la distribuzione delle chiavi</a></li>
+</ul>
+</li>
+<li><a href="#protocollo-diffie-hellman">Protocollo Diffie-Hellman</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="introduzione">Introduzione</h2>
+<p>La crittografia simmetrica studia i <strong>Cifrari a chiave segreta</strong>, questi vengono usati per proteggere la riservatezza di documenti, generazione di numeri pseudo casuali, autentificazione e identificazione.</p>
+<p>I cifrari hanno quattro caratteristiche:</p>
+<ul>
+<li><strong>Robustezza</strong>: resitere agli attacchi di crittanalisi</li>
+<li><strong>Velocità</strong>: nelle realizzazioni con hardware specializzato elaborano diversi milioni di bit al secondo</li>
+<li><strong>Efficacia</strong>: gestiscono stringhe binarie di lunghezza variabile</li>
+<li><strong>Efficienza</strong>: il testo crifrato è lungo quanto il testo in chiaro</li>
+</ul>
+<blockquote>
+<p>Funzionamento di un cifrario simmetrico:</p>
+</blockquote>
+<ul>
+<li>Mittente $A$ e destinatario $B$ condividono una chiave segreta $K_{AB}$.</li>
+<li>$A$ deve inviare un messaggio $m$ a $B$, lo cifra con la chiave $K_{AB}$ ottenendo il testo cifrato $c=E_{K_{AB}}(m)$ e lo invia a $B$.</li>
+<li>$B$ riceve il messaggio $c$ e lo decifra con la chiave $K_{AB}$ ottenendo il messaggio originale $m=D_{K_{AB}}(c)$.</li>
+</ul>
+<hr>
+<p>In generale $m$ è una parte del testo in chiaro $M$ che $A$ vorrà inviare a $B$. Proprio sulla natura di $m$ si basa la distinzione che viene effettuata sugli algoritmi simmetrici:</p>
+<ul>
+<li><strong>Cifrari a flusso</strong>: sono basati su <strong>One-Time Pad</strong> e cifrano un bit alla volta. La chiave è lunga quanto il messaggio e viene usata una sola volta.</li>
+<li><strong>Cifrari a blocchi</strong>: cifrano un blocco di $n$ bit alla volta, ispirati al <strong>cifrario poligrafico</strong> e <strong>cifrario composto</strong>.</li>
+</ul>
+<h2 id="cifrari-a-flusso">Cifrari a Flusso</h2>
+<p>Utilizzano una trasformazione variabile al progredire del testo ottenuta tramite funzioni <strong>XOR</strong>.</p>
+<ul>
+<li><strong>cifratura</strong>: $c_i = m_i \oplus k_i$</li>
+<li><strong>decifratura</strong>: $m_i = c_i \oplus k_i$</li>
+</ul>
+<p>La chiave è una sequenza pseudocasuale di bit lunga quanti il testo da cifrare.</p>
+<p>Sia in trasmissione che in ricezione si utilizzano dei <strong>generatori di flusso di chiave</strong> (i prng) per garantire la sincronizzazione tra i due flussi.</p>
+<p>Le chiavi in questo modo sono periodiche, quindi per garantire sicurezza si deve avere un periodo più lungo e ogni volta si utilizza un seed diverso per generare le chiavi.</p>
+<p>Ad oggi esistono due tipi di cifrario a flusso:</p>
+<ul>
+<li>a flusso sincrono</li>
+<li>con auto-sincronizzazione</li>
+</ul>
+<p>Nei primi il flusso di bit di chiave viene generato in modo indipendente dal flusso dei bit di testo. Nel momento in cui sorgente e destinazione si disallineano, devono fare ripartire i generatori di chiave e scegliere un diverso punto di inizio della sequenza.</p>
+<p>Nei cifrari con autosincronizzazione, il flusso dei bit dipende dal flusso dei bit di testo crifrato. La causa più comune di diseallinamento è la perdità di integrità del testo cifrato che può essere causata da eventi casuali o intenzionali.</p>
+<h2 id="cifrari-a-blocchi">Cifrari a Blocchi</h2>
+<p>Nei cifrari a blocchi il testo in chiaro viene diviso in blocchi di lunghezza fissa (Aggiungendo padding se necessario) e ogni blocco viene cifrato separatamente. La lunghezza della chiave è la determinante della robustezza del cifrario.</p>
+<h3 id="rete-di-feistel">Rete di Feistel</h3>
+<p>La rete di Feistel è una architettura per cifrari a blocchi che utilizza una funzione $F$ non lineare per cifrare i blocchi.</p>
+<p>Si parte dal testo in chiaro $m$ di lunghezza $w$ e lo si divide in due parti $L_i$ e $R_i$ di lunghezza $w/2$ bit.
+La rete quindi procede in $n$ passaggi con la seguente formula:
+$$
+L_{i+1} = R_i$$
+$$
+R_{i+1} = L_i \oplus F(R_i, K_i)
+$$
+Dove $K_i$ è una sottochiave generata dalla chiave principale $K$ con una apposita funzione.</p>
+<p>La rete genera quindi <strong>confusione</strong> grazie alle sostituzioni operate da $F$ e <strong>diffusione</strong> grazie alla permutazione dei bit tra $L_i$ e $R_i$.</p>
+<h3 id="des---data-encryption-standard">DES - Data Encryption Standard</h3>
+<p>DES è un cifrario a blocchi che utilizza una rete di Feistel che prevede 16 iterazioni con chiave di 56 bit e blocchi di 64 bit.
+La funzione $F$ è composta da una espansione e permutazione che porta il vettore da 32 a 48 bit, una somma modulo 2 con 48 bit di sottochiave, una sostituzione che riposrta il vettore a 32 bit e una permutazione senza chiave finale.</p>
+<p>Provando ad attaccare il cifrario, si sono scoperte due nuove tecniche di crittanalisi:</p>
+<ul>
+<li><strong>Attacco differenziale</strong>: si basa sull'analisi delle differenze tra le coppie di testo in chiaro e il loro corrispondente testo cifrato. Si cerca di trovare una relazione tra le differenze.</li>
+<li><strong>Attacco lineare</strong>: si basa sull'analisi delle relazioni lineari tra le coppie di testo in chiaro e il loro corrispondente testo cifrato. Si cerca di trovare una relazione tra i bit del testo in chiaro e quelli del testo cifrato.</li>
+</ul>
+<h3 id="triple-des">Triple DES</h3>
+<p>Il Triple DES consiste nell'esecuzione di tre volte l'agoritmo DES. Ci sono due varianti:</p>
+<ul>
+<li><strong>EEE</strong> dove vengono effettuate tre cifrature con 3 sottochiavi diverse</li>
+<li><strong>EDE</strong> dove viene effettuata una cifratura, una decifratura e una cifratura con 2 sottochiavi diverse.</li>
+</ul>
+<h3 id="aes---advanced-encryption-standard">AES - Advanced Encryption Standard</h3>
+<p>AES è un cifrario che utilizza chiavi e blocchi di 128 bit, espandibili per multipli di 32 bit. Le operazioni utilizzate sono somme a modulo 2 e scorrimenti. Segue uno schema semplice e lineare detto <strong>square</strong>. Ogni round è composto da 4 operazioni:</p>
+<ul>
+<li><strong>sostituzione</strong> di byte: ogni byte del blocco viene sostituito con un altro byte secondo una tabella di sostituzione</li>
+<li><strong>permutazione</strong> shift rows: i byte del blocco vengono spostati in modo circolare</li>
+<li><strong>operazioni aprimetiche su $GF(2^8)$</strong>: i byte del blocco vengono sommati con una chiave di round (mix columns)</li>
+<li><strong>operazioni di somma modulo due</strong> fra i dati in ingresso e la chiave di round.</li>
+</ul>
+<p><img src="image-14.png" alt="alt text"></p>
+<h2 id="modalit%C3%A0-di-cifratura">Modalità di cifratura</h2>
+<h3 id="ecb---electronic-code-book">ECB - Electronic Code Book</h3>
+<p>Avviene un solo bit alla volta, non propaga errori, ma non è sicuro in quanto ogni blocco utilizza la stessa chiave. Se due blocchi sono uguali, il testo cifrato sarà uguale.</p>
+<h3 id="cbc---cipher-block-chaining">CBC - Cipher Block Chaining</h3>
+<p>Ogni blocco del testo viene messo in XOR con il blocco precedente cifrato. La chiave è la stessa per tutti i blocchi, ma il testo cifrato cambia in base al blocco precedente. Questo metodo propaga gli errori, quindi se un blocco viene alterato, anche i successivi saranno alterati.</p>
+<p>Per impedire all'attaccante di alterare il testo cifrato, si utilizza un <strong>IV</strong> (Initialization Vector) che viene cifrato con la chiave e viene messo in XOR con il primo blocco del testo in chiaro. L'IV deve essere casuale e unico per ogni sessione di cifratura.</p>
+<h3 id="cfb---cipher-feedback">CFB - Cipher Feedback</h3>
+<p>Converte idealmente una cifratura a blocchi in una a flusso. L'input delle funzione di cifratura è dato da un registro a scorrimento di 64 bit che contiene il Vettore di inizializzazione. I primi n bit significativi dell'output vengono messi in XOR con i primi n bit del testo da cifrare, gli n bit successivi vengono accolti dal registro a scorrimento e così via.</p>
+<h3 id="ofb---output-feedback">OFB - Output Feedback</h3>
+<p>Uguale alla precedente, ma il registro a scorrimento viene alimentato con l'output della funzione di cifratura invece che con il testo cifrato.</p>
+<p>Implementa un cifrario a flusso sincrono, mentre CFB realizza un cifrario a flusso autosincronizzante.</p>
+<h3 id="ctr---counter">CTR - Counter</h3>
+<p>utilizza un contatore della stessa dimensione del blocco di testo su cui operare. Ad ogni blocco deve corrispondere un valore diverso del contatore che viene incrementato ad ogni giro. Il suo valore viene cifrato con la chiave e messo in XOR con il blocco di testo in chiaro.</p>
+<h3 id="generazione-di-bit-e-numeri-pseudo-casuali">Generazione di bit e numeri pseudo-casuali</h3>
+<p>CFB, OFB e CTR possono essere utilizzate per generare sequenze di bit casuali ovvero come PRBG (Pseudo Random Bit Generator). Mentre ECB e CBC come PRNG (Pseudo Random Number Generator).</p>
+<h2 id="integrit%C3%A0-e-origine-di-un-messaggio">Integrità e origine di un messaggio</h2>
+<p>Per garantire l'integrità di un messaggio e avere conferma dell'autore utilizzando la crittografia simmetrica si cifra il messaggio con la chiave condivisa. Se il destinatario riuscirà a decifrare il messaggio, avrà la certezza che il messaggio è stato cifrato da chi possiede la chiave condivisa.
+Un metodo alternativo consiste nel fare l'hash con la chiave del messaggio usando la chiave condivisa e concatenarlo al messaggio originale. Se il destinatario riesce a ricostrurire lo stesso hash con la chiave condivisa, avrà la certezza che il messaggio è integro e proviene da chi possiede la chiave condivisa. questo metodo è detto HMAC (Hashed Message Authentication Code).
+Sia nel priimo che nel secondo metodo possono esserci delle possibilità di ripudio e falsificazione.</p>
+<h2 id="integrit%C3%A0-origine-e-non-ripudio">Integrità, origine e non ripudio.</h2>
+<p>Una firma digitale deve possedere 5 requisiti:</p>
+<ul>
+<li>consentire a chiunque di identificare univocamente il filrmatario</li>
+<li>non imitabile</li>
+<li>non trasportabile</li>
+<li>non ripudiabile</li>
+<li>rendere inalterabile il documento firmato</li>
+</ul>
+<p>Garantisce quindi integrità, origine e non ripudio. L'unico modo per garantire questi tre requisiti con chiave simmetriche è quello di ricorrere a una terza parte fidata.</p>
+<ol>
+<li>A invia al <strong>registro atti privati (RAP)</strong> il messaggio $A||E_{K_A}(A||M)$</li>
+<li>RAP invia a A una ricevuta $E_{K_A}(A||T||M||E_R(A||T||M))$, cifrando con un numero RNG la concatenazione fra l'identificazione di A, un timestamp e il messaggio cifrato. Il RAP nel frattempo salva la voce $A||T||M||R||Firma$</li>
+<li>A invia a B il documento e la ricevuta $A||T||M||E_R(A||T||M)$</li>
+<li>B interroga RAP e verifica l'autenticità del messaggio ottenendo come risposta $B||A||T||M||E_R(A||T||M)$</li>
+<li>RAP comunica a B l'esito della verifica del messaggio $E_{K_B}(A||T||M)$</li>
+</ol>
+<p>Risolti i problemi di autenticità, non ripudio e non falsificazione. introducendo:</p>
+<ul>
+<li>necessità di avere l'autorità sempre online</li>
+<li>l'autorità non deve costituire un collo di bottiglia</li>
+<li>l'autorità non deve creare documenti falsi</li>
+<li>l'autorità deve memorizzare le chiavi in una memoria sicura</li>
+</ul>
+<h2 id="gestione-delle-chiavi">Gestione delle chiavi</h2>
+<h3 id="autorit%C3%A0-per-la-distribuzione-delle-chiavi">Autorità per la distribuzione delle chiavi</h3>
+<p>Un centro di distribuzione delle chiavi è un ente fidato che fa da intermediario fra coloro che vogliono comunicare. L'obiettivo è quello di trovare una soluzione scalabile per la distribuzione delle chiavi poichè per n utenti servirebbero n^2 scambi di chiavi.</p>
+<p>Prima di vedere come A e B possano comunicare è necessario assumere che A e B abbiano prima effettuato uno scambio di chiavi tra A e T e tra B e T. Queste chiavi sono dette <strong>chiavi master</strong> vengono utilizzate per comunicare le chiavi di sessione in modo sicuro.</p>
+<p>Le fasi sono quindi:</p>
+<ol>
+<li>A chiede a T una chiave per comunicare con B, manda un messaggio del tipo $R_a||A||B$ con $R_a$ numero pseudo-casuale valido una sola volta (nonce).</li>
+<li>T reinvia ad A il nonce, l'identificativo di B, la chiave generata con un PRNG (chiave master), e un messaggio cifrato con $K_B$ che A deve mandare a B per informarlo della chiave. il messaggio è quindi $E_{K_A}||(R_A||B||K||E_{K_B}(A||K))$. inviando ad A il messaggio da inoltrare a B riduce le interrogazioni al centro di distribuzione delle chiavi.</li>
+<li>A riceve il messaggio, lo decifra usando la chiave $K_A$ e invia a B il messaggio $E_{K_B}(A||K)$ cifrato con la chiave master di B.</li>
+<li>B riceve il messaggio, lo decifra usando la chiave $K_B$ e ottiene la chiave di sessione $K$. Per accertarsi che il messaggio provenga da A, B invia ad A un messaggio cifrato con la chiave di sessione $E_K(B||R_B)$ dove $R_B$ è un nonce generato da B.</li>
+<li>A riceve il messaggio e per provare a B la sua identità invia a B il nonce - 1 $E_K(R_B-1)$ cifrato con la chiave di sessione.</li>
+</ol>
+<p>Il centro di distribuzione delle chiavi deve comunque attribuire un tempo di vita limitato ad ogni chiave di sessione per garantire maggiore sicurezza.</p>
+<h2 id="protocollo-diffie-hellman">Protocollo Diffie-Hellman</h2>
+<p>Con Diffie-Hellman viene meno il problema di doversi accordare su una chiave- Lo scambio di chiavi si basa sul <strong>calcolo del logaritmo discreto</strong>.</p>
+<p>Le fasi sono:</p>
+<ol>
+<li>A e B decidono un numero primo $p$ e un generatore $g$ (generatore = numero le cui potenze modulo $p$ sono comprese fra $1$ e $p-1$).</li>
+<li>A sceglie a caso un numero $X_A$, B sceglie a caso un numero $X_B$. Questi numeri devono restare segreti e devono essere compresi fra $1$ e $p-1$.</li>
+<li>A calcola $Y_A=g^{X_A} \mod p$ e lo invia a B.</li>
+<li>B calcola $Y_B=g^{X_B} \mod p$ e lo invia a A.</li>
+<li>A calcola $K_A=Y_B^{X_A} \mod p$ e B calcola $K_B=Y_A^{X_B} \mod p$. A questo punto A e B hanno la chiave di sessione $K_A=K_B=K$ dunque $K$ è la chiave.</li>
+</ol>
+<p>Un intrusore che conosce $p$ e $g$ (perchè sono pubblici) e che riesce ad intercettare $Y_A$ e $Y_B$ non riesce a calcolare la chiave di sessione in quanto il calcolo del logaritmo discreto è computazionalmente difficile.</p>
+<p>Il problema di Diffie-Hellman rimane l'identificazione di A e B.</p>
+
+</body>
+</html>

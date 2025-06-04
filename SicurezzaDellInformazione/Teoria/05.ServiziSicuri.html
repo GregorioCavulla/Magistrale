@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>05.ServiziSicuri.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="servizi-sicuri">Servizi Sicuri</h1>
+<p><a href="./README.md">Return</a></p>
+<hr>
+<h1 id="indice">Indice</h1>
+<ul>
+<li><a href="#servizi-sicuri">Servizi Sicuri</a></li>
+<li><a href="#indice">Indice</a>
+<ul>
+<li><a href="#introduzione">Introduzione</a></li>
+<li><a href="#timestamping---marcatura-temporale">Timestamping - Marcatura Temporale</a></li>
+<li><a href="#kerberos">Kerberos</a>
+<ul>
+<li><a href="#componenti-principali"><strong>Componenti Principali</strong></a></li>
+<li><a href="#fasi-del-protocollo"><strong>Fasi del Protocollo</strong></a>
+<ul>
+<li><a href="#1-autenticazione-iniziale-con-as">1. <strong>Autenticazione iniziale con AS</strong></a></li>
+<li><a href="#2-richiesta-di-ticket-al-tgs">2. <strong>Richiesta di ticket al TGS</strong></a></li>
+<li><a href="#3-accesso-al-servizio-v">3. <strong>Accesso al servizio (V)</strong></a></li>
+</ul>
+</li>
+<li><a href="#meccanismi-di-sicurezza"><strong>Meccanismi di Sicurezza</strong></a></li>
+<li><a href="#vantaggi"><strong>Vantaggi</strong></a></li>
+</ul>
+</li>
+<li><a href="#pgp---pretty-good-privacy">PGP - Pretty Good Privacy</a>
+<ul>
+<li><a href="#autenticazione">Autenticazione</a></li>
+<li><a href="#confidenzialit%C3%A0">Confidenzialità</a></li>
+<li><a href="#compressione">Compressione</a></li>
+<li><a href="#compatibilit%C3%A0">Compatibilità</a>
+<ul>
+<li><a href="#portachiavi-privato">Portachiavi privato:</a></li>
+<li><a href="#portachiavi-pubblico">Portachiavi pubblico:</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="introduzione">Introduzione</h2>
+<p>I servizi sicuri possono essere implementati a livello di applicazione, trasporto o rete.
+I principali a livello di applicazione sono:</p>
+<ul>
+<li><strong>Kerberos</strong></li>
+<li><strong>PGP</strong></li>
+<li><strong>TSS</strong>
+A livello di trasporto:</li>
+<li><strong>SSL</strong></li>
+<li><strong>TLS</strong>
+A livello di rete:</li>
+<li><strong>IPSec</strong></li>
+</ul>
+<h2 id="timestamping---marcatura-temporale">Timestamping - Marcatura Temporale</h2>
+<p>Un documento ha validità leegale se è attestata in maniera univoca la data e l'ora in cui è stato firmato.</p>
+<p>Esistono due sistemi di riferimento internazionali per il calcolo del tempo: <strong>TAI (Tempo Atomico Internazionale)</strong> e <strong>UTC (Tempo Universale Coordinato)</strong>. In ogni caso, per il timestamping si ricorre sempre a una terza parte fidata.</p>
+<p>Una società che offre un servizio di timestamping deve garantire:</p>
+<ul>
+<li>Tempo della marca non deve essere falso</li>
+<li>Tramite una marchatura deve essere possibile individuare un documento, un istante e un autore.</li>
+<li>Ogni modifica deve essere rilevabile in modo da evitare che la marcatura possa essere riutilizzata.</li>
+<li>Deve essere possibile marcare documenti riservati mantendendo la riservatezza.</li>
+<li>Chiunque deve poter marcare e validare la marca di un documento.</li>
+</ul>
+<p>I passaggi per il timestamping sono:</p>
+<ol>
+<li>Un entità $A$ produce un messaggio $m$ che vuole firmare.</li>
+<li>Concatena $m$ con il suo identificativo e ne fa l'hash per richiedere la marca temporale.</li>
+<li>A $H(m||A)$ viene concatenata la marcatura temporale $T$</li>
+<li>Il messaggio viene firmato dall'entità di certificazione con la sua chiave $S_{TSS}$ in modo che la marcatura sia non ripudiabile.</li>
+<li>$A$ concatena la marcatura al messaggio $m$, ne fa l'hash e lo firma con la sua chiave $S_A$.</li>
+</ol>
+<h2 id="kerberos">Kerberos</h2>
+<p>Kerberos è un protoccollo di autenticazione che offre funzionalità di <strong>Single Sign-On (SSO)</strong>, consentendo agli utenti di accedere a più servizi senza dover reinserire le credenziali ogni volta. Utilizza soltanto funzioni di crittografia simmetrica, quindi è più performante ma meno scalabile.</p>
+<ul>
+<li>Garantire un’autenticazione sicura su reti non affidabili (es. Internet).</li>
+<li>Evitare l’invio diretto di password in rete.</li>
+<li>Utilizzare ticket temporanei e cifrati per accedere ai servizi.</li>
+</ul>
+<h3 id="componenti-principali"><strong>Componenti Principali</strong></h3>
+<ul>
+<li><strong>Client (C):</strong> Utente che vuole autenticarsi e accedere a un servizio.</li>
+<li><strong>Authentication Server (AS):</strong> Autentica l’utente e rilascia un primo ticket per il TGS.</li>
+<li><strong>Ticket Granting Server (TGS):</strong> Fornisce i ticket specifici per accedere ai servizi richiesti.</li>
+<li><strong>Server di Servizio (V):</strong> Offre il servizio finale (es. file server, mail, ecc.).</li>
+</ul>
+<h3 id="fasi-del-protocollo"><strong>Fasi del Protocollo</strong></h3>
+<h4 id="1-autenticazione-iniziale-con-as">1. <strong>Autenticazione iniziale con AS</strong></h4>
+<ul>
+<li>
+<p>Il client invia:
+<code>IDC || ADC || IDTGS || T1</code>
+(identità del client, indirizzo, TGS richiesto, timestamp).</p>
+</li>
+<li>
+<p>AS risponde con:</p>
+<ul>
+<li><strong>Chiave di sessione (KCT)</strong> cifrata con la chiave segreta del client.</li>
+<li><strong>TicketTGS</strong> cifrato con la chiave del TGS, contenente:
+<code>IDC || ADC || IDTGS || T2 || ∆T2</code></li>
+</ul>
+</li>
+</ul>
+<h4 id="2-richiesta-di-ticket-al-tgs">2. <strong>Richiesta di ticket al TGS</strong></h4>
+<ul>
+<li>
+<p>Il client invia al TGS:
+<code>IDV || ticketTGS || autenticatoreC</code>
+(l’autenticatore è cifrato con KCT e contiene IDC, ADC e un nuovo timestamp T3).</p>
+</li>
+<li>
+<p>TGS restituisce:</p>
+<ul>
+<li><strong>KCV</strong>, chiave di sessione client–server.</li>
+<li><strong>TicketV</strong> cifrato con la chiave del server V, contenente:
+<code>KCV || IDC || ADC || IDV || T4 || ∆T4</code></li>
+</ul>
+</li>
+</ul>
+<h4 id="3-accesso-al-servizio-v">3. <strong>Accesso al servizio (V)</strong></h4>
+<ul>
+<li>Il client invia a V:
+<code>ticketV || autenticatoreC</code>
+(cifrato con KCV e contenente IDC, ADC, T5).</li>
+<li>Il server risponde con:
+<code>EKCV(T5 + 1)</code>
+(conferma che l’autenticazione è avvenuta con successo).</li>
+</ul>
+<h3 id="meccanismi-di-sicurezza"><strong>Meccanismi di Sicurezza</strong></h3>
+<ul>
+<li><strong>Crittografia simmetrica:</strong> tutte le comunicazioni avvengono con chiavi condivise.</li>
+<li><strong>Ticket e autenticatori:</strong> permettono di evitare replay attack.</li>
+<li><strong>Lifetime:</strong> ogni ticket è valido solo per un periodo limitato.</li>
+<li><strong>Autenticazione mutua:</strong> sia client che server possono verificare l’identità dell’altro.</li>
+</ul>
+<h3 id="vantaggi"><strong>Vantaggi</strong></h3>
+<ul>
+<li>Le password non viaggiano mai in rete.</li>
+<li>L’autenticazione è centralizzata e scalabile.</li>
+<li>Adatto per ambienti distribuiti (es. reti aziendali, sistemi universitari).</li>
+<li>Supporta Single Sign-On (SSO): l’utente accede una sola volta e può usare più servizi.</li>
+</ul>
+<h2 id="pgp---pretty-good-privacy">PGP - Pretty Good Privacy</h2>
+<p>PGP è un protocollo per fornire autenticazione e riservatezza in ambito mail e file storage. In particolare fornisce 4 servizi:</p>
+<ul>
+<li><strong>Autenticazione:</strong> verifica l’identità del mittente.</li>
+<li><strong>Confidenzialità:</strong> cifratura del messaggio.</li>
+<li><strong>Compressione:</strong> riduce la dimensione del messaggio.</li>
+<li><strong>Compatibilità:</strong> supporta diversi formati di chiavi e algoritmi.</li>
+</ul>
+<h3 id="autenticazione">Autenticazione</h3>
+<p>Questo servizio viene realizzato facendo ricorso a 4 meccanismi:</p>
+<ul>
+<li><strong>RNG</strong>: per generare le chiavi da utilizzare</li>
+<li><strong>Hashing</strong>: per calcolare il digest del messaggio in modo da poterlo firmare</li>
+<li><strong>Firma e Verifica</strong>: per garantire l'integrità e l'autenticità del messaggio</li>
+</ul>
+<h3 id="confidenzialit%C3%A0">Confidenzialità</h3>
+<p>Il mantenibento della riservatezza del contenuto di un messaggio è ottenuto tramite:</p>
+<ul>
+<li><strong>RNG</strong>: per generare le chiavi di cifratura</li>
+<li><strong>Cifratura</strong>: per cifrare il messaggio con la chiave pubblica del destinatario</li>
+<li><strong>Decifratura</strong>: per decifrare il messaggio con la chiave privata del destinatario</li>
+</ul>
+<p>In particolare Cifratura e Decifratura possono essere metodi simmetrici o assimmetrici. Solitamente si usa la cifratura simmetrica per cifrare il messaggio e quella assimmetrica per cifrare la chiave simmetrica e scambaiarla con il destinatario.</p>
+<h3 id="compressione">Compressione</h3>
+<p>Viene utilizzata per ridurre la dimensione dei dati, solitamente in combinazione con le funzioni per riservatezza e autenticazione.</p>
+<p>Nel caso di autenticazione, la compressione viene effettuata dopo la firma e la decompressione prima della verifica della firma.
+Nel caso di riservatezza, la compressione viene effettuata prima della cifratura e la compressione dopo la decifratura.</p>
+<h3 id="compatibilit%C3%A0">Compatibilità</h3>
+<p>PGP offre trasparenza alla applicazione email. I testi cifrati vengono convertiti in ASCII utilizzando Radix-64 che si occupa della segmentazione dei messaggi.</p>
+<hr>
+<p>Tramite PGP è possibile ottenere sia autenticazione che riservatezza contemporaneamente, in questo caso la sequenza di operazioni è:</p>
+<ol>
+<li>Generazione di una chiave di sessione $k$ monouso.</li>
+<li>Si firma il messaggio $m$ con la chiave privata del mittente $S_A$.</li>
+<li>Si cifra il messaggio $m$ firmato con la chiave di sessione $k$.</li>
+<li>Si cifra la chiave di sessione $k$ con la chiave pubblica del destinatario $P_B$.</li>
+<li>Si invia al destinatario il messaggio cifrato e la chiave cifrata $E_K(S_A(m))||E_{P_B}(k)$.</li>
+<li>Il destinatario decifra la chiave di sessione $k$ con la sua chiave privata $S_B$. Decifra il messaggio con la chiave di sessione $k$ ottenendo $m$ firmato. Verifica la firma con la chiave pubblica del mittente $P_A$.</li>
+</ol>
+<p>Nel caso si voglia mandare lo stesso messaggio a più destinatari, si cifra la chiave di sessione $k$ con le chiavi pubbliche dei destinatari e si invia il messaggio cifrato con la chiave di sessione $k$ cifrata per ogni destinatario.</p>
+<p>In PGP ogni utente ha due portachiavi, pubblico e privato.</p>
+<h4 id="portachiavi-privato">Portachiavi privato:</h4>
+<p>In cui l'utente ha le proprie chiavi private.</p>
+<p>È strutturato come una tabella con le seguetni colonne:</p>
+<ul>
+<li><strong>Timestamp</strong>: data di creazione della chiave, non uninversale.</li>
+<li><strong>Key ID</strong>: identificativo della chiave, è un hash della chiave pubblica.</li>
+<li><strong>Public Key</strong>: chiave pubblica dell'utente associata alla privata.</li>
+<li><strong>Encrypted Private Key</strong>: chiave privata cifrata con la passphrase dell'utente.</li>
+<li><strong>User ID</strong>: identificativo dell'utente, può essere un indirizzo email o un nome.</li>
+</ul>
+<h4 id="portachiavi-pubblico">Portachiavi pubblico:</h4>
+<p>Contiene le chiavi pubbliche dell'utente e degli altri utenti con cui si scambiano messaggi cifrati.</p>
+<p>Le colonne della tabella sono:</p>
+<ul>
+<li><strong>Timestamp</strong></li>
+<li><strong>Key ID</strong></li>
+<li><strong>Public Key</strong></li>
+<li><strong>Owner Trust</strong>: fiducia iniziale che io ripopngo in una data chiave pubblica (0 = nessuna fiducia, 1 = fiducia parziale, 2 = fiducia completa).</li>
+<li><strong>User ID</strong></li>
+<li><strong>Key Legitimacy</strong>: PGP calcola automaticamente sulla base di Owner Trust e Signature Trust</li>
+<li><strong>Signatures</strong>: firme di altre chiavi pubbliche che attestano la legittimità della chiave pubblica.</li>
+<li><strong>Signature Trust</strong>: fiducia che gli altri utenti ripongono nella chiave pubblica, calcolata in base alle firme ricevute.</li>
+</ul>
+
+</body>
+</html>
