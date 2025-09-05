@@ -207,7 +207,7 @@ I due bit meno significativi vengono riservati per rappresentare il **corrente l
 x86 benchè possieda 4 ring di protezione, ne usa solo 2 nella pratica. Gli altri che sono vie di mezzo erano stati pensati per altre parti del sistema operativo ma non sono stati utilizzati quasi mai.
 
 #### VMM in x86
-- **Ring deprivileging:** vienededicato il ring 0 al VMM e il sistema oeprativo vinee messo su ring con privilegi ridotti, si possono verificare 2 casi:
+- **Ring deprivileging:** viene dedicato il ring 0 al VMM e il sistema oeprativo vinee messo su ring con privilegi ridotti, si possono verificare 2 casi:
   - VMM su ring 0, OS su ring1, applicazione su ring 3- Non è compatibile con 64bit. L'OS può generare eccezioni che vengono catturate dal VMM.
   - VMM su ring 0, OS e applicazioni su ring 3. Non potendo generare eccezioni, l'OS deve ricorrere ad altri metodi per comunicare con il VMM $\Rarr$ si avvicina alla emulazione.
 
@@ -302,7 +302,7 @@ Le VM possono essere migrate da un host ad un altro senza interruzione del servi
 - **Reservation**: Viene inizializzata una VM container nello spazio di destinazione
 - **pre copia**:
   - vegnono copiate tutte le pagine della VM da migrare sull'host A
-  - Vengono copiate tutte le pagine modiifcate (dirty pages) da A a B fino a quando il numero di pagine dirty è inferiore ad una soglia 
+  - Vengono copiate tutte le pagine modifcate (dirty pages) da A a B fino a quando il numero di pagine dirty è inferiore ad una soglia 
 - **sospensione**: viene sospesa la VM e vengono copiate le derty pages e lo stato da A a B
 - **commit**: viene cancellata la VM da A
 - **resume**: viene attivata la VM su B
@@ -399,7 +399,7 @@ Il soggetto 2 può trasferire tutti i diritti che ha sull'oggetto 1 al soggetto 
 Il Soggetto 1 può revocare a Soggetto 2 il diritto write su Oggetto 2.
 
 - **switch**: un processo che esegue nel dominio del soggetto $S_i$ può commutare al dominio di un altro soggetto $S_j$.
-- 
+  
 |                 | **Oggetto 1** | **Oggetto 2** | **Oggetto 3** |**Soggetto 1** | **Soggetto 2** |
 |-----------------|----------------|----------------|----------------|----------------|----------------|
 | **Soggetto 1**  | *read\*, write*  | *execute*      | *write*        | | |
@@ -492,7 +492,7 @@ I modelli sono 2:
 - 4 livelli per i sogegtti di clearence:
 - Regole di sicurezza stabiliscono come le informazioni possono circolare
   - **proprietà di semplice sicurezza**: un processo in esecuzione ad un livello di sicurezza K può leggere solo oggetti del suo livello o livelli inferiori.
-  - **proprietà**: un processo in esecuzione ad un livello k può scrivere solo oggetti al suo livello o livelli superiori.
+  - **proprietà * (star)**: un processo in esecuzione ad un livello k può scrivere solo oggetti al suo livello o livelli superiori.
 - I processi possono scrivere verso l'alto e leggere verso il basso ma non il contrario.
 - Modello concepito per mantenere i segreti, non per l'integrità dei dati, infatti è possible sovrascrivere i dati di un livello superiore.
 - Esempio: difesa da un cavallo di troia.
