@@ -30,7 +30,7 @@
 
 #### [Cybersecurity M](./Cybersecurity/Teoria/README.md) 8 CFU
 
-#### [Gestione dell'Innovazione e Dei Progetti M](./GestioneDellInnovazioneEGestioneDeiProgetti/Teoria/README.md) 8 CFU
+#### [Gestione dell'Innovazione e Dei Progetti M](./GestioneDellInnovazioneEGestioneDeiProgetti/Teoria/README.md) 6 CFU
 
 ### Secondo Semestre 16 CFU
 
