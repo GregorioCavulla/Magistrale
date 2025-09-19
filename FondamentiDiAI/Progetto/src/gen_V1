@@ -1,0 +1,375 @@
+/*  nqr_generator.pl  —  N-Queens Regions level generator (SWI-Prolog)
+    - Seed-Grow generator for connected regions
+    - CLP(FD) solver to enforce 1 per row/col/region
+    - Uniqueness check (no second solution)
+    - JSON export for UI consumption
+*/
+
+:- use_module(library(clpfd)).
+:- use_module(library(random)).
+:- use_module(library(lists)).
+:- use_module(library(apply)).
+:- use_module(library(http/json)).
+
+%%% =========================
+%%% Public API
+%%% =========================
+
+/*  make_level(+N, +Options, +OutFile)
+    Options is a dict or list of Key=Value:
+        seed(SeedInt)                % RNG seed for reproducibility
+        require_unique(true/false)   % default true
+        max_restarts(Int)            % regeneration attempts if not unique; default 200
+        growth_policy(Policy)        % uniform | size_weighted, default size_weighted
+        emit_solutions(true/false)   % include first solution in JSON (debug), default true
+        emit_membership(true/false)  % include membership matrix, default false
+*/
+make_level(N, Options0, OutFile) :-
+    normalize_options(Options0, Opt),
+    (   get_dict(seed, Opt, Seed) -> set_random(seed(Seed)) ; true ),
+    (   between(1, Opt.max_restarts, _Try),
+        generate_regions_seed_grow(N, Opt, Regions),
+        solvable_unique(Regions, Opt, Cols),
+        export_json(N, Regions, Cols, Opt, OutFile),
+        !
+    ;   format(user_error, 'Failed to generate a unique level within ~d attempts.~n',
+               [Opt.max_restarts]),
+        fail
+    ).
+
+/*  make_level_to_atom(+N, +Options, -JsonAtom)
+    Like make_level/3 but returns JSON as an atom instead of writing a file.
+*/
+make_level_to_atom(N, Options0, JsonAtom) :-
+    normalize_options(Options0, Opt),
+    (   get_dict(seed, Opt, Seed) -> set_random(seed(Seed)) ; true ),
+    (   between(1, Opt.max_restarts, _Try),
+        generate_regions_seed_grow(N, Opt, Regions),
+        solvable_unique(Regions, Opt, Cols),
+        json_payload(N, Regions, Cols, Opt, JSON),
+        with_output_to(atom(JsonAtom), json_write_dict(current_output, JSON, [width(0)])),
+        !
+    ;   fail ).
+
+%%% =========================
+%%% Options
+%%% =========================
+
+normalize_options(Opt0, Opt) :-
+    (   is_dict(Opt0) -> Dict = Opt0
+    ;   is_list(Opt0) -> dict_create(Dict, opt, Opt0)
+    ;   Dict = _{}
+    ),
+    get_dict_default(Dict, seed, _),                % optional
+    get_dict_default(Dict, require_unique, true, RequireUnique),
+    get_dict_default(Dict, max_restarts, 200, MaxRestarts),
+    get_dict_default(Dict, growth_policy, size_weighted, Growth),
+    get_dict_default(Dict, emit_solutions, true, EmitSol),
+    get_dict_default(Dict, emit_membership, false, EmitMem),
+    Opt = _{ seed:Dict.get(seed),
+             require_unique:RequireUnique,
+             max_restarts:MaxRestarts,
+             growth_policy:Growth,
+             emit_solutions:EmitSol,
+             emit_membership:EmitMem }.
+
+get_dict_default(D, K, Default) :- ( _ = D.get(K) -> true ; _ = Default ).
+get_dict_default(D, K, Default, V) :- ( V0 = D.get(K) -> V = V0 ; V = Default ).
+
+%%% =========================
+%%% Seed-Grow region generator
+%%% =========================
+
+/*  generate_regions_seed_grow(+N, +Opt, -Regions)
+    Regions: list of N rows, each with N integers in 1..N
+    - Start with N distinct random seeds
+    - Grow regions via orthogonal neighbors until the grid is full
+*/
+generate_regions_seed_grow(N, Opt, Regions) :-
+    empty_grid(N, G0),
+    choose_distinct_seeds(N, N, Seeds),                 % N distinct seeds
+    seeds_to_regions(N, Seeds, G1, Fronts1),            % assign seeds, init fronts
+    grow_loop(N, Opt, G1, Fronts1, Regions).
+
+empty_grid(N, Grid) :-
+    length(Row, N), maplist(=(0), Row),
+    length(Grid, N), maplist(=(Row), Grid).
+
+choose_distinct_seeds(N, K, Seeds) :-
+    findall((R,C), (between(1,N,R), between(1,N,C)), Cells),
+    random_permutation(Cells, Perm),
+    length(Seeds, K), append(Seeds, _, Perm).
+
+seeds_to_regions(N, Seeds, GridOut, FrontsOut) :-
+    % Assign region IDs 1..N to the seeds (one per ID).
+    foldl(assign_seed, Seeds, (1,[],[]), (N1,AccG,AccF)),
+    N1 =:= N+1,                                   % sanity
+    % foldl built us dynamic facts in AccG/AccF? Let's instead do direct on grid.
+    % Simpler: place seeds on an empty grid and init fronts.
+    empty_grid(N, G0),
+    place_seeds(G0, 1, Seeds, G1),
+    init_fronts(G1, Fronts),
+    GridOut = G1, FrontsOut = Fronts.
+
+assign_seed(_Cell, (I,G,F), (I1,G1,F1)) :- I1 is I+1, G1=G, F1=F.
+
+place_seeds(Grid, _, [], Grid).
+place_seeds(Grid0, Id, [ (R,C) | T ], Grid) :-
+    set_cell(Grid0, R, C, Id, G1),
+    Id1 is Id + 1,
+    place_seeds(G1, Id1, T, Grid).
+
+init_fronts(Grid, Fronts) :-
+    distinct_ids(Grid, Ids),
+    maplist(init_front(Grid), Ids, Pairs),
+    dict_create(Fronts, fronts, Pairs).
+
+init_front(Grid, Id, Id-Cells) :-
+    % initial front = all seed cells (later it will expand to boundary cells)
+    findall((R,C),
+        ( cell_at(Grid,R,C,Id) ),
+        Cells).
+
+grow_loop(N, Opt, Grid0, Fronts0, Grid) :-
+    (   grid_full(Grid0) ->
+        Grid = Grid0
+    ;   choose_region_for_growth(Grid0, Fronts0, Opt, RegId, Fronts1),
+        choose_front_cell(Fronts1.RegId, Cell, RestCells),         % pick a boundary cell
+        choose_free_neighbor(Grid0, Cell, Nb),
+        set_cell(Grid0, Nb, RegId, G1),
+        update_fronts_after_claim(Fronts1, RegId, Cell, Nb, G1, Fronts2),
+        grow_loop(N, Opt, G1, Fronts2, Grid)
+    ).
+
+grid_full(Grid) :- \+ cell_at(Grid, _R, _C, 0).
+
+distinct_ids(Grid, Ids) :-
+    findall(Id, cell_at(Grid,_,_,Id), All),
+    sort(All, Ids0),
+    delete(Ids0, 0, Ids).
+
+/* choose_region_for_growth(+Grid,+Fronts,+Opt,-RegId,-Fronts')
+   Policy:
+     - uniform: pick any region with at least one expandable boundary
+     - size_weighted: prefer smaller regions (by cell count)
+*/
+choose_region_for_growth(Grid, Fronts, Opt, RegId, Fronts) :-
+    dict_pairs(Fronts, _, Pairs),
+    include(has_expandable(Grid), Pairs, CandidatePairs),
+    CandidatePairs \= [],
+    (   Opt.growth_policy == uniform ->
+        random_member(RegId-_, CandidatePairs)
+    ;   % size_weighted (default): build weights inversely proportional to region size
+        maplist(pair_with_size(Grid), CandidatePairs, WithSizes),
+        weights_from_sizes(WithSizes, Weights),
+        weighted_pick(Weights, RegId)
+    ).
+
+has_expandable(Grid, RegId-Cells) :-
+    member(Cell, Cells),
+    has_free_neighbor(Grid, Cell), !.
+
+pair_with_size(Grid, RegId-Cells, RegId-Size-Cells) :-
+    region_size(Grid, RegId, Size).
+
+weights_from_sizes(Pairs, Weights) :-
+    % Pairs: RegId-Size-Cells
+    findall(RegId-W,
+        ( member(RegId-S-_, Pairs),
+          S > 0,
+          W is 1.0 / S ),
+        Raw),
+    normalize_weights(Raw, Weights).
+
+normalize_weights(Raw, Norm) :-
+    findall(W, member(_-W, Raw), Ws),
+    sum_list(Ws, Sum), (Sum =:= 0 -> F=1.0 ; F is 1.0/Sum),
+    findall(R-(W*F), member(R-W, Raw), Norm).
+
+weighted_pick(Weights, PickedR) :-
+    random_float(Random),
+    cumulative_pick(Weights, Random, PickedR).
+
+cumulative_pick([R-W|T], X, R) :-
+    X =< W, !.
+cumulative_pick([_R-W|T], X, Pick) :-
+    X1 is X - W,
+    cumulative_pick(T, X1, Pick).
+
+region_size(Grid, RegId, Size) :-
+    findall(1, cell_at(Grid,_,_,RegId), L),
+    length(L, Size).
+
+choose_front_cell(Cells, Cell, Rest) :-
+    % prefer boundary cells (Cells already boundary-like). Random pick:
+    random_select(Cell, Cells, Rest).
+
+has_free_neighbor(Grid, (R,C)) :-
+    neighbor((R,C), Nb),
+    cell_at(Grid, Nb, 0), !.
+
+choose_free_neighbor(Grid, (R,C), Nb) :-
+    findall(N, (neighbor((R,C),N), cell_at(Grid,N,0)), Ns),
+    Ns \= [], random_member(Nb, Ns).
+
+neighbor((R,C), (R1,C)) :- R1 is R-1, R1 >= 1.
+neighbor((R,C), (R1,C)) :- R1 is R+1.
+neighbor((R,C), (R,C1)) :- C1 is C-1, C1 >= 1.
+neighbor((R,C), (R,C1)) :- C1 is C+1.
+
+update_fronts_after_claim(Fronts0, RegId, FromCell, NewCell, Grid, Fronts) :-
+    % Replace region entry: remove FromCell if it has no more free neighbors,
+    % add NewCell, and possibly add new adjacent boundary cells.
+    Cells0 = Fronts0.RegId,
+    % remove FromCell if no longer boundary:
+    ( has_free_neighbor(Grid, FromCell) -> Cells1 = Cells0
+    ; select(FromCell, Cells0, CellsTmp) -> Cells1 = CellsTmp
+    ; Cells1 = Cells0
+    ),
+    ( memberchk(NewCell, Cells1) -> Cells2 = Cells1 ; Cells2 = [NewCell|Cells1] ),
+    % ensure dict update
+    Fronts1 = Fronts0.put(RegId, Cells2),
+    Fronts = Fronts1.
+
+%%% Grid utilities
+
+cell_at(Grid, R, C, Val) :-
+    nth1(R, Grid, Row),
+    nth1(C, Row, Val).
+
+cell_at(Grid, (R,C), Val) :- cell_at(Grid, R, C, Val).
+
+set_cell(Grid0, R, C, Val, Grid) :-
+    same_length(Grid0, Grid),
+    nth1(R, Grid0, OldRow),
+    nth1(R, Grid,  NewRow),
+    same_length(OldRow, NewRow),
+    nth1(C, OldRow, _),
+    nth1(C, NewRow, Val),
+    copy_rows_except(Grid0, Grid, R).
+
+set_cell(Grid0, (R,C), Val, Grid) :- set_cell(Grid0, R, C, Val, Grid).
+
+copy_rows_except([], [], _).
+copy_rows_except([R0|T0], [R1|T1], I) :-
+    ( I =\= 1 -> R1 = R0 ; true ),
+    I1 is I-1,
+    copy_rows_except(T0, T1, I1).
+
+%%% =========================
+%%% Solver & Uniqueness
+%%% =========================
+
+solvable_unique(Regions, Opt, Cols) :-
+    solve_once(Regions, Cols),
+    (   Opt.require_unique == true ->
+        \+ second_solution_exists(Regions, Cols)
+    ;   true ).
+
+solve_once(Regions, Cols) :-
+    length(Regions, N),
+    length(Cols, N), Cols ins 1..N,
+    all_different(Cols),
+    % Regions all_different: map rows to region IDs at (R, Cols[R])
+    numlist(1, N, Rs),
+    maplist(region_at_choice(Regions, Cols), Rs, RegIds),
+    RegIds ins 1..N,
+    all_different(RegIds),
+    labeling([ffc, min], Cols).
+
+region_at_choice(Regions, Cols, R, K) :-
+    nth1(R, Cols, C),
+    nth1(R, Regions, Row),
+    nth1(C, Row, K).
+
+second_solution_exists(Regions, Cols1) :-
+    length(Regions, N),
+    length(Cols, N), Cols ins 1..N,
+    all_different(Cols),
+    numlist(1,N, Rs),
+    maplist(region_at_choice(Regions, Cols), Rs, RegIds),
+    RegIds ins 1..N,
+    all_different(RegIds),
+    % at least one position differs from Cols1:
+    maplist(diff_bool, Cols, Cols1, Bools),
+    sum(Bools, #>=, 1),
+    labeling([ffc, min], Cols).
+
+diff_bool(X, Y, B) :- (X #\= Y) #<==> B.
+
+%%% =========================
+%%% JSON export
+%%% =========================
+
+export_json(N, Regions, Cols, Opt, OutFile) :-
+    json_payload(N, Regions, Cols, Opt, JSON),
+    setup_call_cleanup(
+        open(OutFile, write, S, [encoding(utf8)]),
+        json_write_dict(S, JSON, [width(0)]),
+        close(S)
+    ).
+
+json_payload(N, Regions, Cols, Opt, JSON) :-
+    get_time(Now),
+    stamp_date_time(Now, DateTime, local),
+    format_time(atom(CreatedAt), '%FT%T%:z', DateTime),
+    (   Opt.emit_solutions == true
+    ->  Solutions = [_{id:1, cols:Cols}]
+    ;   Solutions = []
+    ),
+    (   Opt.emit_membership == true
+    ->  build_membership(N, [Cols], Membership)
+    ;   Membership = []
+    ),
+    JSON = _{
+        n: N,
+        regions: Regions,
+        solutions: Solutions,
+        membership: Membership,
+        metadata: _{
+            generator: "nqr-generator 0.1",
+            strategy: "seed-grow",
+            require_unique: Opt.require_unique,
+            seed: Opt.seed,
+            created_at: CreatedAt
+        }
+    }.
+
+build_membership(N, Solutions, Membership) :-
+    % NxN matrix of [], mark [sol_id] where queen is placed
+    length(Row, N), maplist(=([]), Row),
+    length(Membership0, N), maplist(=(Row), Membership0),
+    foldl(mark_solution, Solutions, (1,Membership0), (_,Membership)).
+
+mark_solution(Cols, (Id,M0), (Id1,M)) :-
+    foldl(mark_one(Id), Cols, 1, M0, M),
+    Id1 is Id + 1.
+
+mark_one(SolId, C, R, M0, M) :-
+    % place queen at (R,C): append SolId to that cell's list
+    nth1(R, M0, Row0),
+    nth1(C, Row0, L0),
+    append(L0, [SolId], L1),
+    set_cell_list(M0, R, C, L1, M),
+    R1 is R+1,
+    true.
+
+set_cell_list(M0, R, C, V, M) :-
+    same_length(M0, M),
+    nth1(R, M0, Row0),
+    nth1(R, M,  Row1),
+    same_length(Row0, Row1),
+    nth1(C, Row1, V),
+    copy_rows_except(M0, M, R).
+
+%%% =========================
+%%% Convenience: quick test
+%%% =========================
+
+/* Examples:
+
+?- make_level(6, _{seed:123, emit_solutions:true}, 'level6.json').
+?- make_level(8, [seed=42, growth_policy=uniform, max_restarts=400], 'level8.json').
+?- make_level_to_atom(5, [require_unique=true, emit_membership=true], JSON), writeln(JSON).
+
+*/
