@@ -28,7 +28,7 @@
 
 #### [Computer Vision And Image Processing M](./ComputerVision/Teoria/README.md) 8 CFU
 
-#### [Cybersecurity M](./Cybersecurity/Teoria/README.md) 8 CFU
+#### [Machine Learning and Data Mining](./MachineLearningAndDataMining/Teoria/README.md) 8 CFU
 
 #### [Gestione dell'Innovazione e Dei Progetti M](./GestioneDellInnovazioneEGestioneDeiProgetti/Teoria/README.md) 6 CFU
 

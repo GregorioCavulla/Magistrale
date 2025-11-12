@@ -1,0 +1,1 @@
+# [Machine Learning and Data Mining](https://www.unibo.it/en/study/course-units-transferable-skills-moocs/course-unit-catalogue/course-unit/2024/493396) <div style="text-align: right"> [back](../Appunti.md) </div>
