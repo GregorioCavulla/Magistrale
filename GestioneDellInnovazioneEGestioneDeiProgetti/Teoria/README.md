@@ -6,3 +6,7 @@
 ---
 
 ## Indice
+
+- [Capitolo 1: Innovazione](./Cap1_GIP_Innovazione.md)
+- [Capitolo 2: Business Planning](./Cap2_GIP_BusinessPlanning.md)
+- [Capitolo 3: Project Management](./Cap3_GIP_ProjectManagement.md)

@@ -1,7 +1,7 @@
-# File 3: Project Management e Sviluppo Agile
+# Capitolo 3: Project Management e Sviluppo Agile
 
 ## Indice:
-- [File 3: Project Management e Sviluppo Agile](#file-3-project-management-e-sviluppo-agile)
+- [Capitolo 3: Project Management e Sviluppo Agile](#capitolo-3-project-management-e-sviluppo-agile)
   - [Indice:](#indice)
   - [1. Fondamenti di Project Management](#1-fondamenti-di-project-management)
     - [Definizione e Caratteristiche del Progetto](#definizione-e-caratteristiche-del-progetto)

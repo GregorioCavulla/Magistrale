@@ -1,7 +1,7 @@
-# File 2: Protezione dell'Innovazione, Analisi di Settore, Design Thinking, e Business Model
+# Capitolo 2: Protezione dell'Innovazione, Analisi di Settore, Design Thinking, e Business Model
 
 ## Indice:
-- [File 2: Protezione dell'Innovazione, Analisi di Settore, Design Thinking, e Business Model](#file-2-protezione-dellinnovazione-analisi-di-settore-design-thinking-e-business-model)
+- [Capitolo 2: Protezione dell'Innovazione, Analisi di Settore, Design Thinking, e Business Model](#capitolo-2-protezione-dellinnovazione-analisi-di-settore-design-thinking-e-business-model)
   - [Indice:](#indice)
   - [1. Analisi di Settore e Bisogni dei Clienti](#1-analisi-di-settore-e-bisogni-dei-clienti)
     - [Analisi di Settore](#analisi-di-settore)

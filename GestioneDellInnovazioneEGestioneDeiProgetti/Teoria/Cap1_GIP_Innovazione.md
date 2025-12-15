@@ -1,7 +1,9 @@
-# File 1: Fonti di Innovazione, Forme e Modelli di Innovazione, e Dinamiche Evolutive delle Nuove Tecnologie
+<!-- mathjax -->
+
+# Capitolo 1: Fonti di Innovazione, Forme e Modelli di Innovazione, e Dinamiche Evolutive delle Nuove Tecnologie
 
 ## Indice:
-- [File 1: Fonti di Innovazione, Forme e Modelli di Innovazione, e Dinamiche Evolutive delle Nuove Tecnologie](#file-1-fonti-di-innovazione-forme-e-modelli-di-innovazione-e-dinamiche-evolutive-delle-nuove-tecnologie)
+- [Capitolo 1: Fonti di Innovazione, Forme e Modelli di Innovazione, e Dinamiche Evolutive delle Nuove Tecnologie](#capitolo-1-fonti-di-innovazione-forme-e-modelli-di-innovazione-e-dinamiche-evolutive-delle-nuove-tecnologie)
   - [Indice:](#indice)
   - [1. Le Fonti di Innovazione](#1-le-fonti-di-innovazione)
     - [Le Imprese come Motore di Innovazione](#le-imprese-come-motore-di-innovazione)
@@ -76,9 +78,7 @@ La definizione istituzionale (Oslo Manual, OECD, 3° Edition) è ampia:
 
 La visione chiave nell'ambito della gestione dell'innovazione è che l'innovazione è la **capacità di creare nuovo valore per servire meglio i clienti esistenti e/o nuovi clienti**. Essa risulta dalla combinazione di due dimensioni:
 
-$$
-\text{Innovazione} = \text{Invenzione (dimensione tecnologica)} + \text{Sfruttamento commerciale (dimensione di mercato)}
-$$
+$\text{Innovazione} = \text{Invenzione (dimensione tecnologica)} + \text{Sfruttamento commerciale (dimensione di mercato)}$
 
 **Il Modello Lineare dell'Innovazione**
 Questo modello illustra il percorso sequenziale che trasforma la conoscenza in innovazione:
